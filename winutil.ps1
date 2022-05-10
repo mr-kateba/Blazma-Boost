@@ -44,27 +44,58 @@ $inputXML = @"
 							<CheckBox Name="Installfirefox" Content="Firefox" Margin="5,0"/>
 							<CheckBox Name="Installlibrewolf" Content="LibreWolf" Margin="5,0"/>
 							<CheckBox Name="Installvivaldi" Content="Vivaldi" Margin="5,0"/>
-							<Label Content="Document Tools" FontSize="16" Margin="5,0"/>
+
+							<Label Content="Communications" FontSize="16" Margin="5,0"/>
+							<CheckBox Name="Installdiscord" Content="Discord" Margin="5,0"/>
+							<CheckBox Name="Installhexchat" Content="Hexchat" Margin="5,0"/>
+							<CheckBox Name="Installmatrix" Content="Matrix" Margin="5,0"/>
+							<CheckBox Name="Installsignal" Content="Signal" Margin="5,0"/>
+							<CheckBox Name="Installskype" Content="Skype" Margin="5,0"/>
+							<CheckBox Name="Installslack" Content="Slack" Margin="5,0"/>
+							<CheckBox Name="Installteams" Content="Microsoft Teams" Margin="5,0"/>
+							<CheckBox Name="Installzoom" Content="Zoom Video Conference" Margin="5,0"/>
+							
+
+							<Label Content="Development" FontSize="16" Margin="5,0"/>
+							<CheckBox Name="Installatom" Content="Atom" Margin="5,0"/>
+							<CheckBox Name="Installgithubdesktop" Content="GitHub Desktop" Margin="5,0"/>
+							<CheckBox Name="Installjava8" Content="OpenJDK Java 8" Margin="5,0"/>
+							<CheckBox Name="Installjava16" Content="OpenJDK Java 16" Margin="5,0"/>
+							<CheckBox Name="Installjava18" Content="Oracle Java 18" Margin="5,0"/>
+							<CheckBox Name="Installjetbrains" Content="Jetbrains Toolbox" Margin="5,0"/>
+							<CheckBox Name="Installnodejs" Content="NodeJS" Margin="5,0"/>
+							<CheckBox Name="Installnodejslts" Content="NodeJS LTS" Margin="5,0"/>
+							<CheckBox Name="Installpython3" Content="Python3" Margin="5,0"/>
+							<CheckBox Name="Installsublime" Content="Sublime" Margin="5,0"/>
+							<CheckBox Name="Installvisualstudio" Content="Visual Studio 2022 Community" Margin="5,0"/>
+							<CheckBox Name="Installvscode" Content="VS Code" Margin="5,0"/>
+							<CheckBox Name="Installvscodium" Content="VS Codium" Margin="5,0"/>
+
+							
+						</StackPanel>
+						<StackPanel Background="#777777" SnapsToDevicePixels="True" Grid.Column="1" Margin="10">
+
+							<Label Content="Document" FontSize="16" Margin="5,0"/>
 							<CheckBox Name="Installadobe" Content="Adobe Reader DC" Margin="5,0"/>
+							<CheckBox Name="Installlibreoffice" Content="LibreOffice" Margin="5,0"/>
 							<CheckBox Name="Installnotepadplus" Content="Notepad++" Margin="5,0"/>
 							<CheckBox Name="Installobsidian" Content="Obsidian" Margin="5,0"/>
 							<CheckBox Name="Installsumatra" Content="Sumatra PDF" Margin="5,0"/>
-							<CheckBox Name="Installvscode" Content="VS Code" Margin="5,0"/>
-							<CheckBox Name="Installvscodium" Content="VS Codium" Margin="5,0"/>
+
 							<Label Content="Games" FontSize="16" Margin="5,0"/>
 							<CheckBox Name="Installepicgames" Content="Epic Games Launcher" Margin="5,0"/>
 							<CheckBox Name="Installgog" Content="GOG Galaxy" Margin="5,0"/>
 							<CheckBox Name="Installsteam" Content="Steam" Margin="5,0"/>
 
-						</StackPanel>
-						<StackPanel Background="#777777" SnapsToDevicePixels="True" Grid.Column="1" Margin="10">
 							<Label Content="Pro Tools" FontSize="16" Margin="5,0"/>
 							<CheckBox Name="Installadvancedip" Content="Advanced IP Scanner" Margin="5,0"/>
 							<CheckBox Name="Installmremoteng" Content="mRemoteNG" Margin="5,0"/>
-							<CheckBox Name="Installputty" Content="Putty and WinSCP" Margin="5,0"/>
-							<CheckBox Name="Installvisualstudio" Content="Visual Studio 2022 Community" Margin="5,0"/>
+							<CheckBox Name="Installputty" Content="Putty" Margin="5,0"/>
+							<CheckBox Name="Installscp" Content="WinSCP" Margin="5,0"/>
 							<CheckBox Name="Installwireshark" Content="WireShark" Margin="5,0"/>
+
 							<Label Content="Multimedia Tools" FontSize="16" Margin="5,0"/>
+							<CheckBox Name="Installaudacity" Content="Audacity" Margin="5,0"/>
 							<CheckBox Name="Installblender" Content="Blender (3D Graphics)" Margin="5,0"/>
 							<CheckBox Name="Installeartrumpet" Content="Eartrumpet (Audio)" Margin="5,0"/>
 							<CheckBox Name="Installflameshot" Content="Flameshot (Screenshots)" Margin="5,0"/>
@@ -80,7 +111,7 @@ $inputXML = @"
 							<CheckBox Name="Installspotify" Content="Spotify" Margin="5,0"/>
 							<CheckBox Name="Installvlc" Content="VLC (Video Player)" Margin="5,0"/>
 							<CheckBox Name="Installvoicemeeter" Content="Voicemeeter (Audio)" Margin="5,0"/>
-							<CheckBox Name="Installzoom" Content="Zoom Video Conference" Margin="5,0,5,5"/>
+
 						</StackPanel>
 						<StackPanel Background="#777777" SnapsToDevicePixels="True" Grid.Column="2" Margin="10">
 							<Label Content="Utilities" FontSize="16" Margin="5,0"/>
@@ -89,25 +120,23 @@ $inputXML = @"
 							<CheckBox Name="Installautohotkey" Content="AutoHotkey" Margin="5,0"/>
 							<CheckBox Name="Installbitwarden" Content="Bitwarden" Margin="5,0"/>
 							<CheckBox Name="Installcpuz" Content="CPU-Z" Margin="5,0"/>
-							<CheckBox Name="Installdiscord" Content="Discord" Margin="5,0"/>
 							<CheckBox Name="Installetcher" Content="Etcher USB Creator" Margin="5,0"/>
 							<CheckBox Name="Installesearch" Content="Everything Search" Margin="5,0"/>
-							<CheckBox Name="Installgithubdesktop" Content="GitHub Desktop" Margin="5,0"/>
 							<CheckBox Name="Installgpuz" Content="GPU-Z" Margin="5,0"/>
 							<CheckBox Name="Installhwinfo" Content="HWInfo" Margin="5,0"/>
-							<CheckBox Name="Installkeepass" Content="KeePass" Margin="5,0"/>
+							<CheckBox Name="Installkeepass" Content="KeePassXC" Margin="5,0"/>
 							<CheckBox Name="Installmalwarebytes" Content="MalwareBytes" Margin="5,0"/>
 							<CheckBox Name="Installnvclean" Content="NVCleanstall" Margin="5,0"/>
 							<CheckBox Name="Installpowertoys" Content="Microsoft Powertoys" Margin="5,0"/>
 							<CheckBox Name="Installrevo" Content="RevoUninstaller" Margin="5,0"/>
 							<CheckBox Name="Installrufus" Content="Rufus Imager" Margin="5,0"/>
-							<CheckBox Name="Installslack" Content="Slack" Margin="5,0"/>
 							<CheckBox Name="Installteamviewer" Content="TeamViewer" Margin="5,0"/>
 							<CheckBox Name="Installttaskbar" Content="Translucent Taskbar" Margin="5,0"/>
 							<CheckBox Name="Installtreesize" Content="TreeSize Free" Margin="5,0"/>
 							<CheckBox Name="Installwindirstat" Content="WinDirStat" Margin="5,0"/>
 							<CheckBox Name="Installterminal" Content="Windows Terminal" Margin="5,0"/>
-							<Button Name="install" Background="AliceBlue" Content="Start Install" Margin="20"/>
+							<Button Name="install" Background="AliceBlue" Content="Start Install" Margin="20,5,20,5" ToolTip="Install all checked programs"/>
+							<Button Name="InstallUpgrade" Background="AliceBlue" Content="Upgrade Installs" Margin="20,5,20,5" ToolTip="Upgrade All Existing Programs on System"/>
 
 						</StackPanel>
 					</Grid>
@@ -141,7 +170,7 @@ $inputXML = @"
 							<CheckBox Name="EssTweaksHiber" Content="Disable Hibernation" Margin="5,0"/>
 							<CheckBox Name="EssTweaksDVR" Content="Disable GameDVR" Margin="5,0"/>
 							<CheckBox Name="EssTweaksServices" Content="Set Services to Manual" Margin="5,0"/>
-							
+
 
 						</StackPanel>
 						<StackPanel Background="#777777" SnapsToDevicePixels="True" Grid.Row="1" Grid.Column="1" Margin="10,5">
@@ -153,7 +182,7 @@ $inputXML = @"
 							<CheckBox Name="MiscTweaksExt" Content="Show File Extensions" Margin="5,0"/>
 							<CheckBox Name="MiscTweaksDisplay" Content="Set Display for Performance" Margin="5,0"/>
 							<CheckBox Name="MiscTweaksUTC" Content="Set Time to UTC (Dual Boot)" Margin="5,0"/>
-							<CheckBox Name="EssTweaksDeBloat" Content="Remove MS Store Apps" Margin="5,0"/>
+							<CheckBox Name="EssTweaksDeBloat" Content="Remove ALL MS Store Apps" Margin="5,0"/>
 
 							<Button Name="tweaksbutton" Background="AliceBlue" Content="Run Tweaks" Margin="20,10,20,0"/>
 							<Button Name="undoall" Background="AliceBlue" Content="Undo All Tweaks" Margin="20,5"/>
@@ -161,29 +190,61 @@ $inputXML = @"
 					</Grid>
 				</TabItem>
 				<TabItem Header="Config" Visibility="Collapsed" Name="Tab3">
-					<Grid Background="#333333">
+					<Grid Background="#444444">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="1*"/>
 							<ColumnDefinition Width="1*"/>
 						</Grid.ColumnDefinitions>
 						<StackPanel Background="#777777" SnapsToDevicePixels="True" Grid.Column="0" Margin="10,5">
 							<Label Content="Features" FontSize="16"/>
+							<CheckBox Name="Featuresdotnet" Content="All .Net Framework (2,3,4)" Margin="5,0"/>
+							<CheckBox Name="Featureshyperv" Content="HyperV Virtualization" Margin="5,0"/>
+							<CheckBox Name="Featureslegacymedia" Content="Legacy Media (WMP, DirectPlay)" Margin="5,0"/>
+							<CheckBox Name="Featurenfs" Content="NFS - Network File System" Margin="5,0"/>
+							<CheckBox Name="Featurewsl" Content="Windows Subsystem for Linux" Margin="5,0"/>
+							<Button Name="FeatureInstall" FontSize="14" Background="AliceBlue" Content="Install Features" Margin="20,5,20,0" Padding="10"/>
+							<Label Content="Fixes" FontSize="16"/>
+							<Button Name="FixesUpdate" FontSize="14" Background="AliceBlue" Content="Reset Windows Update" Margin="20,5,20,0" Padding="10"/>
+
 						</StackPanel>
 						<StackPanel Background="#777777" SnapsToDevicePixels="True" Grid.Column="1" Margin="10,5">
-							<Label Content="Old Windows Panels" FontSize="16"/>
+							<Label Content="Legacy Windows Panels" FontSize="16"/>
+							<Button Name="Panelcontrol" FontSize="14" Background="AliceBlue" Content="Control Panel" Margin="20,5,20,5" Padding="10"/>
+							<Button Name="Panelnetwork" FontSize="14" Background="AliceBlue" Content="Network Connections" Margin="20,0,20,5" Padding="10"/>
+							<Button Name="Panelpower" FontSize="14" Background="AliceBlue" Content="Power Panel" Margin="20,0,20,5" Padding="10"/>
+							<Button Name="Panelsound" FontSize="14" Background="AliceBlue" Content="Sound Settings" Margin="20,0,20,5" Padding="10"/>
+							<Button Name="Panelsystem" FontSize="14" Background="AliceBlue" Content="System Properties" Margin="20,0,20,5" Padding="10"/>
+							<Button Name="Paneluser" FontSize="14" Background="AliceBlue" Content="User Accounts" Margin="20,0,20,5" Padding="10"/>
 						</StackPanel>
 					</Grid>
 				</TabItem>
 				<TabItem Header="Updates" Visibility="Collapsed" Name="Tab4">
-					<Grid Background="#333333">
-						<TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" TextWrapping="Wrap" Text="Updates" FontSize="14" FontWeight="Bold" Height="21" Foreground="#ffffff"/>
+					<Grid Background="#555555">
+						<Grid.RowDefinitions>
+							<RowDefinition/>
+							<RowDefinition/>
+							<RowDefinition/>
+						</Grid.RowDefinitions>
+						<StackPanel Background="#777777" SnapsToDevicePixels="True" Grid.Row="0" Margin="10,5">
+
+							<TextBlock Text="This is the default settings that come with Windows. No modifications are made and will remove any custom windows update settings." Margin="20,0,20,0" Padding="10" TextWrapping="WrapWithOverflow" MaxWidth="300"/>
+							<Button Name="Updatesdefault" FontSize="16" Background="AliceBlue" Content="Default (Out of Box) Settings" Margin="20,0,20,10" Padding="10"/>
+						</StackPanel>
+						<StackPanel Background="#777777" SnapsToDevicePixels="True" Grid.Row="1" Margin="10,5">
+							<TextBlock Text="This is my recommended setting I use on all computers. It will delay feature updates by 2 years and will install security updates 4 days after release. These are the settings I use in buisness environments." Margin="20,0,20,0" Padding="10" TextWrapping="WrapWithOverflow" MaxWidth="300"/>
+							<Button Name="Updatessecurity" FontSize="16" Background="AliceBlue" Content="Security (Recommended) Settings" Margin="20,0,20,10" Padding="10"/>
+						</StackPanel>
+						<StackPanel Background="#777777" SnapsToDevicePixels="True" Grid.Row="2" Margin="10,5">
+							<TextBlock Text="This completely disables ALL Windows Updates and is NOT RECOMMENDED. You system will be easier to hack and infect without security updates. However, it can be suitable if you use your system for a select purpose and do not actively browse the internet." Margin="20,0,20,0" Padding="10" TextWrapping="WrapWithOverflow" MaxWidth="300"/>
+							<Button Name="Updatesdisable" FontSize="16" Background="AliceBlue" Content="Disable ALL Updates (NOT RECOMMENDED!)" Margin="20,0,20,10" Padding="10"/>
+						</StackPanel>
+
 					</Grid>
 				</TabItem>
 			</TabControl>
 		</Grid>
 	</Viewbox>
 </Window>
-
 
 "@
  
@@ -218,8 +279,6 @@ get-variable WPF*
  
 Get-FormVariables
 
-
-
 #===========================================================================
 # Navigation Controls
 #===========================================================================
@@ -253,249 +312,350 @@ $WPFTab4BT.Add_Click({
 # Install Tab1
 #===========================================================================
 $WPFinstall.Add_Click({
-
+    $wingetinstall = New-Object System.Collections.Generic.List[System.Object]
     If ( $WPFInstalladobe.IsChecked -eq $true ) { 
-        winget install -e --id Adobe.Acrobat.Reader.64-bit | Out-Host
+        $wingetinstall.Add("Adobe.Acrobat.Reader.64-bit")
         $WPFInstalladobe.IsChecked = $false
     }
     If ( $WPFInstalladvancedip.IsChecked -eq $true ) { 
-        winget install -e Famatech.AdvancedIPScanner | Out-Host
-        $WPFInstalladvancedip.IsChecked = $false
+	   $wingetinstall.Add("Famatech.AdvancedIPScanner")
+       $WPFInstalladvancedip.IsChecked = $false
     }
+    If ( $WPFInstallatom.IsChecked -eq $true ) { 
+        $wingetinstall.Add("GitHub.Atom")
+        $WPFInstallatom.IsChecked = $false
+     }
+     If ( $WPFInstallaudacity.IsChecked -eq $true ) { 
+         $wingetinstall.Add("Audacity.Audacity")
+         $WPFInstallaudacity.IsChecked = $false
+      }
     If ( $WPFInstallautohotkey.IsChecked -eq $true ) { 
-        winget install -e Lexikos.AutoHotkey | Out-Host
+       $wingetinstall.Add("Lexikos.AutoHotkey")
         $WPFInstallautohotkey.IsChecked = $false
     }  
     If ( $WPFInstallbrave.IsChecked -eq $true ) { 
-        winget install -e BraveSoftware.BraveBrowser | Out-Host
+       $wingetinstall.Add("BraveSoftware.BraveBrowser")
         $WPFInstallbrave.IsChecked = $false
     }
     If ( $WPFInstallchrome.IsChecked -eq $true ) { 
-        winget install -e Google.Chrome | Out-Host
+       $wingetinstall.Add("Google.Chrome")
         $WPFInstallchrome.IsChecked = $false
     }
     If ( $WPFInstalldiscord.IsChecked -eq $true ) { 
-        winget install -e Discord.Discord | Out-Host
+       $wingetinstall.Add("Discord.Discord")
         $WPFInstalldiscord.IsChecked = $false
     }
     If ( $WPFInstallesearch.IsChecked -eq $true ) { 
-        winget install -e voidtools.Everything --source winget | Out-Host
+       $wingetinstall.Add("voidtools.Everything --source winget")
         $WPFInstallesearch.IsChecked = $false
     }
     If ( $WPFInstalletcher.IsChecked -eq $true ) { 
-        winget install -e Balena.Etcher | Out-Host
+       $wingetinstall.Add("Balena.Etcher")
         $WPFInstalletcher.IsChecked = $false
     }
     If ( $WPFInstallfirefox.IsChecked -eq $true ) { 
-        winget install -e Mozilla.Firefox | Out-Host
+       $wingetinstall.Add("Mozilla.Firefox")
         $WPFInstallfirefox.IsChecked = $false
     }
     If ( $WPFInstallgimp.IsChecked -eq $true ) { 
-        winget install -e GIMP.GIMP | Out-Host
+       $wingetinstall.Add("GIMP.GIMP")
         $WPFInstallgimp.IsChecked = $false
     }
     If ( $WPFInstallgithubdesktop.IsChecked -eq $true ) { 
-        winget install -e Git.Git | Out-Host
-        winget install -e GitHub.GitHubDesktop | Out-Host
+       $wingetinstall.Add("Git.Git")
+       $wingetinstall.Add("GitHub.GitHubDesktop")
         $WPFInstallgithubdesktop.IsChecked = $false
     }
     If ( $WPFInstallimageglass.IsChecked -eq $true ) { 
-        winget install -e DuongDieuPhap.ImageGlass | Out-Host
-        $WPFInstallimageglass.IsChecked = $false
-    }
+        $wingetinstall.Add("DuongDieuPhap.ImageGlass")
+         $WPFInstallimageglass.IsChecked = $false
+     }
+    If ( $WPFInstalljava8.IsChecked -eq $true ) { 
+        $wingetinstall.Add("AdoptOpenJDK.OpenJDK.8")
+         $WPFInstalljava8.IsChecked = $false
+     }
+     If ( $WPFInstalljava16.IsChecked -eq $true ) { 
+        $wingetinstall.Add("AdoptOpenJDK.OpenJDK.16")
+         $WPFInstalljava16.IsChecked = $false
+     }
+     If ( $WPFInstalljava18.IsChecked -eq $true ) { 
+        $wingetinstall.Add("Oracle.JDK.18")
+         $WPFInstalljava18.IsChecked = $false
+     }
+     If ( $WPFInstalljetbrains.IsChecked -eq $true ) { 
+        $wingetinstall.Add("JetBrains.Toolbox")
+         $WPFInstalljetbrains.IsChecked = $false
+     } 
+    
     If ( $WPFInstallmpc.IsChecked -eq $true ) { 
-        winget install -e clsid2.mpc-hc | Out-Host
+       $wingetinstall.Add("clsid2.mpc-hc")
         $WPFInstallmpc.IsChecked = $false
     }
+    If ( $WPFInstallnodejs.IsChecked -eq $true ) { 
+        $wingetinstall.Add("OpenJS.NodeJS")
+         $WPFInstallnodejs.IsChecked = $false
+     }
+     If ( $WPFInstallnodejslts.IsChecked -eq $true ) { 
+        $wingetinstall.Add("OpenJS.NodeJS.LTS")
+         $WPFInstallnodejslts.IsChecked = $false
+     }
     If ( $WPFInstallnotepadplus.IsChecked -eq $true ) { 
-        winget install -e Notepad++.Notepad++ | Out-Host
+       $wingetinstall.Add("Notepad++.Notepad++")
         $WPFInstallnotepadplus.IsChecked = $false
     }
     If ( $WPFInstallpowertoys.IsChecked -eq $true ) { 
-        winget install -e Microsoft.PowerToys | Out-Host
+       $wingetinstall.Add("Microsoft.PowerToys")
         $WPFInstallpowertoys.IsChecked = $false
     }
     If ( $WPFInstallputty.IsChecked -eq $true ) { 
-        winget install -e PuTTY.PuTTY | Out-Host
-        winget install -e WinSCP.WinSCP | Out-Host
+       $wingetinstall.Add("PuTTY.PuTTY")
         $WPFInstallputty.IsChecked = $false
     }
+    If ( $WPFInstallpython3.IsChecked -eq $true ) { 
+        $wingetinstall.Add("Python.Python.3")
+         $WPFInstallpython3.IsChecked = $false
+    }
     If ( $WPFInstallsevenzip.IsChecked -eq $true ) { 
-        winget install -e 7zip.7zip | Out-Host
+       $wingetinstall.Add("7zip.7zip")
         $WPFInstallsevenzip.IsChecked = $false
     }
     If ( $WPFInstallsharex.IsChecked -eq $true ) { 
-        winget install -e ShareX.ShareX | Out-Host
+       $wingetinstall.Add("ShareX.ShareX")
         $WPFInstallsharex.IsChecked = $false
     }
+    If ( $WPFInstallsublime.IsChecked -eq $true ) { 
+        $wingetinstall.Add("SublimeHQ.SublimeText.4")
+         $WPFInstallsublime.IsChecked = $false
+    }
     If ( $WPFInstallsumatra.IsChecked -eq $true ) { 
-        winget install -e SumatraPDF.SumatraPDF | Out-Host
+       $wingetinstall.Add("SumatraPDF.SumatraPDF")
         $WPFInstallsumatra.IsChecked = $false
     }
     If ( $WPFInstallterminal.IsChecked -eq $true ) { 
-        winget install -e Microsoft.WindowsTerminal | Out-Host
+       $wingetinstall.Add("Microsoft.WindowsTerminal")
         $WPFInstallterminal.IsChecked = $false
     }
     If ( $WPFInstallttaskbar.IsChecked -eq $true ) { 
-        winget install -e TranslucentTB.TranslucentTB | Out-Host
+       $wingetinstall.Add("TranslucentTB.TranslucentTB")
         $WPFInstallttaskbar.IsChecked = $false
     }
     If ( $WPFInstallvlc.IsChecked -eq $true ) { 
-        winget install -e VideoLAN.VLC | Out-Host
+       $wingetinstall.Add("VideoLAN.VLC")
         $WPFInstallvlc.IsChecked = $false
     }
     If ( $WPFInstallvscode.IsChecked -eq $true ) { 
-        winget install -e Git.Git | Out-Host
-        winget install -e Microsoft.VisualStudioCode --source winget | Out-Host
+       $wingetinstall.Add("Git.Git")
+       $wingetinstall.Add("Microsoft.VisualStudioCode --source winget")
         $WPFInstallvscode.IsChecked = $false
     }
     If ( $WPFInstallvscodium.IsChecked -eq $true ) { 
-        winget install -e Git.Git | Out-Host
-        winget install -e VSCodium.VSCodium | Out-Host
+       $wingetinstall.Add("Git.Git")
+       $wingetinstall.Add("VSCodium.VSCodium")
         $WPFInstallvscodium.IsChecked = $false
     }
+    If ( $WPFInstallwinscp.IsChecked -eq $true ) { 
+        $wingetinstall.Add("WinSCP.WinSCP")
+         $WPFInstallputty.IsChecked = $false
+     }
     If ( $WPFInstallanydesk.IsChecked -eq $true ) { 
-        winget install -e AnyDeskSoftwareGmbH.AnyDesk | Out-Host
+       $wingetinstall.Add("AnyDeskSoftwareGmbH.AnyDesk")
         $WPFInstallanydesk.IsChecked = $false
     }
     If ( $WPFInstallbitwarden.IsChecked -eq $true ) { 
-        winget install -e Bitwarden.Bitwarden | Out-Host
+       $wingetinstall.Add("Bitwarden.Bitwarden")
         $WPFInstallbitwarden.IsChecked = $false
     }        
     If ( $WPFInstallblender.IsChecked -eq $true ) { 
-        winget install -e BlenderFoundation.Blender | Out-Host
+       $wingetinstall.Add("BlenderFoundation.Blender")
         $WPFInstallblender.IsChecked = $false
     }                    
     If ( $WPFInstallchromium.IsChecked -eq $true ) { 
-        winget install -e eloston.ungoogled-chromium | Out-Host
+       $wingetinstall.Add("eloston.ungoogled-chromium")
         $WPFInstallchromium.IsChecked = $false
     }             
     If ( $WPFInstallcpuz.IsChecked -eq $true ) { 
-        winget install -e CPUID.CPU-Z | Out-Host
+       $wingetinstall.Add("CPUID.CPU-Z")
         $WPFInstallcpuz.IsChecked = $false
     }                            
     If ( $WPFInstalleartrumpet.IsChecked -eq $true ) { 
-        winget install -e File-New-Project.EarTrumpet | Out-Host
+       $wingetinstall.Add("File-New-Project.EarTrumpet")
         $WPFInstalleartrumpet.IsChecked = $false
     }           
     If ( $WPFInstallepicgames.IsChecked -eq $true ) { 
-        winget install -e EpicGames.EpicGamesLauncher | Out-Host
+       $wingetinstall.Add("EpicGames.EpicGamesLauncher")
         $WPFInstallepicgames.IsChecked = $false
     }                                      
     If ( $WPFInstallflameshot.IsChecked -eq $true ) { 
-        winget install -e Flameshot.Flameshot | Out-Host
+       $wingetinstall.Add("Flameshot.Flameshot")
         $WPFInstallflameshot.IsChecked = $false
     }            
     If ( $WPFInstallfoobar.IsChecked -eq $true ) { 
-        winget install -e PeterPawlowski.foobar2000 | Out-Host
+       $wingetinstall.Add("PeterPawlowski.foobar2000")
         $WPFInstallfoobar.IsChecked = $false
     }                     
     If ( $WPFInstallgog.IsChecked -eq $true ) { 
-        winget install -e GOG.Galaxy | Out-Host
+       $wingetinstall.Add("GOG.Galaxy")
         $WPFInstallgog.IsChecked = $false
     }                  
     If ( $WPFInstallgpuz.IsChecked -eq $true ) { 
-        winget install -e TechPowerUp.GPU-Z | Out-Host
+       $wingetinstall.Add("TechPowerUp.GPU-Z")
         $WPFInstallgpuz.IsChecked = $false
     }                 
     If ( $WPFInstallgreenshot.IsChecked -eq $true ) { 
-        winget install -e Greenshot.Greenshot | Out-Host
+       $wingetinstall.Add("Greenshot.Greenshot")
         $WPFInstallgreenshot.IsChecked = $false
     }            
     If ( $WPFInstallhandbrake.IsChecked -eq $true ) { 
-        winget install -e HandBrake.HandBrake | Out-Host
+       $wingetinstall.Add("HandBrake.HandBrake")
         $WPFInstallhandbrake.IsChecked = $false
-    }            
+    }      
+    If ( $WPFInstallhexchat.IsChecked -eq $true ) { 
+        $wingetinstall.Add("HexChat.HexChat")
+         $WPFInstallhexchat.IsChecked = $false
+     }       
     If ( $WPFInstallhwinfo.IsChecked -eq $true ) { 
-        winget install -e REALiX.HWiNFO | Out-Host
+       $wingetinstall.Add("REALiX.HWiNFO")
         $WPFInstallhwinfo.IsChecked = $false
     }                       
     If ( $WPFInstallinkscape.IsChecked -eq $true ) { 
-        winget install -e Inkscape.Inkscape | Out-Host
+       $wingetinstall.Add("Inkscape.Inkscape")
         $WPFInstallinkscape.IsChecked = $false
     }             
     If ( $WPFInstallkeepass.IsChecked -eq $true ) { 
-        winget install -e DominikReichl.KeePass | Out-Host
+       $wingetinstall.Add("KeePassXCTeam.KeePassXC")
         $WPFInstallkeepass.IsChecked = $false
     }              
     If ( $WPFInstalllibrewolf.IsChecked -eq $true ) { 
-        winget install -e LibreWolf.LibreWolf | Out-Host
+       $wingetinstall.Add("LibreWolf.LibreWolf")
         $WPFInstalllibrewolf.IsChecked = $false
     }            
     If ( $WPFInstallmalwarebytes.IsChecked -eq $true ) { 
-        winget install -e Malwarebytes.Malwarebytes | Out-Host
+       $wingetinstall.Add("Malwarebytes.Malwarebytes")
         $WPFInstallmalwarebytes.IsChecked = $false
-    }                          
+    }          
+    If ( $WPFInstallmatrix.IsChecked -eq $true ) { 
+        $wingetinstall.Add("Element.Element")
+         $WPFInstallmatrix.IsChecked = $false
+     } 
     If ( $WPFInstallmremoteng.IsChecked -eq $true ) { 
-        winget install -e mRemoteNG.mRemoteNG | Out-Host
+       $wingetinstall.Add("mRemoteNG.mRemoteNG")
         $WPFInstallmremoteng.IsChecked = $false
     }                    
     If ( $WPFInstallnvclean.IsChecked -eq $true ) { 
-        winget install -e TechPowerUp.NVCleanstall | Out-Host
+       $wingetinstall.Add("TechPowerUp.NVCleanstall")
         $WPFInstallnvclean.IsChecked = $false
     }              
     If ( $WPFInstallobs.IsChecked -eq $true ) { 
-        winget install -e OBSProject.OBSStudio | Out-Host
+       $wingetinstall.Add("OBSProject.OBSStudio")
         $WPFInstallobs.IsChecked = $false
     }                  
     If ( $WPFInstallobsidian.IsChecked -eq $true ) { 
-        winget install -e Obsidian.Obsidian | Out-Host
+       $wingetinstall.Add("Obsidian.Obsidian")
         $WPFInstallobsidian.IsChecked = $false
     }                           
     If ( $WPFInstallrevo.IsChecked -eq $true ) { 
-        winget install -e RevoUninstaller.RevoUninstaller | Out-Host
+       $wingetinstall.Add("RevoUninstaller.RevoUninstaller")
         $WPFInstallrevo.IsChecked = $false
     }                 
     If ( $WPFInstallrufus.IsChecked -eq $true ) { 
-        winget install -e Rufus.Rufus | Out-Host
+       $wingetinstall.Add("Rufus.Rufus")
         $WPFInstallrufus.IsChecked = $false
-    }                             
+    }   
+    If ( $WPFInstallsignal.IsChecked -eq $true ) { 
+        $wingetinstall.Add("OpenWhisperSystems.Signal")
+         $WPFInstallsignal.IsChecked = $false
+     }
+     If ( $WPFInstallskype.IsChecked -eq $true ) { 
+        $wingetinstall.Add("Microsoft.Skype")
+         $WPFInstallskype.IsChecked = $false
+     }                               
     If ( $WPFInstallslack.IsChecked -eq $true ) { 
-        winget install -e SlackTechnologies.Slack | Out-Host
+       $wingetinstall.Add("SlackTechnologies.Slack")
         $WPFInstallslack.IsChecked = $false
     }                
     If ( $WPFInstallspotify.IsChecked -eq $true ) { 
-        winget install -e Spotify.Spotify | Out-Host
+       $wingetinstall.Add("Spotify.Spotify")
         $WPFInstallspotify.IsChecked = $false
     }              
     If ( $WPFInstallsteam.IsChecked -eq $true ) { 
-        winget install -e Valve.Steam | Out-Host
+       $wingetinstall.Add("Valve.Steam")
         $WPFInstallsteam.IsChecked = $false
     }                             
     If ( $WPFInstallteamviewer.IsChecked -eq $true ) { 
-        winget install -e TeamViewer.TeamViewer | Out-Host
-        $WPFInstallteamviewer.IsChecked = $false
-    }                        
+        $wingetinstall.Add("TeamViewer.TeamViewer")
+         $WPFInstallteamviewer.IsChecked = $false
+     }
+     If ( $WPFInstallteams.IsChecked -eq $true ) { 
+        $wingetinstall.Add("Microsoft.Teams")
+         $WPFInstallteams.IsChecked = $false
+     }
+                              
     If ( $WPFInstalltreesize.IsChecked -eq $true ) { 
-        winget install -e JAMSoftware.TreeSize.Free | Out-Host
+       $wingetinstall.Add("JAMSoftware.TreeSize.Free")
         $WPFInstalltreesize.IsChecked = $false
     }                         
     If ( $WPFInstallvisualstudio.IsChecked -eq $true ) { 
-        winget install -e Microsoft.VisualStudio.2022.Community | Out-Host
+       $wingetinstall.Add("Microsoft.VisualStudio.2022.Community")
         $WPFInstallvisualstudio.IsChecked = $false
     }         
     If ( $WPFInstallvivaldi.IsChecked -eq $true ) { 
-        winget install -e VivaldiTechnologies.Vivaldi | Out-Host
+       $wingetinstall.Add("VivaldiTechnologies.Vivaldi")
         $WPFInstallvivaldi.IsChecked = $false
     }                              
     If ( $WPFInstallvoicemeeter.IsChecked -eq $true ) { 
-        winget install -e VB-Audio.Voicemeeter | Out-Host
+       $wingetinstall.Add("VB-Audio.Voicemeeter")
         $WPFInstallvoicemeeter.IsChecked = $false
     }                    
     If ( $WPFInstallwindirstat.IsChecked -eq $true ) { 
-        winget install -e WinDirStat.WinDirStat | Out-Host
+       $wingetinstall.Add("WinDirStat.WinDirStat")
         $WPFInstallwindirstat.IsChecked = $false
     }           
     If ( $WPFInstallwireshark.IsChecked -eq $true ) { 
-        winget install -e WiresharkFoundation.Wireshark | Out-Host
+       $wingetinstall.Add("WiresharkFoundation.Wireshark")
         $WPFInstallwireshark.IsChecked = $false
     }            
     If ( $WPFInstallzoom.IsChecked -eq $true ) { 
-        winget install -e Zoom.Zoom | Out-Host
+       $wingetinstall.Add("Zoom.Zoom")
         $WPFInstallzoom.IsChecked = $false
     }    
+
+    # Install all winget programs in new window
+    $wingetinstall.ToArray()
+    # Define Output variable
+    $wingetResult = New-Object System.Collections.Generic.List[System.Object]
+    foreach ( $node in $wingetinstall )
+    {
+        Start-Process powershell.exe -Verb RunAs -ArgumentList "-command winget install -e --accept-source-agreements --accept-package-agreements --silent $node | Out-Host" -Wait -WindowStyle Maximized
+        $wingetResult.Add("Installed $node `n")
+    }
+    $wingetResult.ToArray()
+    $wingetResult | % { $_ } | Out-Host
+    $ButtonType = [System.Windows.MessageBoxButton]::OK
+
+    $MessageboxTitle = "Installed Programs "
+    $Messageboxbody = ($wingetResult)
+
+    $MEssageIcon = [System.Windows.MessageBoxImage]::Information
+
+    [System.Windows.MessageBox]::Show($Messageboxbody,$MessageboxTitle,$ButtonType,$messageicon)
+
 })
 
+$WPFInstallUpgrade.Add_Click({
+    Start-Process powershell.exe -Verb RunAs -ArgumentList "-command winget upgrade --all  | Out-Host" -Wait -WindowStyle Maximized
+    $ButtonType = [System.Windows.MessageBoxButton]::OK
+
+    $MessageboxTitle = "Upgraded All Programs "
+    $Messageboxbody = ("Done")
+
+    $MEssageIcon = [System.Windows.MessageBoxImage]::Information
+
+    [System.Windows.MessageBox]::Show($Messageboxbody,$MessageboxTitle,$ButtonType,$messageicon)
+})
+
+#===========================================================================
+# Tab 2 - Tweaks Buttons
+#===========================================================================
 $WPFdesktop.Add_Click({
 
     $WPFEssTweaksAH.IsChecked = $true
@@ -842,9 +1002,6 @@ $WPFtweaksbutton.Add_Click({
             $ram = (Get-CimInstance -ClassName Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1kb
             Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control" -Name "SvcHostSplitThresholdInKB" -Type DWord -Value $ram -Force
 
-            #Write-Host "Installing Windows Media Player..."
-            #Enable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -NoRestart -WarningAction SilentlyContinue | Out-Null
-
             Write-Host "Disable News and Interests"
             Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" -Name "EnableFeeds" -Type DWord -Value 0
             # Remove "News and Interest" from taskbar
@@ -1035,6 +1192,12 @@ $WPFtweaksbutton.Add_Click({
     Write-Host "Finished Removing Bloatware Apps"
     $WPFEssTweaksDeBloat.IsChecked = $false
     }
+    $MessageboxTitle = "Tweaks are Finished "
+    $Messageboxbody = ("Done")
+
+    $MEssageIcon = [System.Windows.MessageBoxImage]::Information
+
+    [System.Windows.MessageBox]::Show($Messageboxbody,$MessageboxTitle,$ButtonType,$messageicon)
 })
 #===========================================================================
 # Undo All
@@ -1167,7 +1330,401 @@ $WPFundoall.Add_Click({
 	Write-Host "Done - Reverted to Stock Settings"
 
     Write-Host "Essential Undo Completed"
+    $MessageboxTitle = "Undo All"
+    $Messageboxbody = ("Done")
+
+    $MEssageIcon = [System.Windows.MessageBoxImage]::Information
+
+    [System.Windows.MessageBox]::Show($Messageboxbody,$MessageboxTitle,$ButtonType,$messageicon)
 })
+#===========================================================================
+# Tab 3 - Config Buttons
+#===========================================================================
+$WPFFeatureInstall.Add_Click({
+
+ If ( $WPFFeaturesdotnet.IsChecked -eq $true ) {
+	  Enable-WindowsOptionalFeature -Online -FeatureName "NetFx4-AdvSrvs" -All
+	  Enable-WindowsOptionalFeature -Online -FeatureName "NetFx3" -All
+ }
+ If ( $WPFFeatureshyperv.IsChecked -eq $true ) {
+ 	Enable-WindowsOptionalFeature -Online -FeatureName "HypervisorPlatform" -All
+    Enable-WindowsOptionalFeature -Online -FeatureName "Microsoft-Hyper-V-All" -All
+    Enable-WindowsOptionalFeature -Online -FeatureName "Microsoft-Hyper-V" -All
+    Enable-WindowsOptionalFeature -Online -FeatureName "Microsoft-Hyper-V-Tools-All" -All
+    Enable-WindowsOptionalFeature -Online -FeatureName "Microsoft-Hyper-V-Management-PowerShell" -All
+    Enable-WindowsOptionalFeature -Online -FeatureName "Microsoft-Hyper-V-Hypervisor" -All
+    Enable-WindowsOptionalFeature -Online -FeatureName "Microsoft-Hyper-V-Services" -All
+    Enable-WindowsOptionalFeature -Online -FeatureName "Microsoft-Hyper-V-Management-Clients" -All
+    cmd /c bcdedit /set hypervisorschedulertype classic
+    Write-Host "HyperV is now installed and configured. Please Reboot before using."
+ } 
+ If ( $WPFFeatureslegacymedia.IsChecked -eq $true ) {
+	 Enable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -All
+	 Enable-WindowsOptionalFeature -Online -FeatureName "MediaPlayback" -All
+	 Enable-WindowsOptionalFeature -Online -FeatureName "DirectPlay" -All
+	 Enable-WindowsOptionalFeature -Online -FeatureName "LegacyComponents" -All
+ }
+ If ( $WPFFeaturewsl.IsChecked -eq $true ) {
+    Enable-WindowsOptionalFeature -Online -FeatureName "VirtualMachinePlatform" -All
+    Enable-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux" -All
+	Write-Host "WSL is now installed and configured. Please Reboot before using."
+ }
+ If ( $WPFFeaturenfs.IsChecked -eq $true ) {
+ 	Enable-WindowsOptionalFeature -Online -FeatureName "ServicesForNFS-ClientOnly" -All
+    Enable-WindowsOptionalFeature -Online -FeatureName "ClientForNFS-Infrastructure" -All
+    Enable-WindowsOptionalFeature -Online -FeatureName "NFS-Administration" -All
+	nfsadmin client stop
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\ClientForNFS\CurrentVersion\Default" -Name "AnonymousUID" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\ClientForNFS\CurrentVersion\Default" -Name "AnonymousGID" -Type DWord -Value 0
+    nfsadmin client start
+    nfsadmin client localhost config fileaccess=755 SecFlavors=+sys -krb5 -krb5i
+    Write-Host "NFS is now setup for user based NFS mounts"
+ }
+ $MessageboxTitle = "All features are now installed "
+ $Messageboxbody = ("Done")
+
+ $MEssageIcon = [System.Windows.MessageBoxImage]::Information
+
+ [System.Windows.MessageBox]::Show($Messageboxbody,$MessageboxTitle,$ButtonType,$messageicon)
+})
+
+$WPFPanelcontrol.Add_Click({
+ cmd /c control
+})
+$WPFPanelnetwork.Add_Click({
+cmd /c ncpa.cpl
+})
+$WPFPanelpower.Add_Click({
+cmd /c powercfg.cpl
+})
+$WPFPanelsound.Add_Click({
+cmd /c mmsys.cpl
+})
+$WPFPanelsystem.Add_Click({
+cmd /c sysdm.cpl
+})
+$WPFPaneluser.Add_Click({
+cmd /c "control userpasswords2"
+})
+#===========================================================================
+# Tab 4 - Updates Buttons
+#===========================================================================
+
+$WPFUpdatesdefault.Add_Click({
+# Source: https://github.com/rgl/windows-vagrant/blob/master/disable-windows-updates.ps1 reversed! 
+    Set-StrictMode -Version Latest
+$ProgressPreference = 'SilentlyContinue'
+$ErrorActionPreference = 'Stop'
+trap {
+    Write-Host
+    Write-Host "ERROR: $_"
+    Write-Host (($_.ScriptStackTrace -split '\r?\n') -replace '^(.*)$','ERROR: $1')
+    Write-Host (($_.Exception.ToString() -split '\r?\n') -replace '^(.*)$','ERROR EXCEPTION: $1')
+    Write-Host
+    Write-Host 'Sleeping for 60m to give you time to look around the virtual machine before self-destruction...'
+    Start-Sleep -Seconds (60*60)
+    Exit 1
+}
+
+# disable automatic updates.
+# XXX this does not seem to work anymore.
+# see How to configure automatic updates by using Group Policy or registry settings
+#     at https://support.microsoft.com/en-us/help/328010
+function New-Directory($path) {
+    $p, $components = $path -split '[\\/]'
+    $components | ForEach-Object {
+        $p = "$p\$_"
+        if (!(Test-Path $p)) {
+            New-Item -ItemType Directory $p | Out-Null
+        }
+    }
+    $null
+}
+$auPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU'
+New-Directory $auPath 
+# set NoAutoUpdate.
+# 0: Automatic Updates is enabled (default).
+# 1: Automatic Updates is disabled.
+New-ItemProperty `
+    -Path $auPath `
+    -Name NoAutoUpdate `
+    -Value 0 `
+    -PropertyType DWORD `
+    -Force `
+    | Out-Null
+# set AUOptions.
+# 1: Keep my computer up to date has been disabled in Automatic Updates.
+# 2: Notify of download and installation.
+# 3: Automatically download and notify of installation.
+# 4: Automatically download and scheduled installation.
+New-ItemProperty `
+    -Path $auPath `
+    -Name AUOptions `
+    -Value 3 `
+    -PropertyType DWORD `
+    -Force `
+    | Out-Null
+
+# disable Windows Update Delivery Optimization.
+# NB this applies to Windows 10.
+# 0: Disabled
+# 1: PCs on my local network
+# 3: PCs on my local network, and PCs on the Internet
+$deliveryOptimizationPath = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config'
+if (Test-Path $deliveryOptimizationPath) {
+    New-ItemProperty `
+        -Path $deliveryOptimizationPath `
+        -Name DODownloadMode `
+        -Value 0 `
+        -PropertyType DWORD `
+        -Force `
+        | Out-Null
+}
+# Service tweaks for Windows Update
+
+$services = @(
+    "BITS"
+    "wuauserv"
+)
+
+foreach ($service in $services) {
+    # -ErrorAction SilentlyContinue is so it doesn't write an error to stdout if a service doesn't exist
+
+    Write-Host "Setting $service StartupType to Automatic"
+    Get-Service -Name $service -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic
+}
+	Write-Host "Enabling driver offering through Windows Update..."
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Device Metadata" -Name "PreventDeviceMetadataFromNetwork" -ErrorAction SilentlyContinue
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" -Name "DontPromptForWindowsUpdate" -ErrorAction SilentlyContinue
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" -Name "DontSearchWindowsUpdate" -ErrorAction SilentlyContinue
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" -Name "DriverUpdateWizardWuSearchEnabled" -ErrorAction SilentlyContinue
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Name "ExcludeWUDriversInQualityUpdate" -ErrorAction SilentlyContinue
+    Write-Host "Enabling Windows Update automatic restart..."
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "NoAutoRebootWithLoggedOnUsers" -ErrorAction SilentlyContinue
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "AUPowerManagement" -ErrorAction SilentlyContinue
+    Write-Host "Enabled driver offering through Windows Update"
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "BranchReadinessLevel" -ErrorAction SilentlyContinue
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "DeferFeatureUpdatesPeriodInDays" -ErrorAction SilentlyContinue
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "DeferQualityUpdatesPeriodInDays " -ErrorAction SilentlyContinue
+    
+    ### Reset Windows Update Script - reregister dlls, services, and remove registry entires.
+    Write-Host "1. Stopping Windows Update Services..." 
+    Stop-Service -Name BITS 
+    Stop-Service -Name wuauserv 
+    Stop-Service -Name appidsvc 
+    Stop-Service -Name cryptsvc 
+    
+    Write-Host "2. Remove QMGR Data file..." 
+    Remove-Item "$env:allusersprofile\Application Data\Microsoft\Network\Downloader\qmgr*.dat" -ErrorAction SilentlyContinue 
+    
+    Write-Host "3. Renaming the Software Distribution and CatRoot Folder..." 
+    Rename-Item $env:systemroot\SoftwareDistribution SoftwareDistribution.bak -ErrorAction SilentlyContinue 
+    Rename-Item $env:systemroot\System32\Catroot2 catroot2.bak -ErrorAction SilentlyContinue 
+    
+    Write-Host "4. Removing old Windows Update log..." 
+    Remove-Item $env:systemroot\WindowsUpdate.log -ErrorAction SilentlyContinue 
+    
+    Write-Host "5. Resetting the Windows Update Services to defualt settings..." 
+    "sc.exe sdset bits D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;AU)(A;;CCLCSWRPWPDTLOCRRC;;;PU)" 
+    "sc.exe sdset wuauserv D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;AU)(A;;CCLCSWRPWPDTLOCRRC;;;PU)" 
+    
+    Set-Location $env:systemroot\system32 
+    
+    Write-Host "6. Registering some DLLs..." 
+    regsvr32.exe /s atl.dll 
+    regsvr32.exe /s urlmon.dll 
+    regsvr32.exe /s mshtml.dll 
+    regsvr32.exe /s shdocvw.dll 
+    regsvr32.exe /s browseui.dll 
+    regsvr32.exe /s jscript.dll 
+    regsvr32.exe /s vbscript.dll 
+    regsvr32.exe /s scrrun.dll 
+    regsvr32.exe /s msxml.dll 
+    regsvr32.exe /s msxml3.dll 
+    regsvr32.exe /s msxml6.dll 
+    regsvr32.exe /s actxprxy.dll 
+    regsvr32.exe /s softpub.dll 
+    regsvr32.exe /s wintrust.dll 
+    regsvr32.exe /s dssenh.dll 
+    regsvr32.exe /s rsaenh.dll 
+    regsvr32.exe /s gpkcsp.dll 
+    regsvr32.exe /s sccbase.dll 
+    regsvr32.exe /s slbcsp.dll 
+    regsvr32.exe /s cryptdlg.dll 
+    regsvr32.exe /s oleaut32.dll 
+    regsvr32.exe /s ole32.dll 
+    regsvr32.exe /s shell32.dll 
+    regsvr32.exe /s initpki.dll 
+    regsvr32.exe /s wuapi.dll 
+    regsvr32.exe /s wuaueng.dll 
+    regsvr32.exe /s wuaueng1.dll 
+    regsvr32.exe /s wucltui.dll 
+    regsvr32.exe /s wups.dll 
+    regsvr32.exe /s wups2.dll 
+    regsvr32.exe /s wuweb.dll 
+    regsvr32.exe /s qmgr.dll 
+    regsvr32.exe /s qmgrprxy.dll 
+    regsvr32.exe /s wucltux.dll 
+    regsvr32.exe /s muweb.dll 
+    regsvr32.exe /s wuwebv.dll 
+    
+    Write-Host "7) Removing WSUS client settings..." 
+    REG DELETE "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate" /v AccountDomainSid /f 
+    REG DELETE "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate" /v PingID /f 
+    REG DELETE "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate" /v SusClientId /f 
+    
+    Write-Host "8) Resetting the WinSock..." 
+    netsh winsock reset 
+    netsh winhttp reset proxy 
+    
+    Write-Host "9) Delete all BITS jobs..." 
+    Get-BitsTransfer | Remove-BitsTransfer 
+    
+    Write-Host "10) Attempting to install the Windows Update Agent..." 
+    if($arch -eq 64){ 
+        wusa Windows8-RT-KB2937636-x64 /quiet 
+    } 
+    else{ 
+        wusa Windows8-RT-KB2937636-x86 /quiet 
+    } 
+    
+    Write-Host "11) Starting Windows Update Services..." 
+    Start-Service -Name BITS 
+    Start-Service -Name wuauserv 
+    Start-Service -Name appidsvc 
+    Start-Service -Name cryptsvc 
+    
+    Write-Host "12) Forcing discovery..." 
+    wuauclt /resetauthorization /detectnow 
+    
+    Write-Host "Process complete. Please reboot your computer."
+
+    $MessageboxTitle = "Reset Windows Update "
+    $Messageboxbody = ("Stock settings loaded.`n Please reboot your computer")
+
+    $MEssageIcon = [System.Windows.MessageBoxImage]::Information
+
+    [System.Windows.MessageBox]::Show($Messageboxbody,$MessageboxTitle,$ButtonType,$messageicon)
+})
+$WPFUpdatesdisable.Add_Click({
+ # Source: https://github.com/rgl/windows-vagrant/blob/master/disable-windows-updates.ps1
+    Set-StrictMode -Version Latest
+$ProgressPreference = 'SilentlyContinue'
+$ErrorActionPreference = 'Stop'
+trap {
+    Write-Host
+    Write-Host "ERROR: $_"
+    Write-Host (($_.ScriptStackTrace -split '\r?\n') -replace '^(.*)$','ERROR: $1')
+    Write-Host (($_.Exception.ToString() -split '\r?\n') -replace '^(.*)$','ERROR EXCEPTION: $1')
+    Write-Host
+    Write-Host 'Sleeping for 60m to give you time to look around the virtual machine before self-destruction...'
+    Start-Sleep -Seconds (60*60)
+    Exit 1
+}
+
+# disable automatic updates.
+# XXX this does not seem to work anymore.
+# see How to configure automatic updates by using Group Policy or registry settings
+#     at https://support.microsoft.com/en-us/help/328010
+function New-Directory($path) {
+    $p, $components = $path -split '[\\/]'
+    $components | ForEach-Object {
+        $p = "$p\$_"
+        if (!(Test-Path $p)) {
+            New-Item -ItemType Directory $p | Out-Null
+        }
+    }
+    $null
+}
+$auPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU'
+New-Directory $auPath 
+# set NoAutoUpdate.
+# 0: Automatic Updates is enabled (default).
+# 1: Automatic Updates is disabled.
+New-ItemProperty `
+    -Path $auPath `
+    -Name NoAutoUpdate `
+    -Value 1 `
+    -PropertyType DWORD `
+    -Force `
+    | Out-Null
+# set AUOptions.
+# 1: Keep my computer up to date has been disabled in Automatic Updates.
+# 2: Notify of download and installation.
+# 3: Automatically download and notify of installation.
+# 4: Automatically download and scheduled installation.
+New-ItemProperty `
+    -Path $auPath `
+    -Name AUOptions `
+    -Value 1 `
+    -PropertyType DWORD `
+    -Force `
+    | Out-Null
+
+# disable Windows Update Delivery Optimization.
+# NB this applies to Windows 10.
+# 0: Disabled
+# 1: PCs on my local network
+# 3: PCs on my local network, and PCs on the Internet
+$deliveryOptimizationPath = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config'
+if (Test-Path $deliveryOptimizationPath) {
+    New-ItemProperty `
+        -Path $deliveryOptimizationPath `
+        -Name DODownloadMode `
+        -Value 0 `
+        -PropertyType DWORD `
+        -Force `
+        | Out-Null
+}
+# Service tweaks for Windows Update
+
+$services = @(
+    "BITS"
+    "wuauserv"
+)
+
+foreach ($service in $services) {
+    # -ErrorAction SilentlyContinue is so it doesn't write an error to stdout if a service doesn't exist
+
+    Write-Host "Setting $service StartupType to Disabled"
+    Get-Service -Name $service -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled
+}
+
+})
+$WPFUpdatessecurity.Add_Click({
+	Write-Host "Disabling driver offering through Windows Update..."
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Device Metadata")) {
+        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Device Metadata" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Device Metadata" -Name "PreventDeviceMetadataFromNetwork" -Type DWord -Value 1
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching")) {
+        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" -Name "DontPromptForWindowsUpdate" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" -Name "DontSearchWindowsUpdate" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" -Name "DriverUpdateWizardWuSearchEnabled" -Type DWord -Value 0
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate")) {
+        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Name "ExcludeWUDriversInQualityUpdate" -Type DWord -Value 1
+    Write-Host "Disabling Windows Update automatic restart..."
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU")) {
+        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "NoAutoRebootWithLoggedOnUsers" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "AUPowerManagement" -Type DWord -Value 0
+    Write-Host "Disabled driver offering through Windows Update"
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "BranchReadinessLevel" -Type DWord -Value 20
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "DeferFeatureUpdatesPeriodInDays" -Type DWord -Value 365
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "DeferQualityUpdatesPeriodInDays " -Type DWord -Value 4
+    $MessageboxTitle = "Set Security Updates"
+    $Messageboxbody = ("Recommended Update settings loaded")
+
+    $MEssageIcon = [System.Windows.MessageBoxImage]::Information
+
+    [System.Windows.MessageBox]::Show($Messageboxbody,$MessageboxTitle,$ButtonType,$messageicon)
+})
+
 #===========================================================================
 # Shows the form
 #===========================================================================
