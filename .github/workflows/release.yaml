@@ -1,10 +1,6 @@
 name: Release WinUtil
 
 on:
-  workflow_run:
-    workflows: ["Compile"] #Ensure Compile winget.ps1 is done
-    types:
-      - completed
   workflow_dispatch: # Manual trigger added
 
 jobs:
@@ -41,5 +37,6 @@ jobs:
           tag_name: ${{ steps.extract_version.outputs.version }}
           name: Release ${{ steps.extract_version.outputs.version }}
           files: ./winutil.ps1
+          prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
