@@ -19,6 +19,9 @@ function Get-WinUtilHardwareSpecs {
         Get-WinUtilText -Key $Key -Default $Default
     }
     $unknown = "?"
+    # A right-to-left mark keeps a line that starts with "-" and English text in order in the
+    # Arabic window; without it the dash is drawn at the far end of the line
+    $rtl = [char]0x200F
 
     # Processor
     $cpuLines = foreach ($cpu in (Get-Cim "Win32_Processor")) {
@@ -59,7 +62,7 @@ function Get-WinUtilHardwareSpecs {
             $(if ($totalMemory) { Format-Size $totalMemory } else { $unknown }), $(if ($speed) { $speed } else { $unknown }),
             $modules.Count, $(if ($slots) { $slots } else { $unknown })
     ) + @(foreach ($module in $modules) {
-        "- {0} {1} {2} ({3})" -f (Format-Size $module.Capacity), ([string]$module.Manufacturer).Trim(), ([string]$module.PartNumber).Trim(), $module.DeviceLocator
+        "$rtl- {0} {1} {2} ({3})" -f (Format-Size $module.Capacity), ([string]$module.Manufacturer).Trim(), ([string]$module.PartNumber).Trim(), $module.DeviceLocator
     })
 
     # Motherboard and BIOS
@@ -73,11 +76,11 @@ function Get-WinUtilHardwareSpecs {
     $diskLines = @(foreach ($disk in (Get-Cim "MSFT_PhysicalDisk" "root\Microsoft\Windows\Storage")) {
         $media = switch ([int]$disk.MediaType) { 3 { "HDD" } 4 { "SSD" } default { "" } }
         $bus = switch ([int]$disk.BusType) { 7 { "USB" } 11 { "SATA" } 17 { "NVMe" } default { "" } }
-        "- {0} ({1}) {2}" -f ([string]$disk.FriendlyName).Trim(), (Format-Size $disk.Size), (("$bus $media").Trim())
+        "$rtl- {0} ({1}) {2}" -f ([string]$disk.FriendlyName).Trim(), (Format-Size $disk.Size), (("$bus $media").Trim())
     })
     if ($diskLines.Count -eq 0) {
         $diskLines = @(foreach ($disk in (Get-Cim "Win32_DiskDrive")) {
-            "- {0} ({1})" -f ([string]$disk.Model).Trim(), (Format-Size $disk.Size)
+            "$rtl- {0} ({1})" -f ([string]$disk.Model).Trim(), (Format-Size $disk.Size)
         })
     }
 

@@ -1911,6 +1911,7 @@
                                                 </Grid.ColumnDefinitions>
                                                 <TextBox Grid.Column="0"
                                                          Name="WPFWin11ISOPath"
+                                                         FlowDirection="LeftToRight"
                                                          IsReadOnly="True"
                                                          VerticalAlignment="Center"
                                                          VerticalContentAlignment="Center"
@@ -1946,7 +1947,7 @@
                                                 هذه الأداة مخصصة للتثبيت النظيف والجديد لويندوز فقط.
                                             </TextBlock>
                                             <TextBlock Style="{StaticResource Win11StepBody}" Margin="0,0,0,12">
-                                                في صفحة التحميل اختر Windows 11 ولغتك ونسخة 64-bit (x64).
+                                                في صفحة التحميل اختر Windows 11 ولغتك والنسخة x64.
                                             </TextBlock>
                                             <Button Name="WPFWin11ISODownloadLink"
                                                     Style="{StaticResource Win11StepButton}" Tag="&#xE8A7;" Content="فتح صفحة التحميل من مايكروسوفت"/>
@@ -2215,7 +2216,9 @@
                                      style stretches content alignment, which WPF renders as justified once
                                      text wraps, and its drop shadow lands on the glyphs with no background
                                      here to sit under. -->
+                                <!-- The log is English, so it reads left to right inside the Arabic window -->
                                 <TextBox Name="WPFWin11ISOStatusLog"
+                                         FlowDirection="LeftToRight"
                                          IsReadOnly="True"
                                          TextWrapping="Wrap"
                                          TextAlignment="Left"
@@ -2332,7 +2335,7 @@
                                 <StackPanel Background="{DynamicResource MainBackgroundColor}" Orientation="Horizontal" HorizontalAlignment="Left">
                                     <TextBlock Padding="10" TextWrapping="Wrap">
                                         ملاحظة: كل تحسين هنا يمكن التراجع عنه بزر "التراجع عن المحدد". بعض التحسينات تحتاج إعادة تشغيل الجهاز.
-                                        <LineBreak/>يفضل إنشاء نقطة استعادة من تبويب التحسينات قبل التطبيق.
+                                        <LineBreak/>يفضل تضغط "إنشاء نقطة استعادة" فوق قبل التطبيق، أو استخدم "وضع الألعاب بضغطة" وهو ينشئها تلقائياً.
                                     </TextBlock>
                                 </StackPanel>
                             </Border>
