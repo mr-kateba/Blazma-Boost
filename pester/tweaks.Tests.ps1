@@ -185,6 +185,18 @@ Describe "Invoke-WinUtilTweaks" {
         Should -Invoke -CommandName Save-WinUtilRegistryBackup -Times 0 -Exactly
     }
 
+    It "carries on when a tweak's service does not exist on this machine" {
+        Mock Get-Service {
+            Write-Error -Message "Cannot find any service with service name 'DiagTrack'." -ErrorId "NoServiceFoundForGivenName,Microsoft.PowerShell.Commands.GetServiceCommand" -ErrorAction Stop
+        }
+
+        { Invoke-WinUtilTweaks -CheckBox "WPFTweaksExample" } | Should -Not -Throw
+
+        Should -Invoke -CommandName Write-Warning -Times 1 -Exactly -ParameterFilter { $Message -eq "Service DiagTrack was not found." }
+        Should -Invoke -CommandName Set-WinUtilService -Times 1 -Exactly
+        Should -Invoke -CommandName Set-WinUtilRegistry -Times 1 -Exactly
+    }
+
     It "keeps a user-changed service startup type by default" {
         Mock Get-Service {
             [pscustomobject]@{
