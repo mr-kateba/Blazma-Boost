@@ -1,0 +1,18 @@
+# winutil
+System.Management.Automation.dll
+Microsoft.PowerShell.ConsoleHost.dll
+
+winutil.exe.config
+winutil.ps1
+binary/
+testResults.xml
+
+# general software/os specific
+desktop.ini
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
+
+.vscode/
+.idea/
