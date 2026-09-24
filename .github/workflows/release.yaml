@@ -1,0 +1,37 @@
+name: Release Blazma Boost
+
+permissions:
+  contents: write
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v7
+
+      - name: Compile project
+        shell: pwsh
+        run: |
+          Set-ExecutionPolicy Bypass -Scope Process -Force; ./Compile.ps1
+
+      # Compile.ps1 stamps the script with today's date, so the release uses the same version
+      - name: Set version to today's date
+        shell: pwsh
+        run: |
+          $version = (Get-Date -Format "yy.MM.dd")
+          echo "VERSION=$version" >> $env:GITHUB_ENV
+
+      - name: Create release and upload winutil.ps1
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ env.VERSION }}
+          name: Blazma Boost ${{ env.VERSION }}
+          generate_release_notes: true
+          files: ./winutil.ps1
+          make_latest: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
