@@ -32,7 +32,7 @@ function Invoke-WPFtweaksbutton {
     $completedSteps = 0
 
     if ($Tweaks -contains $restorePointTweak) {
-      Step-WinUtilJob -Status "Creating restore point" -Percent 0
+      Step-WinUtilJob -Status (Get-WinUtilText -Key "CreatingRestorePoint" -Default "Creating restore point") -Percent 0
       Write-WinUtilLog -Component "Tweaks" -Message "Creating restore point before applying selected tweaks."
       Measure-WinUtilStep -Scope "Tweaks" -Name $restorePointTweak -ScriptBlock {
         Invoke-WinUtilTweaks $restorePointTweak
@@ -53,7 +53,9 @@ function Invoke-WPFtweaksbutton {
     }
 
     foreach ($tweak in $tweaksToRun) {
-      Step-WinUtilJob -Status "Applying $tweak ($($completedSteps + 1)/$totalSteps)" -Percent ([int](($completedSteps / $totalSteps) * 100))
+      # {0} is the entry key and {3} its display name, so a translation can show the readable name
+      $status = (Get-WinUtilText -Key "ApplyingStep" -Default "Applying {0} ({1}/{2})") -f $tweak, ($completedSteps + 1), $totalSteps, $sync.configs.tweaks.$tweak.Content
+      Step-WinUtilJob -Status $status -Percent ([int](($completedSteps / $totalSteps) * 100))
       Measure-WinUtilStep -Scope "Tweaks" -Name $tweak -ScriptBlock {
         Invoke-WinUtilTweaks $tweak
       }
