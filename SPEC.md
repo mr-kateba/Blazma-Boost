@@ -89,6 +89,11 @@ Because the final script is concatenated, code cannot rely on runtime module imp
 - `config/translations.json` holds the Arabic text. Its `strings` and `categories` sections are read through `Get-WinUtilText`; every other section is named after a config (`tweaks`, `feature`, `applications`, `appnavigation`) and maps entry keys to replacement fields, applied by `Initialize-WinUtilTranslation` at startup. `applications` uses the source keys without the `WPFInstall` prefix. The English config files stay close to upstream WinUtil so it can still be merged.
 - `translations.json` `messages` maps the exact English text of a `Show-WinUtilMessage` message or title to its translation; the session log keeps the English text.
 - Before a tweak writes a registry value, `Save-WinUtilRegistryBackup` records the value it found in `%LocalAppData%\winutil\registry-backup.json`; undo restores that value and falls back to `OriginalValue` when none was recorded.
+- `messages` keys containing `{0}`, `{1}` ... are templates: `Get-WinUtilMessageText` matches messages that carry paths or errors and keeps those parts.
+- `strings.GuideUrl` points every tweak and feature "(?)" link at `docs-ar/tweaks.md`, which `tools/Build-ArabicGuide.ps1` generates from the configs; a test fails while it is stale.
+- `config/gameservers.json` lists the server regions the Gaming tab's latency test measures (TCP connect time to port 443).
+- Theme, package manager and font size persist in `%LocalAppData%\winutil\preferences.json` (`Save-WinUtilPreferences` / `Import-WinUtilPreferences`); the default theme is Dark.
+- Releases are versioned `yy.MM.dd`, then `yy.MM.dd.2` ... for later releases the same day; `Compile.ps1` takes the version from `BLAZMA_VERSION` when set.
 - Tweaks with `category` `Gaming` are shown on the Gaming tab (`WPFTab7`, `gamingpanel`) instead of the Tweaks tab; they are otherwise ordinary tweaks.
 - Preset and navigation files reference valid config keys. Renaming a config key requires updating all presets, UI references, docs, and code paths together.
 

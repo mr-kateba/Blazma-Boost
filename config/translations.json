@@ -15,7 +15,10 @@
     "DriverOld": "عمر تعريفك {0} يوم، وغالباً فيه تعريف أحدث. التحقق التلقائي متاح لكروت NVIDIA فقط.",
     "DriverCurrent": "عمر تعريفك {0} يوم. التحقق التلقائي متاح لكروت NVIDIA فقط، استخدم الزر للتأكد.",
     "DriverUnknown": "ما قدرنا نعرف إذا فيه تعريف أحدث. استخدم الزر وتأكد من موقع الشركة.",
-    "DriverCheckFailed": "تعذر التحقق من وجود تعريف أحدث. تأكد من اتصالك بالإنترنت."
+    "DriverCheckFailed": "تعذر التحقق من وجود تعريف أحدث. تأكد من اتصالك بالإنترنت.",
+    "GuideUrl": "https://github.com/mr-kateba/Blazma-Boost/blob/main/docs-ar/tweaks.md",
+    "PingRunning": "جاري القياس...",
+    "PingUnreachable": "لا يوجد رد"
   },
   "categories": {
     "Essential Tweaks": "تحسينات أساسية",
@@ -1211,6 +1214,43 @@
     "USB Write Error": "خطأ في الكتابة على الفلاشة",
     "Please select the program(s) to install or upgrade.": "اختر البرامج التي تريد تثبيتها أو تحديثها.",
     "Please select the program(s) to uninstall": "اختر البرامج التي تريد إزالتها.",
-    "Are you sure?": "هل أنت متأكد؟"
+    "Are you sure?": "هل أنت متأكد؟",
+    "A logs file already exists at:\n{0}\n\nChoose another report filename or include and replace the existing logs.": "يوجد ملف سجلات بالفعل في:\n{0}\n\nاختر اسماً آخر للتقرير أو أرفق السجلات واستبدل الملف الموجود.",
+    "A logs file already exists at:\n{0}\n\nReplace it?": "يوجد ملف سجلات بالفعل في:\n{0}\n\nهل تريد استبداله؟",
+    "The environment report could not be exported. {0}": "تعذر تصدير تقرير النظام. {0}",
+    "Supported settings were imported. The following retired settings were skipped:\n\n{0}": "تم استيراد الإعدادات المدعومة. وتم تخطي الإعدادات القديمة التالية:\n\n{0}",
+    "This will uninstall the following applications: \n {0}": "سيتم إلغاء تثبيت البرامج التالية:\n{0}",
+    "{0} is still running": "{0} ما زال يعمل",
+    "{0} has not finished yet.\r\n\r\nClose the window and let it finish in the console?\r\n\r\nWinUtil will exit on its own once it is done. If you do not, it will be\r\nstopped and everything closes now. Cancel keeps WinUtil open.": "{0} لم ينتهِ بعد.\r\n\r\nهل تريد إغلاق النافذة وتركه يكمل في نافذة PowerShell؟\r\n\r\nالبرنامج سيغلق تلقائياً عند الانتهاء. إذا اخترت لا، سيتوقف كل شيء ويُغلق الآن. زر الإلغاء يبقي البرنامج مفتوحاً.",
+    "The previously verified ISO is still mounted and could not be dismounted:\n\n{0}\n\nDismount it yourself, then select an ISO again.": "ملف ISO المفحوص سابقاً ما زال مركّباً ولم يمكن فصله:\n\n{0}\n\nافصله بنفسك ثم اختر ملف ISO من جديد.",
+    "An error occurred during install.wim modification:\n\n{0}": "حدث خطأ أثناء تعديل install.wim:\n\n{0}",
+    "A previous WinUtil ISO working directory was found:\n\n{0}\n\n(Last modified: {1})\n\nThe output step has been restored so you can save the already-modified image.\n\nClick 'Start Over' there if you want to start over.": "تم العثور على مجلد عمل سابق لملف ISO:\n\n{0}\n\n(آخر تعديل: {1})\n\nتم فتح خطوة الإخراج لتحفظ النسخة المعدلة مسبقاً.\n\nاضغط \"البدء من جديد\" هناك إذا أردت البدء من الأول.",
+    "This will delete the temporary working directory:\n\n{0}\n\nAnd reset the interface back to the start.\n\nContinue?": "سيتم حذف مجلد العمل المؤقت:\n\n{0}\n\nوإرجاع الواجهة إلى البداية.\n\nهل تريد المتابعة؟",
+    "ISO exported successfully!\n\n{0}": "تم تصدير ملف ISO بنجاح!\n\n{0}",
+    "ISO export failed:\n\n{0}": "فشل تصدير ملف ISO:\n\n{0}",
+    "This ISO uses an install.esd file that is {0} MB. WinUtil's FAT32 USB format cannot store files larger than 4 GB.\n\nExport an ISO instead or use media with install.wim.": "ملف ISO هذا يحتوي install.esd بحجم {0} ميجا. تهيئة الفلاشة بنظام FAT32 لا تدعم ملفات أكبر من 4 جيجا.\n\nصدّر ملف ISO بدلاً من ذلك أو استخدم نسخة فيها install.wim.",
+    "ALL data on Disk {0} ({1}, {2} GB) will be PERMANENTLY ERASED.\n\nAre you sure you want to continue?": "سيتم مسح كل البيانات على القرص {0} ({1}، {2} جيجا) نهائياً.\n\nهل أنت متأكد أنك تريد المتابعة؟",
+    "USB write failed:\n\n{0}": "فشلت الكتابة على الفلاشة:\n\n{0}",
+    "{0} is still running. Wait for it to finish before starting another action.": "{0} ما زال يعمل. انتظر حتى ينتهي قبل أن تبدأ عملية أخرى."
+  },
+  "gameservers": {
+    "AwsBahrain": {
+      "Name": "البحرين (AWS me-south-1)"
+    },
+    "AwsUAE": {
+      "Name": "الإمارات (AWS me-central-1)"
+    },
+    "AwsMumbai": {
+      "Name": "مومباي (AWS ap-south-1)"
+    },
+    "AwsFrankfurt": {
+      "Name": "فرانكفورت (AWS eu-central-1)"
+    },
+    "AwsParis": {
+      "Name": "باريس (AWS eu-west-3)"
+    },
+    "AwsLondon": {
+      "Name": "لندن (AWS eu-west-2)"
+    }
   }
 }

@@ -1,0 +1,90 @@
+name: Sync with WinUtil
+
+# Once a week, bring the newest ChrisTitusTech/winutil changes into a pull request so the fork
+# keeps getting upstream fixes. Nothing is merged automatically: the pull request (and its tests)
+# is there to review. If the merge conflicts, an issue explains how to resolve it by hand.
+#
+# Creating pull requests from Actions needs "Allow GitHub Actions to create and approve pull
+# requests" under Settings > Actions > General.
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+on:
+  schedule:
+    - cron: '17 6 * * 1'  # Mondays
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      SYNC_BRANCH: upstream-sync
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Merge upstream WinUtil
+        id: merge
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote add upstream https://github.com/ChrisTitusTech/winutil.git
+          git fetch upstream main
+
+          if git merge-base --is-ancestor upstream/main HEAD; then
+            echo "Already up to date with WinUtil."
+            echo "result=uptodate" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          git checkout -B "$SYNC_BRANCH"
+          if git merge upstream/main --no-edit -m "Merge WinUtil upstream changes"; then
+            echo "result=merged" >> "$GITHUB_OUTPUT"
+          else
+            git diff --name-only --diff-filter=U > conflicts.txt
+            git merge --abort
+            echo "result=conflict" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open or update the pull request
+        if: steps.merge.outputs.result == 'merged'
+        shell: bash
+        run: |
+          if ! git push --force origin "$SYNC_BRANCH"; then
+            # The GitHub token may not push changes to .github/workflows made upstream
+            gh issue create --title "WinUtil sync could not be pushed" \
+              --body "The weekly merge of ChrisTitusTech/winutil succeeded but could not be pushed, most likely because upstream changed files under .github/workflows. Merge it locally: git fetch upstream && git merge upstream/main"
+            exit 0
+          fi
+          if [ -z "$(gh pr list --head "$SYNC_BRANCH" --state open --json number --jq '.[].number')" ]; then
+            gh pr create --head "$SYNC_BRANCH" --base main \
+              --title "Sync with WinUtil upstream" \
+              --body "Weekly merge of the newest changes from ChrisTitusTech/winutil. Check that the tests pass and that translations.json still covers every tweak before merging."
+          fi
+
+      - name: Report a conflict
+        if: steps.merge.outputs.result == 'conflict'
+        shell: bash
+        run: |
+          if [ -z "$(gh issue list --state open --search 'WinUtil sync has conflicts in:title' --json number --jq '.[].number')" ]; then
+            {
+              echo "The weekly merge of ChrisTitusTech/winutil has conflicts in:"
+              echo
+              sed 's/^/- /' conflicts.txt
+              echo
+              echo "Resolve locally:"
+              echo
+              echo '```'
+              echo "git fetch upstream"
+              echo "git merge upstream/main"
+              echo '```'
+            } > body.md
+            gh issue create --title "WinUtil sync has conflicts" --body-file body.md
+          fi

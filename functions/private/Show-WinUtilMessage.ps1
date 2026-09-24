@@ -29,8 +29,8 @@ function Show-WinUtilMessage {
     }
 
     # The log keeps the English text; the user sees the translation from translations.json
-    $Message = Get-WinUtilText -Section "messages" -Key $Message -Default $Message
-    $Title = Get-WinUtilText -Section "messages" -Key $Title -Default $Title
+    $Message = Get-WinUtilMessageText -Text $Message
+    $Title = Get-WinUtilMessageText -Text $Title
 
     return Invoke-WPFUIThread -PassThru -Parameters @{
         Message = $Message

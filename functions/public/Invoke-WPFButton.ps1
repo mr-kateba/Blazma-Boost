@@ -177,6 +177,7 @@ function Invoke-WPFButtonAction {
             Invoke-WPFTab "WPFTab1BT"
         }
         "WPFGamingGPUDriver" {Open-WinUtilGpuDriverPage}
+        "WPFGamingPing" {Start-WinUtilGameServerLatencyTest}
         "WPFSpecsRefresh" {Initialize-WinUtilHardwareSpecs}
         "WPFSpecsDriverDownload" {Open-WinUtilGpuDriverPage}
         "WPFSpecsCopy" {Copy-WinUtilHardwareSpecs}
