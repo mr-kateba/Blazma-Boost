@@ -198,6 +198,17 @@ Describe "XAML document" {
             "WPFGamingRestorePoint",
             "WPFGamingEssentials",
             "WPFUpdateBanner",
+            "WPFTab8",
+            "WPFTab8BT",
+            "specspanel",
+            "WPFSpecsCPU",
+            "WPFSpecsGPU",
+            "WPFSpecsRAM",
+            "WPFSpecsBoard",
+            "WPFSpecsStorage",
+            "WPFSpecsWindows",
+            "WPFSpecsRefresh",
+            "WPFSpecsCopy",
             "WPFUpdateBannerText",
             "WPFUpdateBannerButton",
             "WPFstandard",
@@ -297,7 +308,8 @@ Describe "XAML document" {
             "WPFTab4:Updates",
             "WPFTab5:Win11ISO",
             "WPFTab6:AppX",
-            "WPFTab7:Gaming"
+            "WPFTab7:Gaming",
+            "WPFTab8:Specs"
         )
 
         if (@($actualTabs).Count -ne $expectedTabs.Count) {
@@ -354,7 +366,7 @@ Describe "XAML document" {
         $comboToggleStyle | Should -Not -BeNullOrEmpty
         $comboToggle.GetAttribute("Style") | Should -Be "{StaticResource ComboBoxToggleButtonStyle}"
         $comboItemStyle | Should -Not -BeNullOrEmpty
-        $navButtons.Count | Should -Be 6
+        $navButtons.Count | Should -Be 7
         foreach ($navButton in $navButtons) {
             $navButton.GetAttribute("Style") | Should -Be "{StaticResource TabToggleButton}"
         }
