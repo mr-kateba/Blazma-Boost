@@ -311,6 +311,9 @@ function Start-WinUtilUserInterface {
             Set-WinUtilTaskbaritem -overlay "logo"
         }) | Out-Null
         $sync["Form"].Dispatcher.BeginInvoke([System.Windows.Threading.DispatcherPriority]::Background, [action]{ Start-WinUtilTabWarmup }) | Out-Null
+        if (-not $PARAM_OFFLINE) {
+            $sync["Form"].Dispatcher.BeginInvoke([System.Windows.Threading.DispatcherPriority]::Background, [action]{ Start-WinUtilUpdateCheck }) | Out-Null
+        }
     })
 
     # The SearchBarTimer is used to delay the search operation until the user has stopped typing for a short period

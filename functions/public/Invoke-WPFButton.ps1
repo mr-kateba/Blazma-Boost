@@ -34,7 +34,7 @@ function Invoke-WPFButton {
     $workButtons = @(
         "WPFInstallUpgrade", "WPFAddUltPerf", "WPFRemoveUltPerf",
         "WPFUpdatesdefault", "WPFUpdatesdisable", "WPFUpdatessecurity",
-        "WPFGetInstalledAppx"
+        "WPFGetInstalledAppx", "WPFGamingRestorePoint"
     )
 
     $featureEntry = $sync.configs.feature.$Button
@@ -170,6 +170,14 @@ function Invoke-WPFButtonAction {
         "WPFGamingPreset" {Invoke-WPFPresets "Gaming" -checkboxfilterpattern "WPFTweaksGaming*"}
         "WPFGamingTweaksButton" {Invoke-WPFtweaksbutton}
         "WPFGamingUndoButton" {Invoke-WPFundoall}
+        "WPFGamingOneClick" {Invoke-WPFGamingOneClick}
+        "WPFGamingRestorePoint" {Invoke-WinUtilTweaks "WPFTweaksRestorePoint"}
+        "WPFGamingEssentials" {
+            Invoke-WPFPresets "GamerEssentials" -checkboxfilterpattern "WPFInstall*"
+            Invoke-WPFTab "WPFTab1BT"
+        }
+        "WPFGamingGPUDriver" {Open-WinUtilGpuDriverPage}
+        "WPFUpdateBannerButton" {Start-Process "https://github.com/mr-kateba/Blazma-Boost/releases/latest"}
         "WPFUpdatesdefault" {Invoke-WPFUpdatesdefault}
         "WPFUpdatesdisable" {Invoke-WPFUpdatesdisable -Confirmed:$UpdatesDisableConfirmed}
         "WPFUpdatessecurity" {Invoke-WPFUpdatessecurity}
