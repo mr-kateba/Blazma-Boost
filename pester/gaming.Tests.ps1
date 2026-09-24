@@ -8,7 +8,7 @@ BeforeAll {
     . (Join-Path $script:repoRoot "functions\private\Save-WinUtilRegistryBackup.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilRegistryBackup.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilSystemSummary.ps1")
-    . (Join-Path $script:repoRoot "functions\private\Open-WinUtilGpuDriverPage.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Open-WinUtilGpuDriverUpdater.ps1")
     . (Join-Path $script:repoRoot "functions\private\Start-WinUtilUpdateCheck.ps1")
     . (Join-Path $script:repoRoot "functions\public\Invoke-WPFGamingOneClick.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilHardwareSpecs.ps1")
@@ -90,17 +90,55 @@ Describe "Get-WinUtilSystemSummary" {
     }
 }
 
-Describe "Open-WinUtilGpuDriverPage" {
-    It "opens the page for the detected vendor and nothing without one" {
+Describe "Open-WinUtilGpuDriverUpdater" {
+    BeforeEach {
         Mock Start-Process { }
-        $script:sync = @{ GamingGpuVendor = "AMD" }
-        Open-WinUtilGpuDriverPage
-        Should -Invoke -CommandName Start-Process -Times 1 -Exactly -ParameterFilter { $FilePath -like "https://www.amd.com/*" }
+        $script:previousProgramFiles = $env:ProgramFiles
+        $env:ProgramFiles = Join-Path $TestDrive ([guid]::NewGuid())
+        New-Item -ItemType Directory -Path $env:ProgramFiles -Force | Out-Null
+    }
 
+    AfterEach {
+        $env:ProgramFiles = $script:previousProgramFiles
+        Remove-Variable -Name sync -Scope Script -ErrorAction SilentlyContinue
+    }
+
+    It "opens the NVIDIA App when it is installed" {
+        $appFolder = Join-Path $env:ProgramFiles "NVIDIA Corporation\NVIDIA App\CEF"
+        New-Item -ItemType Directory -Path $appFolder -Force | Out-Null
+        New-Item -ItemType File -Path (Join-Path $appFolder "NVIDIA App.exe") | Out-Null
+        $script:sync = @{ GamingGpuVendor = "NVIDIA" }
+
+        Open-WinUtilGpuDriverUpdater
+
+        Should -Invoke -CommandName Start-Process -Times 1 -Exactly -ParameterFilter { $FilePath -like "*NVIDIA App*NVIDIA App.exe" }
+    }
+
+    It "opens AMD Adrenalin when it is installed" {
+        $appFolder = Join-Path $env:ProgramFiles "AMD\CNext\CNext"
+        New-Item -ItemType Directory -Path $appFolder -Force | Out-Null
+        New-Item -ItemType File -Path (Join-Path $appFolder "RadeonSoftware.exe") | Out-Null
+        $script:sync = @{ GamingGpuVendor = "AMD" }
+
+        Open-WinUtilGpuDriverUpdater
+
+        Should -Invoke -CommandName Start-Process -Times 1 -Exactly -ParameterFilter { $FilePath -like "*RadeonSoftware.exe" }
+    }
+
+    It "falls back to the vendor download page when the app is missing" {
+        $script:sync = @{ GamingGpuVendor = "NVIDIA" }
+        Open-WinUtilGpuDriverUpdater
+        Should -Invoke -CommandName Start-Process -Times 1 -Exactly -ParameterFilter { $FilePath -eq "https://www.nvidia.com/en-us/software/nvidia-app/" }
+
+        $script:sync = @{ GamingGpuVendor = "AMD" }
+        Open-WinUtilGpuDriverUpdater
+        Should -Invoke -CommandName Start-Process -Times 1 -Exactly -ParameterFilter { $FilePath -like "https://www.amd.com/*" }
+    }
+
+    It "does nothing when the vendor is unknown" {
         $script:sync = @{ GamingGpuVendor = "" }
-        Open-WinUtilGpuDriverPage
-        Should -Invoke -CommandName Start-Process -Times 1 -Exactly
-        Remove-Variable -Name sync -Scope Script
+        Open-WinUtilGpuDriverUpdater
+        Should -Invoke -CommandName Start-Process -Times 0 -Exactly
     }
 }
 
