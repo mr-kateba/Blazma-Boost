@@ -28,6 +28,10 @@ function Show-WinUtilMessage {
         return $unattended
     }
 
+    # The log keeps the English text; the user sees the translation from translations.json
+    $Message = Get-WinUtilText -Section "messages" -Key $Message -Default $Message
+    $Title = Get-WinUtilText -Section "messages" -Key $Title -Default $Title
+
     return Invoke-WPFUIThread -PassThru -Parameters @{
         Message = $Message
         Title = $Title
@@ -36,6 +40,12 @@ function Show-WinUtilMessage {
     } -ScriptBlock {
         param($Message, $Title, $Button, $Icon)
 
-        [System.Windows.MessageBox]::Show($Message, $Title, $Button, $Icon)
+        # Arabic text reads right to left
+        $options = if ($Message -match '\p{IsArabic}') {
+            [System.Windows.MessageBoxOptions]::RtlReading -bor [System.Windows.MessageBoxOptions]::RightAlign
+        } else {
+            [System.Windows.MessageBoxOptions]::None
+        }
+        [System.Windows.MessageBox]::Show($Message, $Title, $Button, $Icon, [System.Windows.MessageBoxResult]::None, $options)
     }
 }

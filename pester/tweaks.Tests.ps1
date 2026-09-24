@@ -5,6 +5,7 @@
 BeforeAll {
     $script:repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
     . (Join-Path $script:repoRoot "functions\private\Measure-WinUtilStep.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Get-WinUtilText.ps1")
     . (Join-Path $script:repoRoot "functions\private\Invoke-WinUtilTweaks.ps1")
     . (Join-Path $script:repoRoot "functions\public\Invoke-WPFtweaksbutton.ps1")
     . (Join-Path $script:repoRoot "functions\public\Invoke-WPFundoall.ps1")
@@ -44,6 +45,12 @@ BeforeAll {
     }
     function Show-WinUtilMessage {
         param($Message, $Title, $Button, $Icon)
+    }
+    function Save-WinUtilRegistryBackup {
+        param($Tweak, $Path, $Name)
+    }
+    function Get-WinUtilRegistryBackup {
+        param($Tweak, $Path, $Name, [switch]$Remove)
     }
 
     function script:New-WinUtilTweaksConfig {
@@ -98,6 +105,8 @@ Describe "Invoke-WinUtilTweaks" {
         }
         Mock Set-WinUtilService { }
         Mock Set-WinUtilRegistry { }
+        Mock Save-WinUtilRegistryBackup { }
+        Mock Get-WinUtilRegistryBackup { $null }
         Mock Invoke-WinUtilScript { }
         Mock Remove-WinUtilAPPX { }
         Mock Remove-WinUtilProvisionedAPPX { }
@@ -153,6 +162,39 @@ Describe "Invoke-WinUtilTweaks" {
         }
         Should -Invoke -CommandName Remove-WinUtilAPPX -Times 0 -Exactly
         Should -Invoke -CommandName Remove-WinUtilProvisionedAPPX -Times 0 -Exactly
+    }
+
+    It "backs up the registry value before applying a tweak" {
+        Invoke-WinUtilTweaks -CheckBox "WPFTweaksExample"
+
+        Should -Invoke -CommandName Save-WinUtilRegistryBackup -Times 1 -Exactly -ParameterFilter {
+            $Tweak -eq "WPFTweaksExample" -and $Path -eq "HKLM:\Software\WinUtilTest" -and $Name -eq "AllowTelemetry"
+        }
+        Should -Invoke -CommandName Get-WinUtilRegistryBackup -Times 0 -Exactly
+    }
+
+    It "restores the backed-up value on undo instead of the Windows default" {
+        Mock Get-WinUtilRegistryBackup { "<RemoveEntry>" }
+
+        Invoke-WinUtilTweaks -CheckBox "WPFTweaksExample" -undo $true
+
+        Should -Invoke -CommandName Get-WinUtilRegistryBackup -Times 1 -Exactly -ParameterFilter { $Remove }
+        Should -Invoke -CommandName Set-WinUtilRegistry -Times 1 -Exactly -ParameterFilter {
+            $Name -eq "AllowTelemetry" -and $Value -eq "<RemoveEntry>"
+        }
+        Should -Invoke -CommandName Save-WinUtilRegistryBackup -Times 0 -Exactly
+    }
+
+    It "carries on when a tweak's service does not exist on this machine" {
+        Mock Get-Service {
+            Write-Error -Message "Cannot find any service with service name 'DiagTrack'." -ErrorId "NoServiceFoundForGivenName,Microsoft.PowerShell.Commands.GetServiceCommand" -ErrorAction Stop
+        }
+
+        { Invoke-WinUtilTweaks -CheckBox "WPFTweaksExample" } | Should -Not -Throw
+
+        Should -Invoke -CommandName Write-Warning -Times 1 -Exactly -ParameterFilter { $Message -eq "Service DiagTrack was not found." }
+        Should -Invoke -CommandName Set-WinUtilService -Times 1 -Exactly
+        Should -Invoke -CommandName Set-WinUtilRegistry -Times 1 -Exactly
     }
 
     It "keeps a user-changed service startup type by default" {

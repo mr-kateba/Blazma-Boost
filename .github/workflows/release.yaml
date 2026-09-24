@@ -25,6 +25,19 @@ jobs:
           $version = (Get-Date -Format "yy.MM.dd")
           echo "VERSION=$version" >> $env:GITHUB_ENV
 
+      # A second release on the same day replaces the first, so the tag, the notes and the
+      # script all point at the newest commit instead of leaving the tag on the old one
+      - name: Replace an earlier release from today
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release view $env:VERSION --repo $env:GITHUB_REPOSITORY *> $null
+          if ($LASTEXITCODE -eq 0) {
+            gh release delete $env:VERSION --repo $env:GITHUB_REPOSITORY --cleanup-tag --yes
+          }
+          $global:LASTEXITCODE = 0
+
       - name: Create release and upload winutil.ps1
         uses: softprops/action-gh-release@v3
         with:

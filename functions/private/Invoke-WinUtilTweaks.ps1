@@ -41,6 +41,7 @@ function Invoke-WinUtilTweaks {
     }
     if ($sync.configs.tweaks.$CheckBox.service) {
         $sync.configs.tweaks.$CheckBox.service | ForEach-Object {
+            $serviceEntry = $psitem
             $changeservice = $true
 
         # The check for !($undo) is required, without it the script will throw an error for accessing unavailable member, which's the 'OriginalService' Property
@@ -51,8 +52,16 @@ function Invoke-WinUtilTweaks {
                     if(!($service.StartType.ToString() -eq $psitem.$($values.OriginalService))) {
                         $changeservice = $false
                     }
-                } catch [System.ServiceProcess.ServiceNotFoundException] {
-                    Write-Warning "Service $($psitem.Name) was not found."
+                } catch {
+                    # System.ServiceProcess.ServiceNotFoundException does not exist in .NET, so
+                    # catching it by type failed the whole run whenever a service was missing.
+                    # A missing service is identified by its error id instead.
+                    # Inside catch $psitem is the error, so the service comes from $serviceEntry
+                    if ($_.FullyQualifiedErrorId -like "NoServiceFoundForGivenName*") {
+                        Write-Warning "Service $($serviceEntry.Name) was not found."
+                    } else {
+                        Write-Warning "Could not read service $($serviceEntry.Name): $($_.Exception.Message)"
+                    }
                 }
             }
 
@@ -63,7 +72,17 @@ function Invoke-WinUtilTweaks {
     }
     if ($sync.configs.tweaks.$CheckBox.registry) {
         $sync.configs.tweaks.$CheckBox.registry | Where-Object { -not $psitem.Values } | ForEach-Object {
-            Set-WinUtilRegistry -Name $psitem.Name -Path $psitem.Path -Type $psitem.Type -Value $psitem.$($values.registry)
+            $value = $psitem.$($values.registry)
+            if ($undo) {
+                # Put back what the user had before the tweak, when it was recorded
+                $previous = Get-WinUtilRegistryBackup -Tweak $CheckBox -Path $psitem.Path -Name $psitem.Name -Remove
+                if ($null -ne $previous) {
+                    $value = $previous
+                }
+            } else {
+                Save-WinUtilRegistryBackup -Tweak $CheckBox -Path $psitem.Path -Name $psitem.Name
+            }
+            Set-WinUtilRegistry -Name $psitem.Name -Path $psitem.Path -Type $psitem.Type -Value $value
         }
     }
     if ($sync.configs.tweaks.$CheckBox.$($values.ScriptType)) {

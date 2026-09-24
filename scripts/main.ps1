@@ -9,6 +9,9 @@ Write-Host @'
 =====        Based on WinUtil by Chris Titus Tech        =====
 '@
 
+# A click in the console would otherwise pause WinUtil mid-run
+Disable-WinUtilConsoleQuickEdit
+
 # Load the configuration files
 
 Initialize-WinUtilTranslation
@@ -22,7 +25,8 @@ $sync.configs.appxHashtable = @{}
 $sync.configs.appx.PSObject.Properties | ForEach-Object {
     $sync.configs.appxHashtable[$_.Name] = $_.Value
 }
-$sync.preferences.theme = "Auto"
+# The gaming look is the dark theme; Auto and Light stay available from the theme button
+$sync.preferences.theme = "Dark"
 $sync.preferences.packagemanager = "Winget"
 
 function Remove-WinUtilTempScript {

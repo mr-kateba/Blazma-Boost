@@ -1,7 +1,7 @@
-# Runs the pre-release version of winutil
+# Runs the newest tagged build of Blazma Boost
 
-$latestTag = (Invoke-RestMethod https://api.github.com/repos/ChrisTitusTech/winutil/tags).Name | Select-Object -First 1
-$uri = "https://github.com/ChrisTitusTech/winutil/releases/download/$latestTag/winutil.ps1"
+$latestTag = (Invoke-RestMethod https://api.github.com/repos/mr-kateba/Blazma-Boost/tags).Name | Select-Object -First 1
+$uri = "https://github.com/mr-kateba/Blazma-Boost/releases/download/$latestTag/winutil.ps1"
 $scriptPath = Join-Path $env:TEMP "winutil-$latestTag.ps1"
 
 Invoke-WebRequest -Uri $uri -OutFile $scriptPath -UseBasicParsing -ErrorAction Stop

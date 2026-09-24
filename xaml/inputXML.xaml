@@ -582,7 +582,9 @@
                                                 Height="{DynamicResource CheckBoxBulletDecoratorSize *0.85}"
                                                 Margin="1"
                                                 SnapsToDevicePixels="True"/>
+                                        <!-- The window is right to left for Arabic, which would mirror the tick -->
                                         <Viewbox Name="CheckMarkContainer"
+                                                FlowDirection="LeftToRight"
                                                 Width="{DynamicResource CheckBoxBulletDecoratorSize}"
                                                 Height="{DynamicResource CheckBoxBulletDecoratorSize}"
                                                 HorizontalAlignment="Center"
@@ -825,7 +827,7 @@
             <Setter Property="Background" Value="{DynamicResource MainBackgroundColor}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="CornerRadius" Value="10"/>
             <Setter Property="Padding" Value="5"/>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Effect">
@@ -1048,6 +1050,14 @@
             <TextBlock Text="&#x26A0; وضع عدم الاتصال - لا يوجد اتصال بالإنترنت" Foreground="White" FontWeight="Bold"
                 HorizontalAlignment="Center" FontSize="13" Background="Transparent"/>
         </Border>
+        <!-- Update banner -->
+        <Border Name="WPFUpdateBanner" Grid.Row="0" Background="#FF6D00" Visibility="Collapsed" Padding="6,4">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Name="WPFUpdateBannerText" Text="يوجد إصدار جديد من Blazma Boost" Foreground="White" FontWeight="Bold"
+                    VerticalAlignment="Center" FontSize="13" Background="Transparent"/>
+                <Button Name="WPFUpdateBannerButton" Content=" صفحة التحميل " Margin="10,0,0,0" Width="Auto" Height="Auto" Padding="8,2"/>
+            </StackPanel>
+        </Border>
         <Grid Grid.Row="1" Background="{DynamicResource MainBackgroundColor}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/> <!-- Navigation buttons -->
@@ -1079,6 +1089,14 @@
                     <ToggleButton.Content>
                         <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonTweaksForegroundColor}">
                             الألعاب
+                        </TextBlock>
+                    </ToggleButton.Content>
+                </ToggleButton>
+                <ToggleButton Style="{StaticResource TabToggleButton}" Margin="0,0,5,0" Height="{DynamicResource TabButtonHeight}" Width="{DynamicResource TabButtonWidth}"
+                    Background="{DynamicResource ButtonConfigBackgroundColor}" Foreground="{DynamicResource ButtonConfigForegroundColor}" FontWeight="Bold" Name="WPFTab8BT">
+                    <ToggleButton.Content>
+                        <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonConfigForegroundColor}">
+                            مواصفاتي
                         </TextBlock>
                     </ToggleButton.Content>
                 </ToggleButton>
@@ -2267,9 +2285,21 @@
                             </Grid.RowDefinitions>
 
                             <StackPanel Background="{DynamicResource MainBackgroundColor}" Orientation="Vertical" Grid.Row="0" Margin="5">
+                                <Border Style="{StaticResource BorderStyle}" Margin="0,0,0,8">
+                                    <StackPanel Margin="10,5,10,10">
+                                        <Label Content="معلومات جهازك:" FontSize="{DynamicResource FontSize}" FontWeight="Bold" Margin="2"/>
+                                        <TextBlock Name="WPFGamingSystemInfo" Text="جاري قراءة معلومات الجهاز..." TextWrapping="Wrap" Margin="7,0,7,8" Foreground="{DynamicResource MainForegroundColor}"/>
+                                        <Button Name="WPFGamingGPUDriver" Content=" تحميل آخر تعريف لكرت الشاشة " HorizontalAlignment="Left" IsEnabled="False" Margin="2" Width="Auto" Padding="10,0" Height="{DynamicResource ButtonHeight}"/>
+                                    </StackPanel>
+                                </Border>
                                 <Label Content="تحسينات الألعاب:" FontSize="{DynamicResource FontSize}" VerticalAlignment="Center" Margin="2"/>
                                 <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,2,0,0">
+                                    <Button Name="WPFGamingOneClick" Content=" وضع الألعاب بضغطة " Margin="2" Width="{DynamicResource ButtonWidth}" Height="{DynamicResource ButtonHeight}"
+                                            ToolTip="ينشئ نقطة استعادة ثم يطبق تحسينات الألعاب المقترحة مباشرة"/>
                                     <Button Name="WPFGamingPreset" Content=" اختيار المقترح للألعاب " Margin="2" Width="{DynamicResource ButtonWidth}" Height="{DynamicResource ButtonHeight}"/>
+                                    <Button Name="WPFGamingRestorePoint" Content=" إنشاء نقطة استعادة " Margin="2" Width="{DynamicResource ButtonWidth}" Height="{DynamicResource ButtonHeight}"/>
+                                    <Button Name="WPFGamingEssentials" Content=" أساسيات القيمر " Margin="2" Width="{DynamicResource ButtonWidth}" Height="{DynamicResource ButtonHeight}"
+                                            ToolTip="يحدد Steam وDiscord وOBS وMSI Afterburner وDirectX وVisual C++ في تبويب التثبيت"/>
                                 </WrapPanel>
                             </StackPanel>
 
@@ -2290,6 +2320,73 @@
                         <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Button Name="WPFGamingTweaksButton" Content="تطبيق التحسينات" Margin="5" Width="{DynamicResource ButtonWidth}" Height="{DynamicResource ButtonHeight}"/>
                             <Button Name="WPFGamingUndoButton" Content="التراجع عن المحدد" Margin="5" Width="{DynamicResource ButtonWidth}" Height="{DynamicResource ButtonHeight}"/>
+                        </WrapPanel>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Specs" Visibility="Collapsed" Name="WPFTab8">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="0" Margin="{DynamicResource TabContentMargin}">
+                        <Grid Name="specspanel" Background="Transparent">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Column="0" Grid.Row="0" Style="{StaticResource BorderStyle}" Margin="5">
+                                <StackPanel Margin="10,5,10,10">
+                                    <Label Name="WPFSpecsCPUHeader" Content="المعالج" FontSize="{DynamicResource HeaderFontSize}" FontFamily="{DynamicResource HeaderFontFamily}" Margin="2"/>
+                                    <TextBlock Name="WPFSpecsCPU" Text="جاري القراءة..." TextWrapping="Wrap" Margin="7,0,7,0" Foreground="{DynamicResource MainForegroundColor}"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Column="1" Grid.Row="0" Style="{StaticResource BorderStyle}" Margin="5">
+                                <StackPanel Margin="10,5,10,10">
+                                    <Label Name="WPFSpecsGPUHeader" Content="كرت الشاشة" FontSize="{DynamicResource HeaderFontSize}" FontFamily="{DynamicResource HeaderFontFamily}" Margin="2"/>
+                                    <TextBlock Name="WPFSpecsGPU" Text="جاري القراءة..." TextWrapping="Wrap" Margin="7,0,7,0" Foreground="{DynamicResource MainForegroundColor}"/>
+                                    <TextBlock Name="WPFSpecsDriverStatus" Text="جاري التحقق من تحديثات التعريف..." TextWrapping="Wrap" FontWeight="Bold" Margin="7,10,7,5" Foreground="{DynamicResource MainForegroundColor}"/>
+                                    <Button Name="WPFSpecsDriverDownload" Content=" تحميل آخر تعريف " HorizontalAlignment="Left" IsEnabled="False" Margin="5,0,5,0" Width="Auto" Padding="10,0" Height="{DynamicResource ButtonHeight}"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource BorderStyle}" Margin="5">
+                                <StackPanel Margin="10,5,10,10">
+                                    <Label Name="WPFSpecsRAMHeader" Content="الرامات" FontSize="{DynamicResource HeaderFontSize}" FontFamily="{DynamicResource HeaderFontFamily}" Margin="2"/>
+                                    <TextBlock Name="WPFSpecsRAM" Text="جاري القراءة..." TextWrapping="Wrap" Margin="7,0,7,0" Foreground="{DynamicResource MainForegroundColor}"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource BorderStyle}" Margin="5">
+                                <StackPanel Margin="10,5,10,10">
+                                    <Label Name="WPFSpecsBoardHeader" Content="اللوحة الأم" FontSize="{DynamicResource HeaderFontSize}" FontFamily="{DynamicResource HeaderFontFamily}" Margin="2"/>
+                                    <TextBlock Name="WPFSpecsBoard" Text="جاري القراءة..." TextWrapping="Wrap" Margin="7,0,7,0" Foreground="{DynamicResource MainForegroundColor}"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Column="0" Grid.Row="2" Style="{StaticResource BorderStyle}" Margin="5">
+                                <StackPanel Margin="10,5,10,10">
+                                    <Label Name="WPFSpecsStorageHeader" Content="التخزين" FontSize="{DynamicResource HeaderFontSize}" FontFamily="{DynamicResource HeaderFontFamily}" Margin="2"/>
+                                    <TextBlock Name="WPFSpecsStorage" Text="جاري القراءة..." TextWrapping="Wrap" Margin="7,0,7,0" Foreground="{DynamicResource MainForegroundColor}"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Column="1" Grid.Row="2" Style="{StaticResource BorderStyle}" Margin="5">
+                                <StackPanel Margin="10,5,10,10">
+                                    <Label Name="WPFSpecsWindowsHeader" Content="النظام" FontSize="{DynamicResource HeaderFontSize}" FontFamily="{DynamicResource HeaderFontFamily}" Margin="2"/>
+                                    <TextBlock Name="WPFSpecsWindows" Text="جاري القراءة..." TextWrapping="Wrap" Margin="7,0,7,0" Foreground="{DynamicResource MainForegroundColor}"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </ScrollViewer>
+                    <Border Grid.Row="1" Background="{DynamicResource MainBackgroundColor}" BorderBrush="{DynamicResource BorderColor}" BorderThickness="1" CornerRadius="5" HorizontalAlignment="Stretch" Padding="10">
+                        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Button Name="WPFSpecsRefresh" Content="تحديث المواصفات" Margin="5" Width="{DynamicResource ButtonWidth}" Height="{DynamicResource ButtonHeight}"/>
+                            <Button Name="WPFSpecsCopy" Content="نسخ المواصفات" Margin="5" Width="{DynamicResource ButtonWidth}" Height="{DynamicResource ButtonHeight}"
+                                    ToolTip="انسخ المواصفات وشاركها مع أحد يساعدك"/>
                         </WrapPanel>
                     </Border>
                 </Grid>

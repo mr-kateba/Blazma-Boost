@@ -87,6 +87,8 @@ Because the final script is concatenated, code cannot rely on runtime module imp
 - `config/applications.json` defines installable applications; each entry includes the fields expected by tests and UI code, such as package manager IDs, category, display content, description, and link.
 - `config/tweaks.json` defines Windows tweaks; registry and service changes include original values or original states when applicable so undo workflows can restore user systems.
 - `config/translations.json` holds the Arabic text. Its `strings` and `categories` sections are read through `Get-WinUtilText`; every other section is named after a config (`tweaks`, `feature`, `applications`, `appnavigation`) and maps entry keys to replacement fields, applied by `Initialize-WinUtilTranslation` at startup. `applications` uses the source keys without the `WPFInstall` prefix. The English config files stay close to upstream WinUtil so it can still be merged.
+- `translations.json` `messages` maps the exact English text of a `Show-WinUtilMessage` message or title to its translation; the session log keeps the English text.
+- Before a tweak writes a registry value, `Save-WinUtilRegistryBackup` records the value it found in `%LocalAppData%\winutil\registry-backup.json`; undo restores that value and falls back to `OriginalValue` when none was recorded.
 - Tweaks with `category` `Gaming` are shown on the Gaming tab (`WPFTab7`, `gamingpanel`) instead of the Tweaks tab; they are otherwise ordinary tweaks.
 - Preset and navigation files reference valid config keys. Renaming a config key requires updating all presets, UI references, docs, and code paths together.
 

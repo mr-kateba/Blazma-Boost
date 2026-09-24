@@ -1,4 +1,13 @@
 {
+  "GamerEssentials": [
+    "WPFInstallsteam",
+    "WPFInstalldiscord",
+    "WPFInstallobs",
+    "WPFInstallmsiafterburner",
+    "WPFInstalldirectx",
+    "WPFInstallvc2015_64",
+    "WPFInstallvc2015_32"
+  ],
   "Gaming": [
     "WPFTweaksGamingGameDVR",
     "WPFTweaksGamingHAGS",

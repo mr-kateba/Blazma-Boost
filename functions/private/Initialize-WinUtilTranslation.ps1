@@ -17,7 +17,7 @@ function Initialize-WinUtilTranslation {
 
     foreach ($section in $translations.PSObject.Properties) {
         $config = $sync.configs[$section.Name]
-        if ($section.Name -in @("strings", "categories") -or $null -eq $config) {
+        if ($section.Name -in @("strings", "categories", "messages") -or $null -eq $config) {
             continue
         }
 
