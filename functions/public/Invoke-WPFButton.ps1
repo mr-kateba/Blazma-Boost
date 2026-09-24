@@ -178,6 +178,7 @@ function Invoke-WPFButtonAction {
         }
         "WPFGamingGPUDriver" {Open-WinUtilGpuDriverPage}
         "WPFSpecsRefresh" {Initialize-WinUtilHardwareSpecs}
+        "WPFSpecsDriverDownload" {Open-WinUtilGpuDriverPage}
         "WPFSpecsCopy" {Copy-WinUtilHardwareSpecs}
         "WPFUpdateBannerButton" {Start-Process "https://github.com/mr-kateba/Blazma-Boost/releases/latest"}
         "WPFUpdatesdefault" {Invoke-WPFUpdatesdefault}

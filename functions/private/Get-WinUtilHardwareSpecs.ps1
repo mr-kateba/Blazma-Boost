@@ -81,6 +81,12 @@ function Get-WinUtilHardwareSpecs {
         })
     }
 
+    # The card games run on (discrete before integrated) is the one checked for driver updates
+    $primaryGpu = @($gpus | Where-Object { $_.Name -match 'NVIDIA|AMD|Radeon' })[0]
+    if (-not $primaryGpu) { $primaryGpu = $gpus[0] }
+    $notebookChassis = @(8, 9, 10, 11, 12, 14, 18, 21, 31, 32)
+    $isNotebook = [bool](Get-Cim "Win32_SystemEnclosure" | Where-Object { @($_.ChassisTypes | Where-Object { $_ -in $notebookChassis }).Count -gt 0 })
+
     # Windows
     $os = Get-Cim "Win32_OperatingSystem" | Select-Object -First 1
     $windowsText = (Get-Text "SpecsWindows" "{0}`nVersion: {1} (build {2})`nArchitecture: {3}") -f `
@@ -93,5 +99,7 @@ function Get-WinUtilHardwareSpecs {
         Board   = $boardText
         Storage = if ($diskLines.Count -gt 0) { $diskLines -join "`n" } else { $unknown }
         Windows = $windowsText
+        PrimaryGpu = $primaryGpu
+        IsNotebook = $isNotebook
     }
 }

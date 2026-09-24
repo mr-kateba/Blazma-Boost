@@ -209,6 +209,8 @@ Describe "XAML document" {
             "WPFSpecsWindows",
             "WPFSpecsRefresh",
             "WPFSpecsCopy",
+            "WPFSpecsDriverStatus",
+            "WPFSpecsDriverDownload",
             "WPFUpdateBannerText",
             "WPFUpdateBannerButton",
             "WPFstandard",
