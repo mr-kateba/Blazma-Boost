@@ -214,9 +214,10 @@ Describe "Get-WinUtilHardwareSpecs" {
 
         $specs.Cpu | Should -Be "AMD Ryzen 7 5800X`nCores: 8 / Threads: 16`nMax clock: 3.8 GHz"
         $specs.Gpu | Should -Be "NVIDIA GeForce RTX 3070`nVideo memory: 8 GB`nDriver: 32.0.15.6094 (2024-08-01)`nDisplay: 2560 x 1440 @ 165 Hz"
-        $specs.Ram | Should -Be "Total: 32 GB @ 3200 MHz`nSlots used: 2 of 4`n- 16 GB Corsair CMK16GX4 (DIMM1)`n- 16 GB Corsair CMK16GX4 (DIMM2)"
+        $rtl = [char]0x200F
+        $specs.Ram | Should -Be "Total: 32 GB @ 3200 MHz`nSlots used: 2 of 4`n$rtl- 16 GB Corsair CMK16GX4 (DIMM1)`n$rtl- 16 GB Corsair CMK16GX4 (DIMM2)"
         $specs.Board | Should -Be "ASUSTeK COMPUTER INC. ROG STRIX B550-F GAMING`nBIOS: 3002 (2023-02-10)"
-        $specs.Storage | Should -Be "- Samsung SSD 980 PRO 1TB (1 TB) NVMe SSD"
+        $specs.Storage | Should -Be "$rtl- Samsung SSD 980 PRO 1TB (1 TB) NVMe SSD"
         $specs.Windows | Should -Be "Windows 11 Pro`nVersion: 10.0.26100 (build 26100)`nArchitecture: 64-bit"
     }
 
