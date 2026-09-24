@@ -63,7 +63,17 @@ function Invoke-WinUtilTweaks {
     }
     if ($sync.configs.tweaks.$CheckBox.registry) {
         $sync.configs.tweaks.$CheckBox.registry | Where-Object { -not $psitem.Values } | ForEach-Object {
-            Set-WinUtilRegistry -Name $psitem.Name -Path $psitem.Path -Type $psitem.Type -Value $psitem.$($values.registry)
+            $value = $psitem.$($values.registry)
+            if ($undo) {
+                # Put back what the user had before the tweak, when it was recorded
+                $previous = Get-WinUtilRegistryBackup -Tweak $CheckBox -Path $psitem.Path -Name $psitem.Name -Remove
+                if ($null -ne $previous) {
+                    $value = $previous
+                }
+            } else {
+                Save-WinUtilRegistryBackup -Tweak $CheckBox -Path $psitem.Path -Name $psitem.Name
+            }
+            Set-WinUtilRegistry -Name $psitem.Name -Path $psitem.Path -Type $psitem.Type -Value $value
         }
     }
     if ($sync.configs.tweaks.$CheckBox.$($values.ScriptType)) {
