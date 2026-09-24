@@ -62,6 +62,8 @@ WinUtil is a Windows PowerShell utility with a WPF interface. The repository is 
 7. Append `scripts/main.ps1`.
 8. Write the result to root `winutil.ps1`.
 
+Config JSON and XAML are read as UTF-8, and every non-ASCII character is escaped (`\uXXXX` in JSON, `&#xXXXX;` in XAML) so the compiled script is pure ASCII. Windows PowerShell 5.1 and `irm | iex` decode scripts with a legacy code page, which would otherwise corrupt the Arabic interface text.
+
 Because the final script is concatenated, code cannot rely on runtime module imports or source-relative dot-sourcing unless the compiled script will also contain the required code/data.
 
 ## Runtime Model
@@ -84,6 +86,8 @@ Because the final script is concatenated, code cannot rely on runtime module imp
 - `config/dns.json` opts unfiltered providers into Fastest selection with `BenchmarkEligible: true`; missing or false values exclude a provider from the TCP latency benchmark.
 - `config/applications.json` defines installable applications; each entry includes the fields expected by tests and UI code, such as package manager IDs, category, display content, description, and link.
 - `config/tweaks.json` defines Windows tweaks; registry and service changes include original values or original states when applicable so undo workflows can restore user systems.
+- `config/translations.json` holds the Arabic text. Its `strings` and `categories` sections are read through `Get-WinUtilText`; every other section is named after a config (`tweaks`, `feature`, `applications`, `appnavigation`) and maps entry keys to replacement fields, applied by `Initialize-WinUtilTranslation` at startup. `applications` uses the source keys without the `WPFInstall` prefix. The English config files stay close to upstream WinUtil so it can still be merged.
+- Tweaks with `category` `Gaming` are shown on the Gaming tab (`WPFTab7`, `gamingpanel`) instead of the Tweaks tab; they are otherwise ordinary tweaks.
 - Preset and navigation files reference valid config keys. Renaming a config key requires updating all presets, UI references, docs, and code paths together.
 
 ## Safety Requirements

@@ -1,0 +1,1131 @@
+{
+  "strings": {
+    "SelectedApps": "البرامج المحددة: {0}"
+  },
+  "categories": {
+    "Essential Tweaks": "تحسينات أساسية",
+    "Advanced Tweaks - CAUTION": "تحسينات متقدمة - انتبه",
+    "Customize Preferences": "تخصيص التفضيلات",
+    "Performance Plans - NOT FOR LAPTOPS": "خطط الطاقة - ليست للابتوب",
+    "Gaming": "تحسينات الألعاب",
+    "Features": "الميزات",
+    "Fixes": "الإصلاحات",
+    "Legacy Windows Panels": "لوحات ويندوز الكلاسيكية",
+    "Powershell Profile Powershell 7+ Only": "ملف تعريف PowerShell (لإصدار 7 فأعلى)",
+    "Remote Access": "الوصول عن بعد",
+    "Actions": "الإجراءات",
+    "Package Manager": "مدير الحزم",
+    "Selection": "التحديد",
+    "Browsers": "المتصفحات",
+    "Communications": "التواصل",
+    "Development": "البرمجة",
+    "Document": "المستندات",
+    "Games": "الألعاب",
+    "Microsoft Tools": "أدوات مايكروسوفت",
+    "Multimedia Tools": "الوسائط المتعددة",
+    "Pro Tools": "أدوات المحترفين",
+    "Utilities": "الأدوات المساعدة"
+  },
+  "tweaks": {
+    "WPFTweaksActivity": {
+      "Content": "سجل النشاط - تعطيل",
+      "Description": "يمنع ويندوز من نشر أو رفع سجل نشاطاتك مع الإبقاء على سجل الحافظة."
+    },
+    "WPFTweaksHiber": {
+      "Content": "السبات - تعطيل",
+      "Description": "السبات مخصص للابتوب لأنه يحفظ محتوى الذاكرة قبل إطفاء الجهاز، ولا يحتاجه أغلب المستخدمين."
+    },
+    "WPFTweaksWidget": {
+      "Content": "الأدوات المصغرة (Widgets) - إزالة",
+      "Description": "يزيل الأدوات المصغرة المزعجة من أسفل يسار شريط المهام."
+    },
+    "WPFTweaksRevertStartMenu": {
+      "Content": "قائمة ابدأ القديمة - تفعيل",
+      "Description": "يرجع شكل قائمة ابدأ القديم من قبل تحديث 25H2. لا يعمل في إصدارات ويندوز الأحدث!"
+    },
+    "WPFTweaksDisableStoreSearch": {
+      "Content": "اقتراحات متجر مايكروسوفت في البحث - تعطيل",
+      "Description": "لن تظهر تطبيقات المتجر المقترحة عند البحث في قائمة ابدأ."
+    },
+    "WPFTweaksLocation": {
+      "Content": "تتبع الموقع - تعطيل",
+      "Description": "يعطل تتبع الموقع الجغرافي."
+    },
+    "WPFTweaksServices": {
+      "Content": "الخدمات - جعلها يدوية",
+      "Description": "يجعل بعض الخدمات تعمل يدوياً ويضبط قيمة SvcHostSplitThresholdInKB حسب الذاكرة، مما يقلل عدد عمليات svchost.exe بشكل ملحوظ."
+    },
+    "WPFTweaksBraveDebloat": {
+      "Content": "متصفح Brave - تنظيف",
+      "Description": "يعطل الإضافات المزعجة مثل Brave Rewards وLeo AI ومحفظة العملات الرقمية وVPN."
+    },
+    "WPFTweaksDisableWarningForUnsignedRdp": {
+      "Content": "تحذيرات ملفات RDP غير الموقعة - تعطيل",
+      "Description": "يعطل التحذيرات التي تظهر عند فتح ملفات RDP غير الموقعة في آخر تحديثات ويندوز 10 و11."
+    },
+    "WPFTweaksEdgeDebloat": {
+      "Content": "متصفح Edge - تنظيف",
+      "Description": "يعطل خيارات التتبع والنوافذ المنبثقة والإزعاجات الأخرى في Edge."
+    },
+    "WPFTweaksConsumerFeatures": {
+      "Content": "ميزات المستهلك - تعطيل",
+      "Description": "يمنع تثبيت التطبيقات المروجة ويقلل اقتراحات متجر مايكروسوفت."
+    },
+    "WPFTweaksTelemetry": {
+      "Content": "التتبع (Telemetry) - تعطيل",
+      "Description": "يعطل إرسال بيانات الاستخدام إلى مايكروسوفت."
+    },
+    "WPFTweaksDeliveryOptimization": {
+      "Content": "تحسين التوصيل - تعطيل",
+      "Description": "يمنع ويندوز من استخدام الإنترنت عندك لرفع التحديثات لأجهزة أخرى."
+    },
+    "WPFTweaksRemoveEdge": {
+      "Content": "متصفح Edge - إزالة",
+      "Description": "يحذف متصفح Edge من النظام باستخدام أداة الإزالة الرسمية بعد فتحها."
+    },
+    "WPFTweaksDisableBitLocker": {
+      "Content": "BitLocker - تعطيل",
+      "Description": "يعطل تشفير BitLocker."
+    },
+    "WPFTweaksUTC": {
+      "Content": "الوقت - ضبطه على UTC",
+      "Description": "ضروري للأجهزة التي عليها ويندوز ولينكس معاً، يصلح اختلاف الوقت بينهما."
+    },
+    "WPFTweaksRemoveOneDrive": {
+      "Content": "OneDrive - إزالة",
+      "Description": "يزيل OneDrive باستخدام أداة الإزالة الخاصة به مع حماية ملفاتك من الحذف."
+    },
+    "WPFTweaksRemoveHomeAndGallery": {
+      "Content": "الرئيسية والمعرض في المستكشف - تعطيل",
+      "Description": "يحذف الرئيسية والمعرض من مستكشف الملفات ويجعل \"هذا الكمبيوتر\" هو الافتراضي."
+    },
+    "WPFTweaksDisplay": {
+      "Content": "المؤثرات المرئية - أفضل أداء",
+      "Description": "يضبط إعدادات النظام على الأداء بدل الشكل. تقدر تسويها يدوياً من sysdm.cpl."
+    },
+    "WPFTweaksReservedStorage": {
+      "Content": "التخزين المحجوز - تعطيل",
+      "Description": "يعطل المساحة المحجوزة للتحديثات (7-10 جيجا). مفيد للأقراص الصغيرة فقط، وأعد تفعيله قبل تحديثات ويندوز الكبيرة."
+    },
+    "WPFTweaksRestorePoint": {
+      "Content": "نقطة استعادة - إنشاء",
+      "Description": "ينشئ نقطة استعادة قبل التعديلات حتى تقدر ترجع لها لو احتجت."
+    },
+    "WPFTweaksEndTaskOnTaskbar": {
+      "Content": "إنهاء المهمة بالزر الأيمن - تفعيل",
+      "Description": "يضيف خيار إنهاء المهمة عند الضغط بالزر الأيمن على برنامج في شريط المهام."
+    },
+    "WPFTweaksStorage": {
+      "Content": "مستشعر التخزين - تعطيل",
+      "Description": "مستشعر التخزين يحذف الملفات المؤقتة تلقائياً."
+    },
+    "WPFTweaksWindowsAI": {
+      "Content": "ذكاء ويندوز الاصطناعي - تعطيل وإزالة",
+      "Description": "يزيل ويعطل كل ميزات وحزم الذكاء الاصطناعي."
+    },
+    "WPFTweaksWPBT": {
+      "Content": "جدول WPBT - تعطيل",
+      "Description": "يمنع الشركة المصنعة من تشغيل وتثبيت برامج عند الإقلاع بدون موافقتك. قد يشكل خطراً أمنياً."
+    },
+    "WPFTweaksPreventDeviceMetadataFromNetwork": {
+      "Content": "منع تطبيقات الأجهزة المرافقة",
+      "Description": "يمنع تثبيت برامج إضافية عند توصيل الأجهزة (مثل الإعلانات عند توصيل شاشة)."
+    },
+    "WPFTweaksRazerBlock": {
+      "Content": "التثبيت التلقائي لبرامج Razer - تعطيل",
+      "Description": "يمنع تثبيت كل برامج Razer. الأجهزة تشتغل عادي بدونها."
+    },
+    "WPFTweaksLogiBlock": {
+      "Content": "التثبيت التلقائي لمساعد Logitech - تعطيل",
+      "Description": "يمنع Logi Download Assistant الذي يعيد تحديث ويندوز تثبيته. أجهزة Logitech تشتغل بدونه."
+    },
+    "WPFTweaksDisableNotifications": {
+      "Content": "الإشعارات والتقويم - تعطيل",
+      "Description": "يعطل كل الإشعارات بما فيها التقويم."
+    },
+    "WPFTweaksBlockAdobeNet": {
+      "Content": "حظر خوادم Adobe - تفعيل",
+      "Description": "يقلل الإزعاج بحظر اتصالات Adobe بخوادم التفعيل والتتبع. بفضل: Ruddernation-Designs"
+    },
+    "WPFTweaksRightClickMenu": {
+      "Content": "قائمة الزر الأيمن القديمة - تفعيل",
+      "Description": "يرجع قائمة الزر الأيمن الكلاسيكية في مستكشف الملفات بدل قائمة ويندوز 11 المختصرة."
+    },
+    "WPFTweaksDiskCleanup": {
+      "Content": "تنظيف القرص - تشغيل",
+      "Description": "يشغل تنظيف القرص على C: ويحذف تحديثات ويندوز القديمة."
+    },
+    "WPFTweaksDeleteTempFiles": {
+      "Content": "الملفات المؤقتة - حذف",
+      "Description": "يمسح مجلدات TEMP."
+    },
+    "WPFTweaksIPv46": {
+      "Content": "IPv6 - تفضيل IPv4",
+      "Description": "تفضيل IPv4 قد يحسن الاستجابة والأمان في الشبكات المنزلية التي لا تستخدم IPv6."
+    },
+    "WPFTweaksTeredo": {
+      "Content": "Teredo - تعطيل",
+      "Description": "Teredo ميزة نفق لـ IPv6 قد تزيد التأخير، لكن تعطيلها قد يسبب مشاكل في بعض الألعاب."
+    },
+    "WPFTweaksDisableIPv6": {
+      "Content": "IPv6 - تعطيل",
+      "Description": "يعطل IPv6."
+    },
+    "WPFTweaksDisableBGapps": {
+      "Content": "تطبيقات الخلفية - تعطيل",
+      "Description": "يمنع كل تطبيقات متجر مايكروسوفت من العمل في الخلفية."
+    },
+    "WPFTweaksDisableExplorerAutoDiscovery": {
+      "Content": "اكتشاف نوع المجلد تلقائياً - تعطيل",
+      "Description": "المستكشف يحاول تخمين نوع كل مجلد من محتواه مما يبطئ التصفح. تحذير: سيعطل تجميع الملفات في المستكشف."
+    },
+    "WPFToggleDetailedBSoD": {
+      "Content": "الشاشة الزرقاء المفصلة",
+      "Description": "يعرض معلومات أكثر عند ظهور الشاشة الزرقاء."
+    },
+    "WPFToggleBatteryPercentage": {
+      "Content": "نسبة البطارية في شريط المهام",
+      "Description": "يعرض نسبة البطارية بالأرقام بجانب أيقونتها."
+    },
+    "WPFToggleDarkMode": {
+      "Content": "الوضع الداكن لويندوز",
+      "Description": "الوضع الداكن للنظام والتطبيقات."
+    },
+    "WPFToggleShowExt": {
+      "Content": "إظهار امتدادات الملفات",
+      "Description": "يعرض امتدادات الملفات في المستكشف (.exe و.png وغيرها)."
+    },
+    "WPFToggleHiddenFiles": {
+      "Content": "إظهار الملفات المخفية",
+      "Description": "يعرض الملفات المخفية في المستكشف."
+    },
+    "WPFToggleVerboseLogon": {
+      "Content": "رسائل تسجيل الدخول المفصلة",
+      "Description": "يعرض رسائل مفصلة أثناء التشغيل والإيقاف."
+    },
+    "WPFToggleNewOutlook": {
+      "Content": "إصدار Outlook الجديد",
+      "Description": "يضمن استخدام تطبيق Outlook الجديد."
+    },
+    "WPFToggleScrollbars": {
+      "Content": "أشرطة التمرير ظاهرة دائماً",
+      "Description": "إذا فعلته تبقى أشرطة التمرير ظاهرة، وإذا عطلته يخفيها ويندوز عند عدم الاستخدام."
+    },
+    "WPFMultiplaneOverlay": {
+      "Content": "Multiplane Overlay",
+      "Description": "ميزة تدمج عدة طبقات صورة وقد تسبب مشاكل مع بعض كروت الشاشة. التغيير يطبق فوراً."
+    },
+    "WPFToggleMouseAcceleration": {
+      "Content": "تسارع الماوس",
+      "Description": "يجعل حركة المؤشر تتأثر بسرعة تحريكك للماوس. أغلب لاعبي ألعاب التصويب يفضلون تعطيله."
+    },
+    "WPFToggleNumLock": {
+      "Content": "تفعيل Num Lock عند التشغيل",
+      "Description": "يتحكم بحالة زر Num Lock عند تشغيل الجهاز."
+    },
+    "WPFToggleWindowSnapping": {
+      "Content": "محاذاة النوافذ",
+      "Description": "يفعل أو يعطل التصاق النوافذ عند سحبها."
+    },
+    "WPFToggleStandbyFix": {
+      "Content": "اتصال الشبكة أثناء سكون S0",
+      "Description": "يتحكم باتصال الشبكة أثناء وضع السكون منخفض الطاقة في اللابتوبات الحديثة."
+    },
+    "WPFToggleS3Sleep": {
+      "Content": "سكون S3",
+      "Description": "التبديل بين Modern Standby وسكون S3 الذي يفصل الطاقة عن المعالج مع إبقاء الذاكرة."
+    },
+    "WPFToggleHideSettingsHome": {
+      "Content": "الصفحة الرئيسية في الإعدادات",
+      "Description": "يظهر أو يخفي الصفحة الرئيسية في تطبيق الإعدادات."
+    },
+    "WPFToggleBingSearch": {
+      "Content": "بحث Bing في قائمة ابدأ",
+      "Description": "يظهر أو يخفي نتائج Bing في بحث ويندوز."
+    },
+    "WPFToggleLoginBlur": {
+      "Content": "ضبابية شاشة الدخول",
+      "Description": "يظهر أو يخفي تأثير الضبابية على خلفية شاشة الدخول."
+    },
+    "WPFToggleDisableLockscreen": {
+      "Content": "شاشة القفل - تعطيل",
+      "Description": "يتخطى شاشة القفل ويروح مباشرة لشاشة تسجيل الدخول."
+    },
+    "WPFToggleStartMenuRecommendations": {
+      "Content": "اقتراحات قائمة ابدأ",
+      "Description": "يظهر أو يخفي قسم المقترحات في قائمة ابدأ. تحذير: يعطل أيضاً Windows Spotlight في شاشة القفل."
+    },
+    "WPFToggleStickyKeys": {
+      "Content": "المفاتيح الثابتة",
+      "Description": "تتفعل عند الضغط على Shift عدة مرات بسرعة، ومزعجة جداً وقت اللعب."
+    },
+    "WPFToggleTaskbarAlignment": {
+      "Content": "توسيط أيقونات شريط المهام",
+      "Description": "محاذاة أيقونات شريط المهام في الوسط أو على الطرف."
+    },
+    "WPFToggleTaskbarSearch": {
+      "Content": "أيقونة البحث في شريط المهام",
+      "Description": "يظهر أو يخفي زر البحث في شريط المهام."
+    },
+    "WPFToggleTaskView": {
+      "Content": "أيقونة عرض المهام",
+      "Description": "يظهر أو يخفي زر عرض المهام في شريط المهام."
+    },
+    "WPFToggleGameMode": {
+      "Content": "وضع الألعاب (Game Mode)",
+      "Description": "يجعل ويندوز يعطي الأولوية للألعاب في موارد الجهاز."
+    },
+    "WPFToggleLongPaths": {
+      "Content": "المسارات الطويلة",
+      "Description": "يدعم مسارات الملفات الأطول من 260 حرفاً."
+    },
+    "WPFOOSUbutton": {
+      "Content": "تشغيل O&O ShutUp10++"
+    },
+    "WPFchangedns": {
+      "Content": "تغيير DNS إلى:"
+    },
+    "WPFAddUltPerf": {
+      "Content": "خطة الأداء الأقصى - تفعيل"
+    },
+    "WPFRemoveUltPerf": {
+      "Content": "خطة الأداء الأقصى - تعطيل"
+    },
+    "WPFTweaksGamingGameDVR": {
+      "Content": "التسجيل في الخلفية (Game DVR) - تعطيل",
+      "Description": "يوقف تسجيل Xbox Game Bar للعب في الخلفية، والذي يستهلك من الفريمات ويكتب على القرص أثناء اللعب."
+    },
+    "WPFTweaksGamingHAGS": {
+      "Content": "جدولة كرت الشاشة بالعتاد (HAGS) - تفعيل",
+      "Description": "يخلي كرت الشاشة يدير جدولة ذاكرته بنفسه، وقد يقلل تأخير الاستجابة في الكروت المدعومة. يحتاج إعادة تشغيل."
+    },
+    "WPFTweaksGamingNetworkThrottling": {
+      "Content": "تقييد الشبكة - تعطيل",
+      "Description": "يلغي تقييد ويندوز للشبكة أثناء تشغيل الوسائط ويقلل الوقت المحجوز لمهام الخلفية، مما قد يخفف ارتفاعات البنق في الألعاب الأونلاين."
+    },
+    "WPFTweaksGamingGamesPriority": {
+      "Content": "أولوية الألعاب - عالية",
+      "Description": "يرفع أولوية المعالج والقرص التي يعطيها ويندوز للألعاب."
+    },
+    "WPFTweaksGamingPowerThrottling": {
+      "Content": "تقييد الطاقة - تعطيل",
+      "Description": "يمنع ويندوز من إبطاء العمليات في الخلفية لتوفير الطاقة، فتبقى المنصات والدردشة الصوتية والأوفرلاي بكامل سرعتها. لا ينصح به للابتوب على البطارية."
+    }
+  },
+  "feature": {
+    "WPFFeaturesdotnet": {
+      "Content": ".NET Framework (الإصدارات 2 و3 و4) - تفعيل",
+      "Description": "منصة مطورين تحتاجها كثير من البرامج والألعاب القديمة لتعمل."
+    },
+    "WPFFixesNTPPool": {
+      "Content": "خادم الوقت NTP - تفعيل",
+      "Description": "يستبدل خادم الوقت الافتراضي (time.windows.com) بـ pool.ntp.org لمزامنة وقت أدق."
+    },
+    "WPFFeatureshyperv": {
+      "Content": "Hyper-V - تفعيل",
+      "Description": "تقنية المحاكاة من مايكروسوفت لإنشاء وإدارة الأجهزة الافتراضية."
+    },
+    "WPFFeatureslegacymedia": {
+      "Content": "مكونات الوسائط القديمة (WMP وDirectPlay) - تفعيل",
+      "Description": "يفعل مكونات قديمة تحتاجها بعض الألعاب والبرامج القديمة."
+    },
+    "WPFFeaturewsl": {
+      "Content": "نظام لينكس الفرعي (WSL) - تفعيل",
+      "Description": "يسمح بتشغيل برامج لينكس على ويندوز مباشرة بدون جهاز افتراضي."
+    },
+    "WPFFeaturenfs": {
+      "Content": "نظام ملفات الشبكة (NFS) - تفعيل",
+      "Description": "آلية لتخزين الملفات والوصول لها عبر الشبكة."
+    },
+    "WPFFeatureRegBackup": {
+      "Content": "نسخ احتياطي للريجستري (يومياً 12:30 ص) - تفعيل",
+      "Description": "يفعل النسخ الاحتياطي اليومي للريجستري الذي عطلته مايكروسوفت منذ ويندوز 10 إصدار 1803."
+    },
+    "WPFFeatureEnableLegacyRecovery": {
+      "Content": "استرداد F8 القديم - تفعيل",
+      "Description": "يفعل شاشة خيارات الإقلاع المتقدمة لتشغيل ويندوز في أوضاع إصلاح الأعطال."
+    },
+    "WPFFeatureDisableLegacyRecovery": {
+      "Content": "استرداد F8 القديم - تعطيل",
+      "Description": "يعطل شاشة خيارات الإقلاع المتقدمة."
+    },
+    "WPFFeaturesSandbox": {
+      "Content": "Windows Sandbox - تفعيل",
+      "Description": "جهاز افتراضي خفيف لتجربة البرامج بأمان وبشكل معزول ومؤقت."
+    },
+    "WPFFeatureInstall": {
+      "Content": "تثبيت الميزات"
+    },
+    "WPFPanelAutologin": {
+      "Content": "الدخول التلقائي - تشغيل"
+    },
+    "WPFFixesUpdate": {
+      "Content": "تحديثات ويندوز - إعادة ضبط"
+    },
+    "WPFFixesNetwork": {
+      "Content": "الشبكة - إعادة ضبط"
+    },
+    "WPFPanelDISM": {
+      "Content": "فحص تلف النظام - تشغيل"
+    },
+    "WPFFixesWinget": {
+      "Content": "WinGet - إعادة تثبيت"
+    },
+    "WPFPanelComputer": {
+      "Content": "إدارة الكمبيوتر"
+    },
+    "WPFPanelControl": {
+      "Content": "لوحة التحكم"
+    },
+    "WPFPanelMouse": {
+      "Content": "خصائص الماوس"
+    },
+    "WPFPanelNetwork": {
+      "Content": "اتصالات الشبكة"
+    },
+    "WPFPanelPower": {
+      "Content": "خيارات الطاقة"
+    },
+    "WPFPanelPrinter": {
+      "Content": "الطابعات"
+    },
+    "WPFPanelPrograms": {
+      "Content": "البرامج والميزات"
+    },
+    "WPFPanelRegion": {
+      "Content": "المنطقة"
+    },
+    "WPFPanelSecurity": {
+      "Content": "الأمان والصيانة"
+    },
+    "WPFPanelSound": {
+      "Content": "إعدادات الصوت"
+    },
+    "WPFPanelSystem": {
+      "Content": "خصائص النظام"
+    },
+    "WPFPanelTimedate": {
+      "Content": "التاريخ والوقت"
+    },
+    "WPFPanelFirewall": {
+      "Content": "جدار حماية ويندوز"
+    },
+    "WPFPanelRestore": {
+      "Content": "استعادة النظام"
+    },
+    "WPFWinUtilInstallPSProfile": {
+      "Content": "ملف PowerShell من CTT - تثبيت"
+    },
+    "WPFWinUtilUninstallPSProfile": {
+      "Content": "ملف PowerShell من CTT - إزالة"
+    },
+    "WPFWinUtilSSHServer": {
+      "Content": "خادم OpenSSH - تفعيل"
+    }
+  },
+  "appnavigation": {
+    "WPFInstall": {
+      "Content": "تثبيت/تحديث البرامج",
+      "Description": "تثبيت البرامج المحددة أو تحديثها"
+    },
+    "WPFUninstall": {
+      "Content": "إلغاء تثبيت البرامج",
+      "Description": "إزالة البرامج المحددة"
+    },
+    "WPFInstallUpgrade": {
+      "Content": "تحديث كل البرامج",
+      "Description": "تحديث كل البرامج لآخر إصدار"
+    },
+    "WingetRadioButton": {
+      "Content": "WinGet",
+      "Description": "استخدام WinGet لإدارة الحزم"
+    },
+    "ChocoRadioButton": {
+      "Content": "Chocolatey",
+      "Description": "استخدام Chocolatey لإدارة الحزم"
+    },
+    "WPFCollapseAllCategories": {
+      "Content": "طي كل الفئات",
+      "Description": "طي كل فئات البرامج"
+    },
+    "WPFExpandAllCategories": {
+      "Content": "توسيع كل الفئات",
+      "Description": "توسيع كل فئات البرامج"
+    },
+    "WPFClearInstallSelection": {
+      "Content": "مسح التحديد",
+      "Description": "إلغاء تحديد كل البرامج"
+    },
+    "WPFGetInstalled": {
+      "Content": "عرض البرامج المثبتة",
+      "Description": "تحديد البرامج المثبتة على جهازك"
+    },
+    "WPFselectedAppsButton": {
+      "Content": "البرامج المحددة: 0",
+      "Description": "عرض البرامج المحددة"
+    },
+    "WPFInstallFOSSInfo": {
+      "Content": "برامج مجانية ومفتوحة المصدر",
+      "Description": "معلومات عن علامة FOSS على البرامج"
+    }
+  },
+  "applications": {
+    "1password": {
+      "description": "مدير كلمات مرور لحفظ وإدارة كلمات المرور بأمان."
+    },
+    "7zip": {
+      "description": "برنامج ضغط وفك ضغط مجاني ومفتوح المصدر يدعم صيغ كثيرة بنسبة ضغط عالية."
+    },
+    "abdownloadmanager": {
+      "description": "مدير تحميل مفتوح المصدر يسرّع التحميل ويدعم الجدولة وتحديد السرعة."
+    },
+    "adobe": {
+      "description": "قارئ PDF مجاني لعرض وطباعة المستندات وإضافة الملاحظات عليها."
+    },
+    "advancedip": {
+      "description": "ماسح شبكة سريع وسهل لتحليل الشبكة المحلية والأجهزة المتصلة بها."
+    },
+    "aimp": {
+      "description": "مشغل موسيقى غني بالمزايا يدعم صيغ صوت كثيرة وقوائم تشغيل وواجهة قابلة للتخصيص."
+    },
+    "angryipscanner": {
+      "description": "ماسح شبكة مفتوح المصدر لفحص عناوين IP والمنافذ."
+    },
+    "anydesk": {
+      "description": "برنامج للتحكم بالأجهزة عن بعد، معروف بسرعة الاتصال وقلة التأخير."
+    },
+    "audacity": {
+      "description": "برنامج مجاني ومفتوح المصدر لتسجيل الصوت وتحريره."
+    },
+    "autoruns": {
+      "description": "أداة من مايكروسوفت تعرض البرامج التي تعمل مع إقلاع النظام أو تسجيل الدخول."
+    },
+    "autohotkey": {
+      "description": "لغة سكربتات لويندوز لإنشاء اختصارات وماكرو وأتمتة المهام."
+    },
+    "battlenet": {
+      "description": "منصة ألعاب Activision Blizzard مثل Call of Duty وOverwatch وWoW."
+    },
+    "bitwarden": {
+      "description": "مدير كلمات مرور مجاني ومفتوح المصدر."
+    },
+    "blender": {
+      "description": "برنامج مجاني ومفتوح المصدر للتصميم ثلاثي الأبعاد والتحريك والمونتاج."
+    },
+    "brave": {
+      "description": "متصفح يركز على الخصوصية ويحظر الإعلانات والمتتبعات تلقائياً."
+    },
+    "bruno": {
+      "description": "أداة مفتوحة المصدر لتجربة واختبار واجهات API."
+    },
+    "bulkcrapuninstaller": {
+      "description": "أداة مفتوحة المصدر لحذف البرامج بالجملة وتنظيف بقاياها."
+    },
+    "blurautoclicker": {
+      "description": "أداة نقر تلقائي بسيطة مفتوحة المصدر."
+    },
+    "calibre": {
+      "description": "برنامج لإدارة وقراءة وتحويل الكتب الإلكترونية."
+    },
+    "cemu": {
+      "description": "محاكي لجهاز Nintendo Wii U."
+    },
+    "chatgpt": {
+      "description": "تطبيق ChatGPT الرسمي على سطح المكتب من OpenAI."
+    },
+    "chrome": {
+      "description": "متصفح جوجل كروم."
+    },
+    "chromium": {
+      "description": "النسخة المفتوحة المصدر من كروم بدون خدمات جوجل."
+    },
+    "cinebenchr23": {
+      "description": "أداة لقياس أداء المعالج في الرندرة."
+    },
+    "claude": {
+      "description": "تطبيق Claude الرسمي على سطح المكتب من Anthropic."
+    },
+    "claude-code": {
+      "description": "مساعد البرمجة Claude Code من Anthropic يعمل من الطرفية."
+    },
+    "cmake": {
+      "description": "أداة مفتوحة المصدر لإدارة بناء المشاريع البرمجية."
+    },
+    "codex": {
+      "description": "مساعد البرمجة Codex من OpenAI."
+    },
+    "cpuz": {
+      "description": "أداة تعرض معلومات تفصيلية عن المعالج واللوحة الأم والذاكرة."
+    },
+    "crystaldiskinfo": {
+      "description": "أداة لفحص صحة الأقراص الصلبة وSSD ومراقبة حرارتها."
+    },
+    "crystaldiskmark": {
+      "description": "أداة لقياس سرعة القراءة والكتابة في الأقراص."
+    },
+    "cursor": {
+      "description": "محرر أكواد مبني على VS Code مع ذكاء اصطناعي مدمج."
+    },
+    "ddu": {
+      "description": "أداة لحذف تعريف كرت الشاشة بالكامل قبل تثبيت تعريف جديد، مفيدة جداً عند مشاكل التعريفات."
+    },
+    "discord": {
+      "description": "برنامج الدردشة الصوتية والنصية الأشهر بين اللاعبين."
+    },
+    "dismtools": {
+      "description": "واجهة رسومية لأداة DISM لإدارة وتعديل نسخ ويندوز."
+    },
+    "ntlite": {
+      "description": "أداة لتخصيص نسخ ويندوز قبل التثبيت وحذف المكونات غير المرغوبة."
+    },
+    "dockerdesktop": {
+      "description": "منصة لتشغيل التطبيقات داخل حاويات Docker."
+    },
+    "dotnet6": {
+      "description": "بيئة تشغيل .NET 6 لسطح المكتب، تحتاجها بعض البرامج."
+    },
+    "dotnet8": {
+      "description": "بيئة تشغيل .NET 8 لسطح المكتب، تحتاجها بعض البرامج."
+    },
+    "dotnet9": {
+      "description": "بيئة تشغيل .NET 9 لسطح المكتب، تحتاجها بعض البرامج."
+    },
+    "dotnet10": {
+      "description": "بيئة تشغيل .NET 10 لسطح المكتب، تحتاجها بعض البرامج."
+    },
+    "dropbox": {
+      "description": "خدمة تخزين سحابي ومزامنة ملفات."
+    },
+    "eaapp": {
+      "description": "منصة ألعاب EA مثل FC وBattlefield وApex Legends."
+    },
+    "eartrumpet": {
+      "description": "أداة للتحكم بصوت كل برنامج على حدة من شريط المهام."
+    },
+    "edge": {
+      "description": "متصفح مايكروسوفت Edge."
+    },
+    "es-de": {
+      "description": "واجهة لتنظيم وتشغيل ألعاب المحاكيات من مكان واحد."
+    },
+    "enteauth": {
+      "description": "تطبيق مفتوح المصدر لرموز التحقق بخطوتين مع نسخ احتياطي مشفر."
+    },
+    "epicgames": {
+      "description": "منصة Epic Games لألعاب مثل Fortnite والألعاب المجانية الأسبوعية."
+    },
+    "files": {
+      "description": "مستكشف ملفات حديث بديل لمستكشف ويندوز مع تبويبات."
+    },
+    "fileconverter": {
+      "description": "أداة لتحويل صيغ الملفات من قائمة الزر الأيمن مباشرة."
+    },
+    "firefox": {
+      "description": "متصفح موزيلا فايرفوكس مفتوح المصدر."
+    },
+    "firefoxesr": {
+      "description": "نسخة فايرفوكس طويلة الدعم للمؤسسات."
+    },
+    "floorp": {
+      "description": "متصفح مبني على فايرفوكس مع خيارات تخصيص كثيرة."
+    },
+    "flux": {
+      "description": "يغير حرارة ألوان الشاشة حسب الوقت لتخفيف إجهاد العين ليلاً."
+    },
+    "foobar": {
+      "description": "مشغل موسيقى خفيف وقابل للتخصيص بشكل كبير."
+    },
+    "fnm": {
+      "description": "أداة سريعة لإدارة إصدارات Node.js."
+    },
+    "foxpdfreader": {
+      "description": "قارئ PDF خفيف وسريع."
+    },
+    "geforcenow": {
+      "description": "خدمة NVIDIA للعب السحابي، تشغل ألعابك على خوادم قوية."
+    },
+    "gimp": {
+      "description": "برنامج مجاني ومفتوح المصدر لتحرير الصور."
+    },
+    "git": {
+      "description": "نظام التحكم بالإصدارات الأشهر للمبرمجين."
+    },
+    "gitextensions": {
+      "description": "واجهة رسومية لإدارة مستودعات Git."
+    },
+    "githubcli": {
+      "description": "أداة GitHub الرسمية من سطر الأوامر."
+    },
+    "githubdesktop": {
+      "description": "تطبيق GitHub الرسمي لإدارة المستودعات بواجهة رسومية."
+    },
+    "gog": {
+      "description": "منصة GOG Galaxy لإدارة الألعاب من عدة متاجر في مكان واحد."
+    },
+    "golang": {
+      "description": "لغة البرمجة Go من جوجل."
+    },
+    "googledrive": {
+      "description": "خدمة جوجل درايف للتخزين السحابي والمزامنة."
+    },
+    "gpuz": {
+      "description": "أداة تعرض معلومات تفصيلية عن كرت الشاشة وحساساته."
+    },
+    "gsudo": {
+      "description": "أداة لتشغيل الأوامر بصلاحيات المسؤول من الطرفية."
+    },
+    "helium": {
+      "description": "متصفح خفيف مبني على كروميوم يركز على الخصوصية."
+    },
+    "handbrake": {
+      "description": "برنامج مجاني ومفتوح المصدر لتحويل وضغط ملفات الفيديو."
+    },
+    "heroiclauncher": {
+      "description": "منصة مفتوحة المصدر لتشغيل ألعاب Epic وGOG وAmazon."
+    },
+    "hwinfo": {
+      "description": "أداة شاملة لمعلومات العتاد ومراقبة الحرارة والحساسات."
+    },
+    "hwmonitor": {
+      "description": "أداة لمراقبة حرارة وجهد ومراوح مكونات الجهاز."
+    },
+    "imageglass": {
+      "description": "عارض صور خفيف وسريع يدعم صيغ كثيرة."
+    },
+    "internetdownloadmanager": {
+      "description": "مدير التحميل الأشهر IDM لتسريع التحميل واستكماله."
+    },
+    "irfanview": {
+      "description": "عارض صور سريع وخفيف مع أدوات تحرير بسيطة."
+    },
+    "itch": {
+      "description": "منصة ألعاب المطورين المستقلين itch.io."
+    },
+    "itunes": {
+      "description": "برنامج أبل لإدارة الموسيقى وأجهزة آيفون."
+    },
+    "java8": {
+      "description": "بيئة جافا 8 من أمازون، تحتاجها بعض الألعاب والبرامج القديمة."
+    },
+    "java21": {
+      "description": "بيئة جافا 21 من أمازون، مطلوبة لماين كرافت الإصدارات الحديثة."
+    },
+    "java25": {
+      "description": "بيئة جافا 25 من أمازون."
+    },
+    "jellyfinmediaplayer": {
+      "description": "مشغل وسائط للاتصال بخادم Jellyfin ومشاهدة مكتبتك."
+    },
+    "jetbrains": {
+      "description": "أداة لإدارة وتثبيت برامج JetBrains للمبرمجين."
+    },
+    "jpegview": {
+      "description": "عارض صور خفيف وسريع جداً."
+    },
+    "joplin": {
+      "description": "تطبيق ملاحظات مفتوح المصدر مع مزامنة وتشفير."
+    },
+    "keepassxc": {
+      "description": "مدير كلمات مرور مفتوح المصدر يحفظ البيانات محلياً."
+    },
+    "klite": {
+      "description": "حزمة كودكات لتشغيل كل صيغ الصوت والفيديو."
+    },
+    "kodi": {
+      "description": "مركز وسائط مفتوح المصدر لتنظيم ومشاهدة الأفلام والمسلسلات."
+    },
+    "lazygit": {
+      "description": "واجهة Git بسيطة داخل الطرفية."
+    },
+    "libreoffice": {
+      "description": "حزمة مكتبية مجانية ومفتوحة المصدر بديلة لأوفيس."
+    },
+    "librewolf": {
+      "description": "نسخة من فايرفوكس تركز على الخصوصية والأمان."
+    },
+    "localsend": {
+      "description": "مشاركة الملفات بين أجهزتك على نفس الشبكة بدون إنترنت."
+    },
+    "mpv": {
+      "description": "مشغل فيديو خفيف وقوي مفتوح المصدر."
+    },
+    "matrix": {
+      "description": "تطبيق Element للدردشة الآمنة عبر شبكة Matrix."
+    },
+    "minitoolpartitionwizard": {
+      "description": "أداة لإدارة أقسام القرص وتغيير أحجامها."
+    },
+    "modrinth": {
+      "description": "منصة لتحميل مودات ماين كرافت وإدارتها."
+    },
+    "moonlight": {
+      "description": "تطبيق لبث الألعاب من جهازك إلى أجهزة أخرى باستخدام Sunshine أو GameStream."
+    },
+    "mpchc": {
+      "description": "مشغل فيديو كلاسيكي خفيف."
+    },
+    "msedgeredirect": {
+      "description": "يحول الروابط التي يفتحها ويندوز في Edge إلى متصفحك الافتراضي."
+    },
+    "msiafterburner": {
+      "description": "أداة لكسر سرعة كرت الشاشة ومراقبة الأداء والفريمات أثناء اللعب."
+    },
+    "mullvadvpn": {
+      "description": "خدمة VPN تركز على الخصوصية."
+    },
+    "mullvadbrowser": {
+      "description": "متصفح يركز على الخصوصية من Mullvad وTor."
+    },
+    "nomacs": {
+      "description": "عارض صور مفتوح المصدر."
+    },
+    "nanazip": {
+      "description": "برنامج ضغط حديث مبني على 7-Zip ومدمج مع قائمة ويندوز 11."
+    },
+    "tailscale": {
+      "description": "شبكة خاصة آمنة بين أجهزتك باستخدام WireGuard."
+    },
+    "naps2": {
+      "description": "برنامج لمسح المستندات ضوئياً وحفظها PDF."
+    },
+    "neovim": {
+      "description": "محرر نصوص Vim بنسخة حديثة."
+    },
+    "nmap": {
+      "description": "أداة لفحص الشبكات والمنافذ."
+    },
+    "nodejs": {
+      "description": "بيئة تشغيل جافاسكربت Node.js."
+    },
+    "nodejslts": {
+      "description": "نسخة Node.js طويلة الدعم."
+    },
+    "pnpm": {
+      "description": "مدير حزم سريع لـ Node.js."
+    },
+    "notepadplus": {
+      "description": "محرر نصوص وأكواد خفيف ومجاني."
+    },
+    "nvclean": {
+      "description": "أداة لتثبيت تعريف NVIDIA بدون الإضافات غير الضرورية."
+    },
+    "obs": {
+      "description": "البرنامج الأشهر للبث المباشر وتسجيل الشاشة."
+    },
+    "obsidian": {
+      "description": "تطبيق ملاحظات قوي يعتمد على ملفات Markdown."
+    },
+    "onedrive": {
+      "description": "خدمة التخزين السحابي من مايكروسوفت."
+    },
+    "onlyoffice": {
+      "description": "حزمة مكتبية متوافقة مع ملفات أوفيس."
+    },
+    "OPAutoClicker": {
+      "description": "أداة نقر تلقائي للماوس."
+    },
+    "openrgb": {
+      "description": "أداة مفتوحة المصدر للتحكم بإضاءة RGB لكل القطع من برنامج واحد."
+    },
+    "OpenVPN": {
+      "description": "برنامج الاتصال الرسمي بشبكات OpenVPN."
+    },
+    "OVirtualBox": {
+      "description": "برنامج مجاني لتشغيل الأجهزة الافتراضية."
+    },
+    "policyplus": {
+      "description": "محرر نهج المجموعة يعمل على كل إصدارات ويندوز بما فيها Home."
+    },
+    "processexplorer": {
+      "description": "مدير مهام متقدم من مايكروسوفت."
+    },
+    "Paintdotnet": {
+      "description": "برنامج تحرير صور سهل ومجاني."
+    },
+    "parsec": {
+      "description": "برنامج للعب والتحكم عن بعد بتأخير منخفض جداً."
+    },
+    "peazip": {
+      "description": "برنامج ضغط مجاني ومفتوح المصدر يدعم صيغ كثيرة."
+    },
+    "pdf-xchange": {
+      "description": "محرر وقارئ PDF غني بالأدوات."
+    },
+    "pdf24creator": {
+      "description": "أدوات PDF مجانية للدمج والتحويل والضغط."
+    },
+    "pdfgear": {
+      "description": "محرر PDF مجاني مع ذكاء اصطناعي."
+    },
+    "pdfsam": {
+      "description": "أداة لدمج وتقسيم ملفات PDF."
+    },
+    "playnite": {
+      "description": "مكتبة ألعاب مفتوحة المصدر تجمع كل ألعابك من كل المنصات."
+    },
+    "plexdesktop": {
+      "description": "تطبيق Plex لمشاهدة مكتبة الوسائط."
+    },
+    "posh": {
+      "description": "أداة لتجميل سطر الأوامر في الطرفية."
+    },
+    "postman": {
+      "description": "أداة لتجربة واختبار واجهات API."
+    },
+    "powershell": {
+      "description": "أحدث إصدار من PowerShell."
+    },
+    "powertoys": {
+      "description": "أدوات مايكروسوفت الإضافية لتحسين الإنتاجية في ويندوز."
+    },
+    "prismlauncher": {
+      "description": "مشغل ماين كرافت مفتوح المصدر لإدارة عدة نسخ ومودات."
+    },
+    "processlasso": {
+      "description": "أداة لتحسين استجابة الجهاز وإدارة أولويات العمليات."
+    },
+    "protonauth": {
+      "description": "تطبيق رموز التحقق بخطوتين من Proton."
+    },
+    "protonmail": {
+      "description": "بريد إلكتروني مشفر من Proton."
+    },
+    "protondrive": {
+      "description": "تخزين سحابي مشفر من Proton."
+    },
+    "protonpass": {
+      "description": "مدير كلمات مرور مشفر من Proton."
+    },
+    "protonvpn": {
+      "description": "خدمة VPN من Proton مع خطة مجانية."
+    },
+    "processmonitor": {
+      "description": "أداة من مايكروسوفت لمراقبة نشاط الملفات والريجستري والعمليات."
+    },
+    "putty": {
+      "description": "برنامج للاتصال بالخوادم عبر SSH وTelnet."
+    },
+    "python3": {
+      "description": "لغة البرمجة بايثون."
+    },
+    "qbittorrent": {
+      "description": "برنامج تورنت مجاني ومفتوح المصدر بدون إعلانات."
+    },
+    "revo": {
+      "description": "أداة لحذف البرامج مع تنظيف بقاياها."
+    },
+    "WiseProgramUninstaller": {
+      "description": "أداة لحذف البرامج بشكل كامل."
+    },
+    "rufus": {
+      "description": "أداة لإنشاء فلاشة USB قابلة للإقلاع لتثبيت ويندوز."
+    },
+    "rustlang": {
+      "description": "لغة البرمجة Rust."
+    },
+    "sdio": {
+      "description": "أداة لتثبيت وتحديث التعريفات حتى بدون إنترنت."
+    },
+    "sharex": {
+      "description": "أداة مجانية لتصوير الشاشة وتسجيلها ومشاركتها."
+    },
+    "nilesoftShell": {
+      "description": "أداة لتخصيص قائمة الزر الأيمن في ويندوز."
+    },
+    "systeminformer": {
+      "description": "أداة متقدمة لمراقبة النظام والعمليات."
+    },
+    "signal": {
+      "description": "تطبيق مراسلة مشفر ويركز على الخصوصية."
+    },
+    "signalrgb": {
+      "description": "برنامج للتحكم بإضاءة RGB لكل القطع ومزامنتها مع الألعاب."
+    },
+    "simplewall": {
+      "description": "جدار حماية بسيط للتحكم باتصالات البرامج بالإنترنت."
+    },
+    "slack": {
+      "description": "منصة تواصل للفرق وبيئات العمل."
+    },
+    "startallback": {
+      "description": "يرجع قائمة ابدأ وشريط المهام الكلاسيكي في ويندوز 11."
+    },
+    "starship": {
+      "description": "أداة لتجميل سطر الأوامر في الطرفية."
+    },
+    "steam": {
+      "description": "منصة الألعاب الأشهر على الكمبيوتر."
+    },
+    "roblox": {
+      "description": "منصة ألعاب يصنعها ويلعبها المستخدمون."
+    },
+    "sublimetext": {
+      "description": "محرر نصوص وأكواد سريع."
+    },
+    "sumatra": {
+      "description": "قارئ PDF وكتب إلكترونية خفيف جداً."
+    },
+    "sunshine": {
+      "description": "خادم بث ألعاب مفتوح المصدر للعب من أجهزة أخرى عبر Moonlight."
+    },
+    "tcpview": {
+      "description": "أداة من مايكروسوفت تعرض كل اتصالات الشبكة المفتوحة."
+    },
+    "teams": {
+      "description": "تطبيق مايكروسوفت تيمز للاجتماعات والتواصل."
+    },
+    "teamviewer": {
+      "description": "برنامج للتحكم بالأجهزة عن بعد والدعم الفني."
+    },
+    "teamspeak3": {
+      "description": "برنامج دردشة صوتية منخفض التأخير للاعبين."
+    },
+    "teamspeak6": {
+      "description": "الإصدار الجديد من TeamSpeak للدردشة الصوتية."
+    },
+    "telegram": {
+      "description": "تطبيق تيليجرام للمراسلة."
+    },
+    "terminal": {
+      "description": "طرفية ويندوز الحديثة مع تبويبات."
+    },
+    "thunderbird": {
+      "description": "برنامج بريد إلكتروني مجاني ومفتوح المصدر."
+    },
+    "tor": {
+      "description": "متصفح Tor للتصفح المجهول."
+    },
+    "totalcommander": {
+      "description": "مدير ملفات قوي بلوحتين."
+    },
+    "treesize": {
+      "description": "أداة لمعرفة ما يستهلك مساحة القرص."
+    },
+    "ttaskbar": {
+      "description": "يجعل شريط المهام شفافاً."
+    },
+    "ubisoft": {
+      "description": "منصة ألعاب يوبيسوفت مثل Assassin's Creed وRainbow Six."
+    },
+    "ungoogled": {
+      "description": "كروميوم بدون أي اعتماد على خدمات جوجل."
+    },
+    "unity": {
+      "description": "محرك الألعاب Unity لصناعة الألعاب."
+    },
+    "everything": {
+      "description": "بحث فوري عن الملفات بالاسم في كل الأقراص."
+    },
+    "vc2015_32": {
+      "description": "مكتبات Visual C++ نسخة 32-bit، تحتاجها أغلب الألعاب."
+    },
+    "vc2015_64": {
+      "description": "مكتبات Visual C++ نسخة 64-bit، تحتاجها أغلب الألعاب."
+    },
+    "ventoy": {
+      "description": "أداة لإنشاء فلاشة إقلاع تحمل عدة ملفات ISO معاً."
+    },
+    "vesktop": {
+      "description": "تطبيق ديسكورد معدل بأداء أفضل ودعم Vencord."
+    },
+    "viber": {
+      "description": "تطبيق فايبر للمراسلة والمكالمات."
+    },
+    "visualstudio2022": {
+      "description": "بيئة التطوير Visual Studio 2022 من مايكروسوفت."
+    },
+    "visualstudio2026": {
+      "description": "بيئة التطوير Visual Studio 2026 من مايكروسوفت."
+    },
+    "vivaldi": {
+      "description": "متصفح قابل للتخصيص بشكل كبير."
+    },
+    "vlc": {
+      "description": "مشغل الفيديو الأشهر، يشغل كل الصيغ تقريباً."
+    },
+    "vrdesktopstreamer": {
+      "description": "برنامج البث لتطبيق Virtual Desktop لنظارات الواقع الافتراضي."
+    },
+    "vscode": {
+      "description": "محرر الأكواد الأشهر من مايكروسوفت."
+    },
+    "vscodium": {
+      "description": "نسخة VS Code مفتوحة المصدر بدون تتبع."
+    },
+    "waterfox": {
+      "description": "متصفح مبني على فايرفوكس يركز على الخصوصية."
+    },
+    "whatsapp": {
+      "description": "تطبيق واتساب الرسمي لسطح المكتب."
+    },
+    "wingetui": {
+      "description": "واجهة رسومية لإدارة البرامج عبر WinGet وغيره."
+    },
+    "winrar": {
+      "description": "برنامج الضغط الشهير WinRAR."
+    },
+    "winscp": {
+      "description": "برنامج لنقل الملفات عبر SFTP وFTP."
+    },
+    "wireguard": {
+      "description": "برنامج VPN سريع وحديث."
+    },
+    "wireshark": {
+      "description": "أداة لتحليل حزم الشبكة."
+    },
+    "wiztree": {
+      "description": "أداة سريعة جداً لمعرفة ما يستهلك مساحة القرص."
+    },
+    "xeheditor": {
+      "description": "محرر ملفات بالنظام الست عشري (Hex)."
+    },
+    "yarn": {
+      "description": "مدير حزم لـ Node.js."
+    },
+    "zoom": {
+      "description": "تطبيق زووم للاجتماعات المرئية."
+    },
+    "uv": {
+      "description": "مدير حزم ومشاريع بايثون سريع جداً."
+    },
+    "glazewm": {
+      "description": "مدير نوافذ لترتيب النوافذ تلقائياً."
+    },
+    "Overwolf": {
+      "description": "منصة CurseForge لتحميل مودات الألعاب وإدارتها."
+    },
+    "OFGB": {
+      "description": "أداة لإزالة الإعلانات من ويندوز 11."
+    },
+    "ZenBrowser": {
+      "description": "متصفح مبني على فايرفوكس بتصميم حديث."
+    },
+    "Zed": {
+      "description": "محرر أكواد سريع جداً."
+    },
+    "deskflow": {
+      "description": "مشاركة ماوس وكيبورد واحد بين عدة أجهزة."
+    },
+    "CloudflareWARP": {
+      "description": "خدمة Cloudflare WARP لتسريع وتأمين الاتصال بالإنترنت."
+    },
+    "valorant": {
+      "description": "لعبة التصويب التكتيكية المجانية من Riot Games. هذه نسخة EU التي تخدم منطقة الشرق الأوسط وشمال أفريقيا."
+    },
+    "rockstarlauncher": {
+      "description": "منصة روكستار المطلوبة لتشغيل ألعاب مثل GTA V وRed Dead Redemption 2."
+    },
+    "operagx": {
+      "description": "متصفح مخصص للاعبين مع تحكم باستهلاك المعالج والرام والشبكة ودمج Twitch وديسكورد."
+    },
+    "spotify": {
+      "description": "خدمة سبوتيفاي لبث الموسيقى والبودكاست، فيها مكتبة كبيرة من الموسيقى العربية."
+    },
+    "logitechghub": {
+      "description": "برنامج إعداد ماوسات وكيبوردات وسماعات Logitech G مثل الـ DPI والماكرو والإضاءة."
+    },
+    "steelseriesgg": {
+      "description": "برنامج إعداد قطع SteelSeries، ويشمل خلاط الصوت Sonar ومسجل اللقطات Moments."
+    }
+  }
+}

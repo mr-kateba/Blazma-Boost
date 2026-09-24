@@ -1,26 +1,17 @@
-Write-Host @"
-    CCCCCCCCCCCCCTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
- CCC::::::::::::CT:::::::::::::::::::::TT:::::::::::::::::::::T
-CC:::::::::::::::CT:::::::::::::::::::::TT:::::::::::::::::::::T
-C:::::CCCCCCCC::::CT:::::TT:::::::TT:::::TT:::::TT:::::::TT:::::T
-C:::::C       CCCCCCTTTTTT  T:::::T  TTTTTTTTTTTT  T:::::T  TTTTTT
-C:::::C                     T:::::T                T:::::T
-C:::::C                     T:::::T                T:::::T
-C:::::C                     T:::::T                T:::::T
-C:::::C                     T:::::T                T:::::T
-C:::::C                     T:::::T                T:::::T
-C:::::C                     T:::::T                T:::::T
-C:::::C       CCCCCC        T:::::T                T:::::T
-C:::::CCCCCCCC::::C      TT:::::::TT            TT:::::::TT
-CC:::::::::::::::C       T:::::::::T            T:::::::::T
-CCC::::::::::::C         T:::::::::T            T:::::::::T
-  CCCCCCCCCCCCC          TTTTTTTTTTT            TTTTTTTTTTT
+Write-Host @'
+  ____  _                                ____                  _
+ | __ )| | __ _ _____ __ ___   __ _     | __ )  ___   ___  ___| |_
+ |  _ \| |/ _` |_  / '_ ` _ \ / _` |    |  _ \ / _ \ / _ \/ __| __|
+ | |_) | | (_| |/ /| | | | | | (_| |    | |_) | (_) | (_) \__ \ |_
+ |____/|_|\__,_/___|_| |_| |_|\__,_|    |____/ \___/ \___/|___/\__|
 
-====Chris Titus Tech=====
-=====Windows Toolbox=====
-"@
+=====  Blazma Boost - Arabic Windows Toolbox for Gamers  =====
+=====        Based on WinUtil by Chris Titus Tech        =====
+'@
 
 # Load the configuration files
+
+Initialize-WinUtilTranslation
 
 $sync.configs.applicationsHashtable = @{}
 $sync.configs.applications.PSObject.Properties | ForEach-Object {
