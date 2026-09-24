@@ -9,6 +9,9 @@ Write-Host @'
 =====        Based on WinUtil by Chris Titus Tech        =====
 '@
 
+# A click in the console would otherwise pause WinUtil mid-run
+Disable-WinUtilConsoleQuickEdit
+
 # Load the configuration files
 
 Initialize-WinUtilTranslation
