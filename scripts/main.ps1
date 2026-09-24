@@ -28,6 +28,7 @@ $sync.configs.appx.PSObject.Properties | ForEach-Object {
 # The gaming look is the dark theme; Auto and Light stay available from the theme button
 $sync.preferences.theme = "Dark"
 $sync.preferences.packagemanager = "Winget"
+Import-WinUtilPreferences
 
 function Remove-WinUtilTempScript {
     <#
