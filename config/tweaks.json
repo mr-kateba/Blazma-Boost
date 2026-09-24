@@ -543,12 +543,12 @@
       Set-Service -Name diagtrack -StartupType Disabled
 
       # Disable (Windows Error Reporting Manager) Service
-      Set-Service -Name wermgr -StartupType Disabled
+      Set-Service -Name wermgr -StartupType Disabled -ErrorAction SilentlyContinue
 
       # Disable PowerShell 7 telemetry
       [Environment]::SetEnvironmentVariable('POWERSHELL_TELEMETRY_OPTOUT', '1', 'Machine')
 
-      Remove-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Siuf\\Rules\" -Name PeriodInNanoSeconds
+      Remove-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Siuf\\Rules\" -Name PeriodInNanoSeconds -ErrorAction SilentlyContinue
       "
     ],
     "UndoScript": [
@@ -560,7 +560,7 @@
       Set-Service -Name diagtrack -StartupType Automatic
 
       # Enable (Windows Error Reporting Manager) Service
-      Set-Service -Name wermgr -StartupType Automatic
+      Set-Service -Name wermgr -StartupType Automatic -ErrorAction SilentlyContinue
 
       # Enable PowerShell 7 telemetry
       [Environment]::SetEnvironmentVariable('POWERSHELL_TELEMETRY_OPTOUT', '', 'Machine')
@@ -1882,7 +1882,7 @@
   },
   "WPFchangedns": {
     "Content": "DNS - Set to:",
-    "category": "z__Advanced Tweaks - CAUTION",
+    "category": "Gaming",
     "panel": "1",
     "Type": "Combobox",
     "ComboItems": "Default DHCP Fastest Google Cloudflare Cloudflare_Malware Cloudflare_Malware_Adult Open_DNS Quad9 AdGuard_Ads_Trackers AdGuard_Ads_Trackers_Malware_Adult",
@@ -2016,6 +2016,31 @@
         "Type": "DWord",
         "OriginalValue": "<RemoveEntry>"
       }
+    ],
+    "link": "https://github.com/mr-kateba/Blazma-Boost#gaming"
+  },
+  "WPFTweaksGamingShaderCache": {
+    "Content": "Shader Cache - Clear",
+    "Description": "Deletes the DirectX, NVIDIA and AMD shader caches. Games rebuild them on the next launch, which can fix stutter after a driver update and frees disk space.",
+    "category": "Gaming",
+    "panel": "1",
+    "InvokeScript": [
+      "
+      # Files in use by a running game stay behind, and the job layer counts a logged error as a failed step
+      $shaderCaches = @(
+        \"$Env:LocalAppData\\D3DSCache\",
+        \"$Env:LocalAppData\\NVIDIA\\DXCache\",
+        \"$Env:LocalAppData\\NVIDIA\\GLCache\",
+        \"$Env:LocalAppData\\AMD\\DxCache\",
+        \"$Env:LocalAppData\\AMD\\DxcCache\",
+        \"$Env:LocalAppData\\AMD\\VkCache\"
+      )
+      foreach ($shaderCache in $shaderCaches) {
+        if (Test-Path -LiteralPath $shaderCache) {
+          Get-ChildItem -LiteralPath $shaderCache -Force -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+        }
+      }
+      "
     ],
     "link": "https://github.com/mr-kateba/Blazma-Boost#gaming"
   }

@@ -192,6 +192,27 @@ Describe "XAML document" {
             "WPFGamingPreset",
             "WPFGamingTweaksButton",
             "WPFGamingUndoButton",
+            "WPFGamingSystemInfo",
+            "WPFGamingGPUDriver",
+            "WPFGamingOneClick",
+            "WPFGamingRestorePoint",
+            "WPFGamingEssentials",
+            "WPFUpdateBanner",
+            "WPFTab8",
+            "WPFTab8BT",
+            "specspanel",
+            "WPFSpecsCPU",
+            "WPFSpecsGPU",
+            "WPFSpecsRAM",
+            "WPFSpecsBoard",
+            "WPFSpecsStorage",
+            "WPFSpecsWindows",
+            "WPFSpecsRefresh",
+            "WPFSpecsCopy",
+            "WPFSpecsDriverStatus",
+            "WPFSpecsDriverDownload",
+            "WPFUpdateBannerText",
+            "WPFUpdateBannerButton",
             "WPFstandard",
             "WPFminimal",
             "WPFAdvanced",
@@ -279,6 +300,11 @@ Describe "XAML document" {
         }
     }
 
+    It "keeps the checkbox tick from being mirrored by the right-to-left window" {
+        $script:xaml.SelectSingleNode('//*[local-name()="Window"]').GetAttribute("FlowDirection") | Should -Be "RightToLeft"
+        $script:xaml.SelectSingleNode('//*[local-name()="Viewbox"][@Name="CheckMarkContainer"]').GetAttribute("FlowDirection") | Should -Be "LeftToRight"
+    }
+
     It "defines core tabs in the expected order" {
         $tabItems = @($script:xaml.SelectNodes('//*[local-name()="TabControl"][@Name="WPFTabNav"]/*[local-name()="TabItem"]'))
         $actualTabs = @($tabItems | ForEach-Object { "$($_.GetAttribute("Name")):$($_.GetAttribute("Header"))" })
@@ -289,7 +315,8 @@ Describe "XAML document" {
             "WPFTab4:Updates",
             "WPFTab5:Win11ISO",
             "WPFTab6:AppX",
-            "WPFTab7:Gaming"
+            "WPFTab7:Gaming",
+            "WPFTab8:Specs"
         )
 
         if (@($actualTabs).Count -ne $expectedTabs.Count) {
@@ -346,7 +373,7 @@ Describe "XAML document" {
         $comboToggleStyle | Should -Not -BeNullOrEmpty
         $comboToggle.GetAttribute("Style") | Should -Be "{StaticResource ComboBoxToggleButtonStyle}"
         $comboItemStyle | Should -Not -BeNullOrEmpty
-        $navButtons.Count | Should -Be 6
+        $navButtons.Count | Should -Be 7
         foreach ($navButton in $navButtons) {
             $navButton.GetAttribute("Style") | Should -Be "{StaticResource TabToggleButton}"
         }
@@ -441,6 +468,7 @@ Describe "XAML and sync wiring" {
             "StartedAt",
             "SessionState",
             "TabWarmupQueue",
+            "GamingGpuVendor",
             "BackgroundQueues",
             "ConsoleProgressState",
             "LastInputAt",

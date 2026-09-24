@@ -214,6 +214,7 @@ function Start-WinUtilUserInterface {
                 "U" { Invoke-WPFButton "WPFTab4BT"; $keyEventArgs.Handled = $true } # Navigate to Updates tab
                 "W" { Invoke-WPFButton "WPFTab5BT"; $keyEventArgs.Handled = $true } # Navigate to Win11ISO tab
                 "G" { Invoke-WPFButton "WPFTab7BT"; $keyEventArgs.Handled = $true } # Navigate to Gaming tab
+                "S" { Invoke-WPFButton "WPFTab8BT"; $keyEventArgs.Handled = $true } # Navigate to My Specs tab
             }
         }
         # Handle Ctrl key combinations for specific actions
@@ -311,6 +312,9 @@ function Start-WinUtilUserInterface {
             Set-WinUtilTaskbaritem -overlay "logo"
         }) | Out-Null
         $sync["Form"].Dispatcher.BeginInvoke([System.Windows.Threading.DispatcherPriority]::Background, [action]{ Start-WinUtilTabWarmup }) | Out-Null
+        if (-not $PARAM_OFFLINE) {
+            $sync["Form"].Dispatcher.BeginInvoke([System.Windows.Threading.DispatcherPriority]::Background, [action]{ Start-WinUtilUpdateCheck }) | Out-Null
+        }
     })
 
     # The SearchBarTimer is used to delay the search operation until the user has stopped typing for a short period
@@ -379,7 +383,7 @@ function Start-WinUtilUserInterface {
 
     Measure-WinUtilStep -Scope "UI" -Name "build nav logo" -ScriptBlock {
         $NavLogoPanel = $sync["Form"].FindName("NavLogoPanel")
-        $NavLogoPanel.Children.Add((Invoke-WinUtilAssets -Type "logo" -Size 25)) | Out-Null
+        $NavLogoPanel.Children.Add((Invoke-WinUtilAssets -Type "logo" -Size 30)) | Out-Null
     }
 
     $sync["Form"].Add_Activated({

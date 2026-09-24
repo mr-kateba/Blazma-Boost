@@ -19,7 +19,7 @@ Describe "translations.json" {
         $stale = New-Object System.Collections.Generic.List[string]
 
         foreach ($section in $translations.PSObject.Properties) {
-            if ($section.Name -in @("strings", "categories")) { continue }
+            if ($section.Name -in @("strings", "categories", "messages")) { continue }
 
             $config = Get-TranslationConfig -Name $section.Name
             foreach ($entry in $section.Value.PSObject.Properties) {
