@@ -18,7 +18,9 @@ function ConvertTo-WinUtilAsciiXml([string]$Text) {
     [regex]::Replace($Text, '[\uD800-\uDBFF][\uDC00-\uDFFF]|[^\x00-\x7F]', { param($m) '&#x{0:X};' -f [char]::ConvertToUtf32($m.Value, 0) })
 }
 
-$script = (Get-Content -Path scripts\start.ps1) -replace '#{replaceme}', (Get-Date -Format 'yy.MM.dd')
+# The release workflow passes its version (yy.MM.dd, or yy.MM.dd.N for a second release that day)
+$version = if ($env:BLAZMA_VERSION) { $env:BLAZMA_VERSION } else { Get-Date -Format 'yy.MM.dd' }
+$script = (Get-Content -Path scripts\start.ps1) -replace '#{replaceme}', $version
 $isLocalCompile = -not [string]::Equals($env:GITHUB_ACTIONS, "true", [StringComparison]::OrdinalIgnoreCase)
 $script = $script -replace '#{islocalcompile}', $isLocalCompile.ToString().ToLowerInvariant()
 
