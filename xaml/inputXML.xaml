@@ -1043,88 +1043,27 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/> <!-- Sidebar navigation -->
+            <ColumnDefinition Width="*"/> <!-- Top bar, tab content and progress -->
         </Grid.ColumnDefinitions>
         <!-- Offline banner -->
-        <Border Name="WPFOfflineBanner" Grid.Row="0" Background="#8B0000" Visibility="Collapsed" Padding="6,4">
+        <Border Name="WPFOfflineBanner" Grid.Row="0" Grid.ColumnSpan="2" Background="#8B0000" Visibility="Collapsed" Padding="6,4">
             <TextBlock Text="&#x26A0; وضع عدم الاتصال - لا يوجد اتصال بالإنترنت" Foreground="White" FontWeight="Bold"
                 HorizontalAlignment="Center" FontSize="13" Background="Transparent"/>
         </Border>
         <!-- Update banner -->
-        <Border Name="WPFUpdateBanner" Grid.Row="0" Background="#FF6D00" Visibility="Collapsed" Padding="6,4">
+        <Border Name="WPFUpdateBanner" Grid.Row="0" Grid.ColumnSpan="2" Background="#FF6D00" Visibility="Collapsed" Padding="6,4">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Name="WPFUpdateBannerText" Text="يوجد إصدار جديد من Blazma Boost" Foreground="White" FontWeight="Bold"
                     VerticalAlignment="Center" FontSize="13" Background="Transparent"/>
                 <Button Name="WPFUpdateBannerButton" Content=" صفحة التحميل " Margin="10,0,0,0" Width="Auto" Height="Auto" Padding="8,2"/>
             </StackPanel>
         </Border>
-        <Grid Grid.Row="1" Background="{DynamicResource MainBackgroundColor}">
+        <Grid Grid.Row="1" Grid.Column="1" Background="{DynamicResource MainBackgroundColor}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/> <!-- Navigation buttons -->
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/> <!-- Search bar and buttons -->
             </Grid.ColumnDefinitions>
-
-            <!-- Navigation Buttons Panel -->
-            <StackPanel Name="NavDockPanel" Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center" Margin="5,5,10,5">
-                <StackPanel Name="NavLogoPanel" Orientation="Horizontal" HorizontalAlignment="Left" Background="{DynamicResource MainBackgroundColor}" SnapsToDevicePixels="True" Margin="10,0,20,0">
-                </StackPanel>
-                <ToggleButton Style="{StaticResource TabToggleButton}" Margin="0,0,5,0" Height="{DynamicResource TabButtonHeight}" Width="{DynamicResource TabButtonWidth}"
-                    Background="{DynamicResource ButtonInstallBackgroundColor}" Foreground="white" FontWeight="Bold" Name="WPFTab1BT">
-                    <ToggleButton.Content>
-                        <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonInstallForegroundColor}" >
-                            التثبيت
-                        </TextBlock>
-                    </ToggleButton.Content>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource TabToggleButton}" Margin="0,0,5,0" Height="{DynamicResource TabButtonHeight}" Width="{DynamicResource TabButtonWidth}"
-                    Background="{DynamicResource ButtonTweaksBackgroundColor}" Foreground="{DynamicResource ButtonTweaksForegroundColor}" FontWeight="Bold" Name="WPFTab2BT">
-                    <ToggleButton.Content>
-                        <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonTweaksForegroundColor}">
-                            التحسينات
-                        </TextBlock>
-                    </ToggleButton.Content>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource TabToggleButton}" Margin="0,0,5,0" Height="{DynamicResource TabButtonHeight}" Width="{DynamicResource TabButtonWidth}"
-                    Background="{DynamicResource ButtonTweaksBackgroundColor}" Foreground="{DynamicResource ButtonTweaksForegroundColor}" FontWeight="Bold" Name="WPFTab7BT">
-                    <ToggleButton.Content>
-                        <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonTweaksForegroundColor}">
-                            الألعاب
-                        </TextBlock>
-                    </ToggleButton.Content>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource TabToggleButton}" Margin="0,0,5,0" Height="{DynamicResource TabButtonHeight}" Width="{DynamicResource TabButtonWidth}"
-                    Background="{DynamicResource ButtonConfigBackgroundColor}" Foreground="{DynamicResource ButtonConfigForegroundColor}" FontWeight="Bold" Name="WPFTab8BT">
-                    <ToggleButton.Content>
-                        <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonConfigForegroundColor}">
-                            مواصفاتي
-                        </TextBlock>
-                    </ToggleButton.Content>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource TabToggleButton}" Margin="0,0,5,0" Height="{DynamicResource TabButtonHeight}" Width="{DynamicResource TabButtonWidth}"
-                    Background="{DynamicResource ButtonConfigBackgroundColor}" Foreground="{DynamicResource ButtonConfigForegroundColor}" FontWeight="Bold" Name="WPFTab3BT">
-                    <ToggleButton.Content>
-                        <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonConfigForegroundColor}">
-                            الإعدادات
-                        </TextBlock>
-                    </ToggleButton.Content>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource TabToggleButton}" Margin="0,0,5,0" Height="{DynamicResource TabButtonHeight}" Width="{DynamicResource TabButtonWidth}"
-                    Background="{DynamicResource ButtonUpdatesBackgroundColor}" Foreground="{DynamicResource ButtonUpdatesForegroundColor}" FontWeight="Bold" Name="WPFTab4BT">
-                    <ToggleButton.Content>
-                        <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonUpdatesForegroundColor}">
-                            التحديثات
-                        </TextBlock>
-                    </ToggleButton.Content>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource TabToggleButton}" Margin="0,0,5,0" Height="{DynamicResource TabButtonHeight}" Width="Auto" MinWidth="{DynamicResource TabButtonWidth}"
-                    Background="{DynamicResource ButtonWin11ISOBackgroundColor}" Foreground="{DynamicResource ButtonWin11ISOForegroundColor}" FontWeight="Bold" Name="WPFTab5BT">
-                    <ToggleButton.Content>
-                        <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonWin11ISOForegroundColor}">
-                            صانع Win11
-                        </TextBlock>
-                    </ToggleButton.Content>
-                </ToggleButton>
-            </StackPanel>
 
             <!-- Search Bar and Action Buttons -->
             <Grid Name="GridBesideNavDockPanel" Grid.Column="1" Background="{DynamicResource MainBackgroundColor}" ShowGridLines="False" Height="Auto">
@@ -1381,7 +1320,81 @@
             </Grid>
         </Grid>
 
-        <TabControl Name="WPFTabNav" Background="Transparent" Width="Auto" Height="Auto" BorderBrush="Transparent" BorderThickness="0" Grid.Row="2" Grid.Column="0" Padding="-1">
+        <!-- Sidebar navigation. The window is right to left, so it sits on the right -->
+        <Border Name="WPFSidebar" Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Background="{DynamicResource MainBackgroundColor}"
+                BorderBrush="{DynamicResource BorderColor}" BorderThickness="0,0,1,0">
+            <!-- Sidebar navigation -->
+            <StackPanel Name="NavDockPanel" Orientation="Vertical" VerticalAlignment="Top" Margin="10,10,10,10">
+                <StackPanel Name="NavLogoPanel" Orientation="Vertical" HorizontalAlignment="Center" Background="{DynamicResource MainBackgroundColor}" SnapsToDevicePixels="True" Margin="0,5,0,18">
+                    <TextBlock Text="Blazma Boost" FontSize="16" FontWeight="Bold" Foreground="{DynamicResource LabelboxForegroundColor}" HorizontalAlignment="Center" Margin="0,6,0,0"/>
+                </StackPanel>
+                <ToggleButton Style="{StaticResource TabToggleButton}" Margin="0,0,0,6" Height="{DynamicResource TabButtonHeight}" Width="{DynamicResource TabButtonWidth}"
+                    Background="{DynamicResource ButtonInstallBackgroundColor}" Foreground="white" FontWeight="Bold" Name="WPFTab1BT">
+                    <ToggleButton.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE896;" FontSize="{DynamicResource TabButtonFontSize}" Foreground="{DynamicResource ButtonInstallForegroundColor}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonInstallForegroundColor}" VerticalAlignment="Center" Text="التثبيت"/>
+                        </StackPanel>
+                    </ToggleButton.Content>
+                </ToggleButton>
+                <ToggleButton Style="{StaticResource TabToggleButton}" Margin="0,0,0,6" Height="{DynamicResource TabButtonHeight}" Width="{DynamicResource TabButtonWidth}"
+                    Background="{DynamicResource ButtonTweaksBackgroundColor}" Foreground="{DynamicResource ButtonTweaksForegroundColor}" FontWeight="Bold" Name="WPFTab2BT">
+                    <ToggleButton.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE90F;" FontSize="{DynamicResource TabButtonFontSize}" Foreground="{DynamicResource ButtonTweaksForegroundColor}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonTweaksForegroundColor}" VerticalAlignment="Center" Text="التحسينات"/>
+                        </StackPanel>
+                    </ToggleButton.Content>
+                </ToggleButton>
+                <ToggleButton Style="{StaticResource TabToggleButton}" Margin="0,0,0,6" Height="{DynamicResource TabButtonHeight}" Width="{DynamicResource TabButtonWidth}"
+                    Background="{DynamicResource ButtonTweaksBackgroundColor}" Foreground="{DynamicResource ButtonTweaksForegroundColor}" FontWeight="Bold" Name="WPFTab7BT">
+                    <ToggleButton.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE7FC;" FontSize="{DynamicResource TabButtonFontSize}" Foreground="{DynamicResource ButtonTweaksForegroundColor}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonTweaksForegroundColor}" VerticalAlignment="Center" Text="الألعاب"/>
+                        </StackPanel>
+                    </ToggleButton.Content>
+                </ToggleButton>
+                <ToggleButton Style="{StaticResource TabToggleButton}" Margin="0,0,0,6" Height="{DynamicResource TabButtonHeight}" Width="{DynamicResource TabButtonWidth}"
+                    Background="{DynamicResource ButtonConfigBackgroundColor}" Foreground="{DynamicResource ButtonConfigForegroundColor}" FontWeight="Bold" Name="WPFTab8BT">
+                    <ToggleButton.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE7F4;" FontSize="{DynamicResource TabButtonFontSize}" Foreground="{DynamicResource ButtonConfigForegroundColor}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonConfigForegroundColor}" VerticalAlignment="Center" Text="مواصفاتي"/>
+                        </StackPanel>
+                    </ToggleButton.Content>
+                </ToggleButton>
+                <ToggleButton Style="{StaticResource TabToggleButton}" Margin="0,0,0,6" Height="{DynamicResource TabButtonHeight}" Width="{DynamicResource TabButtonWidth}"
+                    Background="{DynamicResource ButtonConfigBackgroundColor}" Foreground="{DynamicResource ButtonConfigForegroundColor}" FontWeight="Bold" Name="WPFTab3BT">
+                    <ToggleButton.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE713;" FontSize="{DynamicResource TabButtonFontSize}" Foreground="{DynamicResource ButtonConfigForegroundColor}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonConfigForegroundColor}" VerticalAlignment="Center" Text="الإعدادات"/>
+                        </StackPanel>
+                    </ToggleButton.Content>
+                </ToggleButton>
+                <ToggleButton Style="{StaticResource TabToggleButton}" Margin="0,0,0,6" Height="{DynamicResource TabButtonHeight}" Width="{DynamicResource TabButtonWidth}"
+                    Background="{DynamicResource ButtonUpdatesBackgroundColor}" Foreground="{DynamicResource ButtonUpdatesForegroundColor}" FontWeight="Bold" Name="WPFTab4BT">
+                    <ToggleButton.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE895;" FontSize="{DynamicResource TabButtonFontSize}" Foreground="{DynamicResource ButtonUpdatesForegroundColor}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonUpdatesForegroundColor}" VerticalAlignment="Center" Text="التحديثات"/>
+                        </StackPanel>
+                    </ToggleButton.Content>
+                </ToggleButton>
+                <ToggleButton Style="{StaticResource TabToggleButton}" Margin="0,0,0,6" Height="{DynamicResource TabButtonHeight}" Width="{DynamicResource TabButtonWidth}"
+                    Background="{DynamicResource ButtonWin11ISOBackgroundColor}" Foreground="{DynamicResource ButtonWin11ISOForegroundColor}" FontWeight="Bold" Name="WPFTab5BT">
+                    <ToggleButton.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE7F8;" FontSize="{DynamicResource TabButtonFontSize}" Foreground="{DynamicResource ButtonWin11ISOForegroundColor}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonWin11ISOForegroundColor}" VerticalAlignment="Center" Text="صانع Win11"/>
+                        </StackPanel>
+                    </ToggleButton.Content>
+                </ToggleButton>
+            </StackPanel>
+        </Border>
+
+        <TabControl Name="WPFTabNav" Background="Transparent" Width="Auto" Height="Auto" BorderBrush="Transparent" BorderThickness="0" Grid.Row="2" Grid.Column="1" Padding="-1">
             <TabItem Header="Install" Visibility="Collapsed" Name="WPFTab1">
                 <Grid Background="Transparent" >
                     <Grid.RowDefinitions>
@@ -1644,10 +1657,11 @@
                             <ColumnDefinition Width="1000*" MaxWidth="620"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
+                        <!-- Right to left: back sits on the right and points right, forward points left -->
                         <Button Name="WPFWin11ISOBackButton"
                                 Grid.Column="0"
                                 Margin="0,0,10,0"
-                                Content="&#xE76B;"
+                                Content="&#xE76C;"
                                 FontFamily="Segoe MDL2 Assets"
                                 FontSize="{DynamicResource Win11StepTitleFontSize}"
                                 MinWidth="44" MinHeight="72"
@@ -1669,7 +1683,7 @@
                         <Button Name="WPFWin11ISOForwardButton"
                                 Grid.Column="2"
                                 Margin="10,0,0,0"
-                                Content="&#xE76C;"
+                                Content="&#xE76B;"
                                 FontFamily="Segoe MDL2 Assets"
                                 FontSize="{DynamicResource Win11StepTitleFontSize}"
                                 MinWidth="44" MinHeight="72"
@@ -2292,6 +2306,14 @@
                                         <Button Name="WPFGamingGPUDriver" Content=" تحميل آخر تعريف لكرت الشاشة " HorizontalAlignment="Left" IsEnabled="False" Margin="2" Width="Auto" Padding="10,0" Height="{DynamicResource ButtonHeight}"/>
                                     </StackPanel>
                                 </Border>
+                                <Border Style="{StaticResource BorderStyle}" Margin="0,0,0,8">
+                                    <StackPanel Margin="10,5,10,10">
+                                        <Label Content="البنق لسيرفرات الألعاب:" FontSize="{DynamicResource FontSize}" FontWeight="Bold" Margin="2"/>
+                                        <TextBlock Text="يقيس سرعة الاستجابة لمناطق السيرفرات اللي تستضيف ألعاب كثيرة (مثل Fortnite وPUBG وApex). الرقم الأقل أفضل." TextWrapping="Wrap" Margin="7,0,7,6" Foreground="{DynamicResource MainForegroundColor}"/>
+                                        <TextBlock Name="WPFGamingPingResult" Text="" TextWrapping="Wrap" Margin="7,0,7,8" Foreground="{DynamicResource MainForegroundColor}"/>
+                                        <Button Name="WPFGamingPing" Content=" قياس البنق " HorizontalAlignment="Left" Margin="2" Width="{DynamicResource ButtonWidth}" Height="{DynamicResource ButtonHeight}"/>
+                                    </StackPanel>
+                                </Border>
                                 <Label Content="تحسينات الألعاب:" FontSize="{DynamicResource FontSize}" VerticalAlignment="Center" Margin="2"/>
                                 <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,2,0,0">
                                     <Button Name="WPFGamingOneClick" Content=" وضع الألعاب بضغطة " Margin="2" Width="{DynamicResource ButtonWidth}" Height="{DynamicResource ButtonHeight}"
@@ -2394,7 +2416,7 @@
         </TabControl>
 
         <!-- Window-level progress indicator - visible regardless of active tab -->
-        <Border Name="WPFTweaksProgressBar" Grid.Row="3" Background="{DynamicResource MainBackgroundColor}" Visibility="Collapsed" Padding="10,6">
+        <Border Name="WPFTweaksProgressBar" Grid.Row="3" Grid.Column="1" Background="{DynamicResource MainBackgroundColor}" Visibility="Collapsed" Padding="10,6">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
