@@ -300,6 +300,11 @@ Describe "XAML document" {
         }
     }
 
+    It "keeps the checkbox tick from being mirrored by the right-to-left window" {
+        $script:xaml.SelectSingleNode('//*[local-name()="Window"]').GetAttribute("FlowDirection") | Should -Be "RightToLeft"
+        $script:xaml.SelectSingleNode('//*[local-name()="Viewbox"][@Name="CheckMarkContainer"]').GetAttribute("FlowDirection") | Should -Be "LeftToRight"
+    }
+
     It "defines core tabs in the expected order" {
         $tabItems = @($script:xaml.SelectNodes('//*[local-name()="TabControl"][@Name="WPFTabNav"]/*[local-name()="TabItem"]'))
         $actualTabs = @($tabItems | ForEach-Object { "$($_.GetAttribute("Name")):$($_.GetAttribute("Header"))" })
