@@ -1,0 +1,26 @@
+{
+  "AwsBahrain": {
+    "Name": "Bahrain (AWS me-south-1)",
+    "Host": "dynamodb.me-south-1.amazonaws.com"
+  },
+  "AwsUAE": {
+    "Name": "UAE (AWS me-central-1)",
+    "Host": "dynamodb.me-central-1.amazonaws.com"
+  },
+  "AwsMumbai": {
+    "Name": "Mumbai (AWS ap-south-1)",
+    "Host": "dynamodb.ap-south-1.amazonaws.com"
+  },
+  "AwsFrankfurt": {
+    "Name": "Frankfurt (AWS eu-central-1)",
+    "Host": "dynamodb.eu-central-1.amazonaws.com"
+  },
+  "AwsParis": {
+    "Name": "Paris (AWS eu-west-3)",
+    "Host": "dynamodb.eu-west-3.amazonaws.com"
+  },
+  "AwsLondon": {
+    "Name": "London (AWS eu-west-2)",
+    "Host": "dynamodb.eu-west-2.amazonaws.com"
+  }
+}
