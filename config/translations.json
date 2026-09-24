@@ -1,6 +1,10 @@
 {
   "strings": {
-    "SelectedApps": "البرامج المحددة: {0}"
+    "SelectedApps": "البرامج المحددة: {0}",
+    "ApplyingStep": "جاري تطبيق: {3} ({1}/{2})",
+    "CreatingRestorePoint": "جاري إنشاء نقطة استعادة",
+    "SystemSummary": "المعالج: {0}\nكرت الشاشة: {1} (إصدار التعريف {2})\nالرام: {3} جيجا\nالنظام: {4}",
+    "UpdateAvailable": "يوجد إصدار جديد من Blazma Boost: {0}"
   },
   "categories": {
     "Essential Tweaks": "تحسينات أساسية",
@@ -283,7 +287,7 @@
       "Content": "تشغيل O&O ShutUp10++"
     },
     "WPFchangedns": {
-      "Content": "تغيير DNS إلى:"
+      "Content": "تغيير DNS إلى (Fastest يختار الأسرع لك):"
     },
     "WPFAddUltPerf": {
       "Content": "خطة الأداء الأقصى - تفعيل"
@@ -310,6 +314,10 @@
     "WPFTweaksGamingPowerThrottling": {
       "Content": "تقييد الطاقة - تعطيل",
       "Description": "يمنع ويندوز من إبطاء العمليات في الخلفية لتوفير الطاقة، فتبقى المنصات والدردشة الصوتية والأوفرلاي بكامل سرعتها. لا ينصح به للابتوب على البطارية."
+    },
+    "WPFTweaksGamingShaderCache": {
+      "Content": "كاش الشيدرز - مسح",
+      "Description": "يحذف كاش الشيدرز الخاص بـ DirectX وNVIDIA وAMD. الألعاب تعيد بناءه عند التشغيل التالي، وهذا قد يحل التقطيع بعد تحديث التعريف ويوفر مساحة."
     }
   },
   "feature": {
@@ -1126,6 +1134,72 @@
     },
     "steelseriesgg": {
       "description": "برنامج إعداد قطع SteelSeries، ويشمل خلاط الصوت Sonar ومسجل اللقطات Moments."
+    },
+    "directx": {
+      "description": "مكتبات DirectX القديمة (D3DX9 وXAudio 2.7 وXInput 1.3) التي تحتاجها كثير من الألعاب القديمة."
+    },
+    "vc2013_64": {
+      "description": "مكتبات Visual C++ 2013 نسخة 64-bit، تحتاجها بعض الألعاب والبرامج القديمة."
+    },
+    "vc2013_32": {
+      "description": "مكتبات Visual C++ 2013 نسخة 32-bit، تحتاجها بعض الألعاب والبرامج القديمة."
+    },
+    "vc2012_64": {
+      "description": "مكتبات Visual C++ 2012 نسخة 64-bit، تحتاجها بعض الألعاب والبرامج القديمة."
+    },
+    "vc2010_64": {
+      "description": "مكتبات Visual C++ 2010 نسخة 64-bit، تحتاجها بعض الألعاب والبرامج القديمة."
+    },
+    "vc2008_64": {
+      "description": "مكتبات Visual C++ 2008 نسخة 64-bit، تحتاجها بعض الألعاب والبرامج القديمة."
     }
+  },
+  "messages": {
+    "Also include the last 7 days of WinUtil logs? The companion file contains raw logs and may include local paths, commands, and error details. Review it before sharing.": "هل تريد إرفاق سجلات آخر 7 أيام؟ الملف المرافق فيه سجلات خام قد تحتوي مسارات وأوامر وتفاصيل أخطاء من جهازك. راجعه قبل مشاركته.",
+    "Confirm USB Erase": "تأكيد مسح الفلاشة",
+    "Disable Windows Update?": "تعطيل تحديثات ويندوز؟",
+    "Disabling Windows Update stops update services, disables scheduled tasks, and clears downloaded update files. Security updates will not be installed until defaults are restored. Continue?": "تعطيل تحديثات ويندوز يوقف خدمات التحديث ويعطل المهام المجدولة ويحذف ملفات التحديث المحملة. لن تُثبت التحديثات الأمنية حتى تستعيد الإعدادات الافتراضية. هل تريد المتابعة؟",
+    "Empty Configuration": "ملف إعدادات فارغ",
+    "Environment Report": "تقرير النظام",
+    "Error": "خطأ",
+    "Existing Work Found": "يوجد عمل سابق",
+    "Export Complete": "اكتمل التصدير",
+    "Invalid ISO": "ملف ISO غير صالح",
+    "Legacy Configuration Partially Imported": "تم استيراد جزء من الإعدادات القديمة",
+    "Modification Error": "خطأ في التعديل",
+    "No AppX Package selected": "لم تحدد أي حزمة AppX",
+    "No Drive Selected": "لم تحدد فلاشة",
+    "No ISO Selected": "لم تحدد ملف ISO",
+    "No modified ISO content found.  Please run the modification step first.": "لا يوجد محتوى ISO معدل. شغّل خطوة التعديل أولاً.",
+    "No modified ISO content found. Please run the modification step first.": "لا يوجد محتوى ISO معدل. شغّل خطوة التعديل أولاً.",
+    "No settings are selected to export. Please select at least one app, tweak, toggle, feature, or AppX package before exporting.": "لا توجد اختيارات للتصدير. اختر برنامجاً أو تحسيناً أو ميزة أو حزمة AppX واحدة على الأقل.",
+    "No toggles are selected.": "لم تحدد أي خيار.",
+    "No verified ISO found. Please select and verify an ISO first.": "لا يوجد ISO مفحوص. اختر ملف ISO وافحصه أولاً.",
+    "No Windows 11 edition was found in this ISO.\n\nOnly official Windows 11 ISOs are supported.": "لم يتم العثور على إصدار ويندوز 11 في هذا الملف.\n\nالملفات الرسمية لويندوز 11 فقط مدعومة.",
+    "No Windows Feature selected": "لم تحدد أي ميزة من ميزات ويندوز",
+    "Not a Windows 11 ISO": "ليس ملف ISO لويندوز 11",
+    "Not Ready": "غير جاهز",
+    "Nothing to Export": "لا يوجد شيء للتصدير",
+    "oscdimg Not Found": "لم يتم العثور على oscdimg",
+    "oscdimg.exe could not be found or installed automatically.\n\nPlease install it manually:\n  winget install -e --id Microsoft.OSCDIMG\n\nOr install the Windows ADK from:\nhttps://learn.microsoft.com/windows-hardware/get-started/adk-install": "لم يتم العثور على oscdimg.exe ولم يمكن تثبيته تلقائياً.\n\nثبته يدوياً بالأمر:\n  winget install -e --id Microsoft.OSCDIMG\n\nأو ثبت Windows ADK من:\nhttps://learn.microsoft.com/windows-hardware/get-started/adk-install",
+    "Please check the tweaks you wish to perform.": "حدد التحسينات التي تريد تطبيقها.",
+    "Please check the tweaks you wish to undo.": "حدد التحسينات التي تريد التراجع عنها.",
+    "Please select a USB drive from the dropdown.": "اختر فلاشة USB من القائمة.",
+    "Please select an ISO file first.": "اختر ملف ISO أولاً.",
+    "Previous ISO Still Mounted": "ملف ISO السابق ما زال مركّباً",
+    "Reset Windows Update": "إعادة ضبط تحديثات ويندوز",
+    "Start Over": "البدء من جديد",
+    "Stock settings loaded.\n Please reboot your computer": "تم تحميل الإعدادات الافتراضية.\nأعد تشغيل جهازك.",
+    "The selected file contains no settings to import. No changes have been made.": "الملف المختار لا يحتوي إعدادات للاستيراد. لم يتم تغيير شيء.",
+    "This does not appear to be a valid Windows ISO.\n\ninstall.wim / install.esd was not found.": "هذا الملف لا يبدو ISO صالح لويندوز.\n\nلم يتم العثور على install.wim أو install.esd.",
+    "This legacy configuration contains no settings supported by this version of WinUtil. No changes have been made.": "ملف الإعدادات القديم لا يحتوي إعدادات يدعمها هذا الإصدار. لم يتم تغيير شيء.",
+    "Unsupported Legacy Configuration": "ملف إعدادات قديم غير مدعوم",
+    "USB Creation Not Supported": "إنشاء الفلاشة غير مدعوم",
+    "USB drive created successfully!\n\nYou can now boot from this drive to install Windows 11.": "تم إنشاء الفلاشة بنجاح!\n\nتقدر الحين تقلع منها لتثبيت ويندوز 11.",
+    "USB Ready": "الفلاشة جاهزة",
+    "USB Write Error": "خطأ في الكتابة على الفلاشة",
+    "Please select the program(s) to install or upgrade.": "اختر البرامج التي تريد تثبيتها أو تحديثها.",
+    "Please select the program(s) to uninstall": "اختر البرامج التي تريد إزالتها.",
+    "Are you sure?": "هل أنت متأكد؟"
   }
 }

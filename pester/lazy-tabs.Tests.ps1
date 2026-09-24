@@ -16,6 +16,7 @@ BeforeAll {
     function Invoke-WinUtilISOCheckExistingWork { }
     function Initialize-WinUtilInstallTabControls { }
     function Reset-WPFCheckBoxes { param([bool]$doToggles) }
+    function Initialize-WinUtilGamingSystemInfo { }
 
     . (Join-Path $script:repoRoot "functions\public\Initialize-WPFUI.ps1")
     . (Join-Path $script:repoRoot "functions\private\Select-WinUtilTweaksByCategory.ps1")

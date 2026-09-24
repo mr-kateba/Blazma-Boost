@@ -36,6 +36,7 @@ function Initialize-WinUtilTabContent {
             }
             "Gaming" {
                 Invoke-WPFUIElements -configVariable (Select-WinUtilTweaksByCategory -Category "Gaming") -targetGridName "gamingpanel" -columncount 2 -Yield:$Yield
+                Initialize-WinUtilGamingSystemInfo
             }
             "Config" {
                 Invoke-WPFUIElements -configVariable $sync.configs.feature -targetGridName "featurespanel" -columncount 2 -Yield:$Yield
