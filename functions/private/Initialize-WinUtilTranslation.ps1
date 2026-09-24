@@ -15,6 +15,8 @@ function Initialize-WinUtilTranslation {
         return
     }
 
+    $guideUrl = $translations.strings.GuideUrl
+
     foreach ($section in $translations.PSObject.Properties) {
         $config = $sync.configs[$section.Name]
         if ($section.Name -in @("strings", "categories", "messages") -or $null -eq $config) {
@@ -27,6 +29,11 @@ function Initialize-WinUtilTranslation {
             $target = $config.$targetName
             if ($null -eq $target) {
                 continue
+            }
+
+            # The "(?)" button opens the Arabic guide section for this entry
+            if ($guideUrl -and $section.Name -in @("tweaks", "feature") -and $target.link) {
+                $target.link = "$guideUrl#$($targetName.ToLowerInvariant())"
             }
 
             foreach ($field in $entry.Value.PSObject.Properties) {
