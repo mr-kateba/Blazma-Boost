@@ -13,6 +13,7 @@ BeforeAll {
     . (Join-Path $script:repoRoot "functions\public\Invoke-WPFGamingOneClick.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilHardwareSpecs.ps1")
     . (Join-Path $script:repoRoot "functions\private\Copy-WinUtilHardwareSpecs.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Get-WinUtilGpuDriverStatus.ps1")
 
     function Write-WinUtilLog { param($Message, $Level, $Component) }
     function Invoke-WPFRunspace { param($ScriptBlock, $ArgumentList, $ParameterList) & $ScriptBlock }
@@ -207,5 +208,61 @@ Describe "Copy-WinUtilHardwareSpecs" {
         $script:copied | Should -Match "^\[HCPU\]\r\nTCPU\r\nline2\r\n\r\n\[HGPU\]"
         $script:copied | Should -Match "\[HWindows\]\r\nTWindows\r\nline2$"
         Remove-Variable -Name sync -Scope Script
+    }
+}
+
+Describe "Get-WinUtilGpuDriverStatus" {
+    BeforeEach {
+        Mock Invoke-RestMethod {
+            if ($Uri -like "*gpu-data.json") {
+                [pscustomobject]@{
+                    desktop = [pscustomobject]@{ "GeForce RTX 3070" = "933"; "GeForce RTX 4070 SUPER" = "1041" }
+                    notebook = [pscustomobject]@{ "GeForce RTX 3060 Laptop GPU" = "940" }
+                }
+            } else {
+                $script:lookupUri = $Uri
+                [pscustomobject]@{
+                    Success = "1"
+                    IDS = @(
+                        [pscustomobject]@{ downloadInfo = [pscustomobject]@{ Version = "566.36" } }
+                        [pscustomobject]@{ downloadInfo = [pscustomobject]@{ Version = "565.90" } }
+                    )
+                }
+            }
+        }
+    }
+
+    It "reports an update when NVIDIA has a newer driver" {
+        $status = Get-WinUtilGpuDriverStatus -Name "NVIDIA GeForce RTX 3070" -DriverVersion "32.0.15.6094"
+
+        $status.Status | Should -Be "UpdateAvailable"
+        $status.Installed | Should -Be "560.94"
+        $status.Latest | Should -Be "566.36"
+        $script:lookupUri | Should -Match "pfid=933&"
+    }
+
+    It "reports up to date when the newest driver is installed" {
+        $status = Get-WinUtilGpuDriverStatus -Name "NVIDIA GeForce RTX 3070" -DriverVersion "32.0.15.6636"
+
+        $status.Status | Should -Be "UpToDate"
+        $status.Installed | Should -Be "566.36"
+    }
+
+    It "matches laptop and SUPER names to NVIDIA's list" {
+        Get-WinUtilGpuDriverStatus -Name "NVIDIA GeForce RTX 3060 Laptop GPU" -DriverVersion "32.0.15.6094" -IsNotebook | Out-Null
+        $script:lookupUri | Should -Match "pfid=940&"
+
+        Get-WinUtilGpuDriverStatus -Name "NVIDIA GeForce RTX 4070 Super" -DriverVersion "32.0.15.6094" | Out-Null
+        $script:lookupUri | Should -Match "pfid=1041&"
+    }
+
+    It "returns Unknown for a card NVIDIA's list does not have" {
+        (Get-WinUtilGpuDriverStatus -Name "NVIDIA Quadro Something" -DriverVersion "32.0.15.6094").Status | Should -Be "Unknown"
+    }
+
+    It "judges AMD and Intel drivers by age without going online" {
+        (Get-WinUtilGpuDriverStatus -Name "AMD Radeon RX 6700 XT" -DriverVersion "31.0.21001.45002" -DriverDate (Get-Date).AddDays(-400)).Status | Should -Be "Old"
+        (Get-WinUtilGpuDriverStatus -Name "Intel(R) Arc(TM) A770" -DriverVersion "32.0.101.5972" -DriverDate (Get-Date).AddDays(-30)).Status | Should -Be "Current"
+        Should -Invoke -CommandName Invoke-RestMethod -Times 0 -Exactly
     }
 }
