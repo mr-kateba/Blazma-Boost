@@ -34,7 +34,8 @@ function Measure-WinUtilGameServerLatency {
                             if ($null -eq $best -or $elapsed -lt $best) { $best = $elapsed }
                         }
                     } catch {
-                        # A refused or reset attempt just does not count
+                        # A refused or reset attempt just does not count towards the best time
+                        Write-Verbose "Connection to $($server.Value.Host) failed: $($_.Exception.Message)"
                     } finally {
                         $client.Dispose()
                     }

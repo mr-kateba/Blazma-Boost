@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Generates docs-ar/tweaks.md, the Arabic guide the "(?)" buttons open
 

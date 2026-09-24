@@ -110,8 +110,10 @@ Describe "Arabic guide" {
         $generated = Join-Path $TestDrive "tweaks.md"
         & (Join-Path $script:repoRoot "tools\Build-ArabicGuide.ps1") -OutputPath $generated
 
-        (Get-Content -Path $generated -Raw -Encoding UTF8) |
-            Should -BeExactly (Get-Content -Path (Join-Path $script:repoRoot "docs-ar\tweaks.md") -Raw -Encoding UTF8)
+        # Git may check the guide out with CRLF line endings on Windows; only the content matters
+        $expected = (Get-Content -Path (Join-Path $script:repoRoot "docs-ar\tweaks.md") -Raw -Encoding UTF8) -replace "`r`n", "`n"
+        $actual = (Get-Content -Path $generated -Raw -Encoding UTF8) -replace "`r`n", "`n"
+        $actual | Should -BeExactly $expected
     }
 
     It "has a section for every tweak with a help link" {
