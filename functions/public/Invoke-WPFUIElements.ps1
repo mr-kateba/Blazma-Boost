@@ -157,6 +157,7 @@ function Invoke-WPFUIElements {
 
             $label = New-Object Windows.Controls.Label
             $categoryCleanName = $category -replace ".*__", ""
+            $categoryCleanName = Get-WinUtilText -Section "categories" -Key $categoryCleanName
             $label.Content = $categoryCleanName
             $label.Focusable = $true
             $label.IsTabStop = $true

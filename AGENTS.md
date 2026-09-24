@@ -170,6 +170,7 @@ Proceed without asking when:
 
 When the user corrects an agent approach, add or tighten one concrete rule here before ending the session. Keep this section short and prune rules that no longer matter.
 
+- Blazma Boost fork: keep Arabic text in `xaml/inputXML.xaml` and `config/translations.json`, not in PowerShell sources, and keep English defaults in code (`Get-WinUtilText -Default`) so tests and headless runs still read correctly. Do not translate `TabItem` `Header` values, `Name` attributes, config keys, or category keys; code uses them as identifiers.
 - Keep `winutil.ps1` generated-only: change source files, compile to verify, and never stage the generated script.
 - Keep WinUtil runtime logging in the existing timestamped `%LocalAppData%\winutil\logs\winutil_*.log` session file; do not create a separate root `winutil.log`.
 - Import Pester 5.8.0 before running tests so `Invoke-Pester -Output Detailed -CI` does not resolve to Windows' inbox Pester 3.4.0.
