@@ -336,7 +336,7 @@
   },
   "feature": {
     "WPFFeaturesdotnet": {
-      "Content": ".NET Framework (الإصدارات 2 و3 و4) - تفعيل",
+      "Content": "حزمة .NET Framework (الإصدارات 2 و3 و4) - تفعيل",
       "Description": "منصة مطورين تحتاجها كثير من البرامج والألعاب القديمة لتعمل."
     },
     "WPFFixesNTPPool": {
