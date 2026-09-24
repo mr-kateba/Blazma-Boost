@@ -14,6 +14,10 @@ BeforeAll {
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilHardwareSpecs.ps1")
     . (Join-Path $script:repoRoot "functions\private\Copy-WinUtilHardwareSpecs.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilGpuDriverStatus.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Save-WinUtilPreferences.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Import-WinUtilPreferences.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Start-WinUtilGameServerLatencyTest.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Measure-WinUtilGameServerLatency.ps1")
 
     function Write-WinUtilLog { param($Message, $Level, $Component) }
     function Invoke-WPFRunspace { param($ScriptBlock, $ArgumentList, $ParameterList) & $ScriptBlock }
@@ -264,5 +268,68 @@ Describe "Get-WinUtilGpuDriverStatus" {
         (Get-WinUtilGpuDriverStatus -Name "AMD Radeon RX 6700 XT" -DriverVersion "31.0.21001.45002" -DriverDate (Get-Date).AddDays(-400)).Status | Should -Be "Old"
         (Get-WinUtilGpuDriverStatus -Name "Intel(R) Arc(TM) A770" -DriverVersion "32.0.101.5972" -DriverDate (Get-Date).AddDays(-30)).Status | Should -Be "Current"
         Should -Invoke -CommandName Invoke-RestMethod -Times 0 -Exactly
+    }
+}
+
+Describe "Preferences" {
+    BeforeEach {
+        $script:previousLocalAppData = $env:LocalAppData
+        $env:LocalAppData = Join-Path $TestDrive ([guid]::NewGuid())
+        $script:sync = @{ preferences = @{ theme = "Light"; packagemanager = "Choco" }; FontScaleFactor = 1.25 }
+    }
+
+    AfterEach {
+        $env:LocalAppData = $script:previousLocalAppData
+        Remove-Variable -Name sync -Scope Script -ErrorAction SilentlyContinue
+    }
+
+    It "restores what was saved" {
+        Save-WinUtilPreferences
+        $script:sync = @{ preferences = @{ theme = "Dark"; packagemanager = "Winget" } }
+
+        Import-WinUtilPreferences
+
+        $script:sync.preferences.theme | Should -Be "Light"
+        $script:sync.preferences.packagemanager | Should -Be "Choco"
+        $script:sync.FontScaleFactor | Should -Be 1.25
+    }
+
+    It "ignores invalid values in a hand-edited file" {
+        $path = Join-Path (Join-Path $env:LocalAppData "winutil") "preferences.json"
+        New-Item -ItemType Directory -Path (Split-Path -Parent $path) -Force | Out-Null
+        '{ "theme": "Purple", "packagemanager": "npm", "fontScale": 9 }' | Set-Content -LiteralPath $path
+        $script:sync = @{ preferences = @{ theme = "Dark"; packagemanager = "Winget" } }
+
+        Import-WinUtilPreferences
+
+        $script:sync.preferences.theme | Should -Be "Dark"
+        $script:sync.preferences.packagemanager | Should -Be "Winget"
+        $script:sync.ContainsKey("FontScaleFactor") | Should -BeFalse
+    }
+
+    It "keeps the defaults when there is no file" {
+        $script:sync = @{ preferences = @{ theme = "Dark"; packagemanager = "Winget" } }
+        Import-WinUtilPreferences
+        $script:sync.preferences.theme | Should -Be "Dark"
+    }
+}
+
+Describe "Start-WinUtilGameServerLatencyTest" {
+    It "lists regions fastest first and marks the ones that did not answer" {
+        Mock Measure-WinUtilGameServerLatency {
+            [pscustomobject]@{ Key = "AwsFrankfurt"; Name = "Frankfurt"; LatencyMs = 95 }
+            [pscustomobject]@{ Key = "AwsBahrain"; Name = "Bahrain"; LatencyMs = 31 }
+            [pscustomobject]@{ Key = "AwsUAE"; Name = "UAE"; LatencyMs = $null }
+        }
+        $script:sync = @{
+            WPFGamingPingResult = [pscustomobject]@{ Text = "" }
+            WPFGamingPing = [pscustomobject]@{ IsEnabled = $true }
+        }
+
+        Start-WinUtilGameServerLatencyTest
+
+        $script:sync.WPFGamingPingResult.Text | Should -Be "Bahrain: 31 ms`nFrankfurt: 95 ms`nUAE: no response"
+        $script:sync.WPFGamingPing.IsEnabled | Should -BeTrue
+        Remove-Variable -Name sync -Scope Script
     }
 }
