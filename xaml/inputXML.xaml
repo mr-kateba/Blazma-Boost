@@ -582,7 +582,9 @@
                                                 Height="{DynamicResource CheckBoxBulletDecoratorSize *0.85}"
                                                 Margin="1"
                                                 SnapsToDevicePixels="True"/>
+                                        <!-- The window is right to left for Arabic, which would mirror the tick -->
                                         <Viewbox Name="CheckMarkContainer"
+                                                FlowDirection="LeftToRight"
                                                 Width="{DynamicResource CheckBoxBulletDecoratorSize}"
                                                 Height="{DynamicResource CheckBoxBulletDecoratorSize}"
                                                 HorizontalAlignment="Center"
