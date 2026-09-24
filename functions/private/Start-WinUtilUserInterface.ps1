@@ -213,6 +213,7 @@ function Start-WinUtilUserInterface {
                 "C" { Invoke-WPFButton "WPFTab3BT"; $keyEventArgs.Handled = $true } # Navigate to Config tab
                 "U" { Invoke-WPFButton "WPFTab4BT"; $keyEventArgs.Handled = $true } # Navigate to Updates tab
                 "W" { Invoke-WPFButton "WPFTab5BT"; $keyEventArgs.Handled = $true } # Navigate to Win11ISO tab
+                "G" { Invoke-WPFButton "WPFTab7BT"; $keyEventArgs.Handled = $true } # Navigate to Gaming tab
             }
         }
         # Handle Ctrl key combinations for specific actions
@@ -359,7 +360,6 @@ function Start-WinUtilUserInterface {
         @{ Name = "WPFSearchChipMicrosoftTools";  Category = "Microsoft Tools" }
         @{ Name = "WPFSearchChipMultimediaTools"; Category = "Multimedia Tools" }
         @{ Name = "WPFSearchChipProTools";        Category = "Pro Tools" }
-        @{ Name = "WPFSearchChipSelfhostedTools"; Category = "Selfhosted Tools" }
         @{ Name = "WPFSearchChipUtilities";       Category = "Utilities" }
     )
     $sync.SelectedAppCategories = [System.Collections.Generic.List[string]]::new()
@@ -421,34 +421,15 @@ function Start-WinUtilUserInterface {
         Invoke-WPFPopup -Action "Hide" -Popups @("Settings")
 
         $authorInfo = @"
-Author   : <a href="https://github.com/ChrisTitusTech">@ChrisTitusTech</a>
-UI       : <a href="https://github.com/MyDrift-user">@MyDrift-user</a>, <a href="https://github.com/Marterich">@Marterich</a>
-Runspace : <a href="https://github.com/DeveloperDurp">@DeveloperDurp</a>, <a href="https://github.com/Marterich">@Marterich</a>
-GitHub   : <a href="https://github.com/ChrisTitusTech/winutil">ChrisTitusTech/winutil</a>
-Version  : <a href="https://github.com/ChrisTitusTech/winutil/releases/tag/$($sync.version)">$($sync.version)</a>
+Blazma Boost : <a href="https://github.com/mr-kateba/Blazma-Boost">mr-kateba/Blazma-Boost</a>
+Version      : <a href="https://github.com/mr-kateba/Blazma-Boost/releases/tag/$($sync.version)">$($sync.version)</a>
+Based on     : <a href="https://github.com/ChrisTitusTech/winutil">WinUtil</a> by <a href="https://github.com/ChrisTitusTech">@ChrisTitusTech</a> and contributors
 "@
         Show-CustomDialog -Title "About" -Message $authorInfo
     })
     $sync["DocumentationMenuItem"].Add_Click({
         Invoke-WPFPopup -Action "Hide" -Popups @("Settings")
-        Start-Process "https://winutil.christitus.com/"
-    })
-    $sync["SponsorMenuItem"].Add_Click({
-        Invoke-WPFPopup -Action "Hide" -Popups @("Settings")
-
-        $authorInfo = @"
-<a href="https://github.com/sponsors/ChrisTitusTech">Current sponsors for ChrisTitusTech:</a>
-"@
-        $authorInfo += "`n"
-        try {
-            $sponsors = Invoke-WinUtilSponsors
-            foreach ($sponsor in $sponsors) {
-                $authorInfo += "<a href=`"https://github.com/sponsors/ChrisTitusTech`">$sponsor</a>`n"
-            }
-        } catch {
-            $authorInfo += "An error occurred while fetching or processing the sponsors: $_`n"
-        }
-        Show-CustomDialog -Title "Sponsors" -Message $authorInfo -EnableScroll $true
+        Start-Process "https://github.com/mr-kateba/Blazma-Boost"
     })
 
     # Font Scaling Event Handlers

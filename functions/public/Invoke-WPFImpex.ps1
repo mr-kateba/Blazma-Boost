@@ -60,7 +60,7 @@ function Invoke-WPFImpex {
                     }
                     $jsonFile = $allConfs | ConvertTo-Json
                     $jsonFile | Out-File $Config -Force
-                    "iex ""& { `$(irm https://christitus.com/win) } -Config '$Config'""" | Set-Clipboard
+                    "iex ""& { `$(irm https://github.com/mr-kateba/Blazma-Boost/releases/latest/download/winutil.ps1) } -Config '$Config'""" | Set-Clipboard
                 }
             } catch {
                 Write-Error "An error occurred while exporting: $_"

@@ -167,6 +167,9 @@ function Invoke-WPFButtonAction {
         "WPFAddUltPerf" {Invoke-WPFUltimatePerformance -Enable}
         "WPFRemoveUltPerf" {Invoke-WPFUltimatePerformance}
         "WPFundoall" {Invoke-WPFundoall}
+        "WPFGamingPreset" {Invoke-WPFPresets "Gaming" -checkboxfilterpattern "WPFTweaksGaming*"}
+        "WPFGamingTweaksButton" {Invoke-WPFtweaksbutton}
+        "WPFGamingUndoButton" {Invoke-WPFundoall}
         "WPFUpdatesdefault" {Invoke-WPFUpdatesdefault}
         "WPFUpdatesdisable" {Invoke-WPFUpdatesdisable -Confirmed:$UpdatesDisableConfirmed}
         "WPFUpdatessecurity" {Invoke-WPFUpdatessecurity}

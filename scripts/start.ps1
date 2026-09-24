@@ -1,14 +1,15 @@
 <#
 .NOTES
-    Author         : Chris Titus @christitustech
+    Project        : Blazma Boost
+    GitHub         : https://github.com/mr-kateba/Blazma-Boost
+    Based on       : WinUtil by Chris Titus @christitustech (https://github.com/ChrisTitusTech/winutil)
     Runspace Author: @DeveloperDurp
-    GitHub         : https://github.com/ChrisTitusTech
     Version        : #{replaceme}
 #>
 
 param (
     [string]$Config,
-    [ValidateSet("Standard", "Minimal", "Advanced", "")]
+    [ValidateSet("Standard", "Minimal", "Advanced", "Gaming", "")]
     [string]$Preset,
     [switch]$Offline
 )
@@ -169,7 +170,7 @@ if (`$launch.Headless) { `$env:WINUTIL_HEADLESS_CHILD = '1' }
 if (`$launch.ScriptPath) {
     & `$launch.ScriptPath @invokeParameters
 } else {
-    `$remoteScript = [ScriptBlock]::Create((Invoke-RestMethod 'https://github.com/ChrisTitusTech/winutil/releases/latest/download/winutil.ps1'))
+    `$remoteScript = [ScriptBlock]::Create((Invoke-RestMethod 'https://github.com/mr-kateba/Blazma-Boost/releases/latest/download/winutil.ps1'))
     & `$remoteScript @invokeParameters
 }
 "@
@@ -263,5 +264,5 @@ $sync.logPath = "$logdir\winutil_$dateTime.log"
 $sync.transcriptPath = $sync.logPath
 Start-Transcript -Path $sync.transcriptPath -Append -NoClobber | Out-Null
 
-$Host.UI.RawUI.WindowTitle = "WinUtil"
+$Host.UI.RawUI.WindowTitle = "Blazma Boost"
 Clear-Host

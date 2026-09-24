@@ -78,7 +78,7 @@ function Start-WinUtilJob {
     }
 
     if ($blockedBy) {
-        Show-WinUtilMessage -Message "$blockedBy is still running. Wait for it to finish before starting another action." -Title "WinUtil" -Button "OK" -Icon "Warning" | Out-Null
+        Show-WinUtilMessage -Message "$blockedBy is still running. Wait for it to finish before starting another action." -Title "Blazma Boost" -Button "OK" -Icon "Warning" | Out-Null
         return $null
     }
 

@@ -182,7 +182,7 @@ Describe "Invoke-WPFInstall entrypoint" {
 
         Should -Invoke -CommandName Show-WinUtilMessage -Times 1 -Exactly -ParameterFilter {
             $Message -eq "Please select the program(s) to install or upgrade." -and
-                $Title -eq "WinUtil" -and
+                $Title -eq "Blazma Boost" -and
                 $Button -eq "OK" -and
                 $Icon -eq "Warning"
         }
