@@ -176,10 +176,10 @@ function Invoke-WPFButtonAction {
             Invoke-WPFPresets "GamerEssentials" -checkboxfilterpattern "WPFInstall*"
             Invoke-WPFTab "WPFTab1BT"
         }
-        "WPFGamingGPUDriver" {Open-WinUtilGpuDriverPage}
+        "WPFGamingGPUDriver" {Open-WinUtilGpuDriverUpdater}
         "WPFGamingPing" {Start-WinUtilGameServerLatencyTest}
         "WPFSpecsRefresh" {Initialize-WinUtilHardwareSpecs}
-        "WPFSpecsDriverDownload" {Open-WinUtilGpuDriverPage}
+        "WPFSpecsDriverDownload" {Open-WinUtilGpuDriverUpdater}
         "WPFSpecsCopy" {Copy-WinUtilHardwareSpecs}
         "WPFUpdateBannerButton" {Start-Process "https://github.com/mr-kateba/Blazma-Boost/releases/latest"}
         "WPFUpdatesdefault" {Invoke-WPFUpdatesdefault}
