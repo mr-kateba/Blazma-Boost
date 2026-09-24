@@ -383,7 +383,7 @@ function Start-WinUtilUserInterface {
 
     Measure-WinUtilStep -Scope "UI" -Name "build nav logo" -ScriptBlock {
         $NavLogoPanel = $sync["Form"].FindName("NavLogoPanel")
-        $NavLogoPanel.Children.Add((Invoke-WinUtilAssets -Type "logo" -Size 25)) | Out-Null
+        $NavLogoPanel.Children.Add((Invoke-WinUtilAssets -Type "logo" -Size 30)) | Out-Null
     }
 
     $sync["Form"].Add_Activated({
