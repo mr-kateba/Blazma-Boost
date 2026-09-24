@@ -210,6 +210,8 @@ Describe "XAML document" {
             "WPFSpecsRefresh",
             "WPFSpecsCopy",
             "WPFSpecsDriverStatus",
+            "WPFGamingPing",
+            "WPFGamingPingResult",
             "WPFSpecsDriverDownload",
             "WPFUpdateBannerText",
             "WPFUpdateBannerButton",
@@ -345,7 +347,9 @@ Describe "XAML document" {
             "WPFCloseButton"
         )
 
-        $navPanel.GetAttribute("VerticalAlignment") | Should -Be "Center"
+        # The navigation is a sidebar now, stacked from the top
+        $navPanel.GetAttribute("Orientation") | Should -Be "Vertical"
+        $navPanel.GetAttribute("VerticalAlignment") | Should -Be "Top"
         $actionPanel.GetAttribute("VerticalAlignment") | Should -Be "Center"
 
         foreach ($buttonName in $topBarButtonNames) {

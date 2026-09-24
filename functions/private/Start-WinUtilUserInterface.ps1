@@ -82,6 +82,10 @@ function Start-WinUtilUserInterface {
     Measure-WinUtilStep -Scope "UI" -Name "apply theme" -ScriptBlock {
         Invoke-WinutilThemeChange -theme $sync.preferences.theme
     }
+    # A saved font size is already applied by the theme change; the slider shows it too
+    if ($sync.ContainsKey("FontScaleFactor")) {
+        $sync.FontScalingSlider.Value = $sync.FontScaleFactor
+    }
 
     # No tab content is built before first paint. Invoke-WPFTab builds whichever tab it
     # activates, and ContentRendered activates the default one.
@@ -383,7 +387,8 @@ function Start-WinUtilUserInterface {
 
     Measure-WinUtilStep -Scope "UI" -Name "build nav logo" -ScriptBlock {
         $NavLogoPanel = $sync["Form"].FindName("NavLogoPanel")
-        $NavLogoPanel.Children.Add((Invoke-WinUtilAssets -Type "logo" -Size 30)) | Out-Null
+        # Above the "Blazma Boost" name at the top of the sidebar
+        $NavLogoPanel.Children.Insert(0, (Invoke-WinUtilAssets -Type "logo" -Size 48))
     }
 
     $sync["Form"].Add_Activated({
@@ -396,14 +401,17 @@ function Start-WinUtilUserInterface {
     $sync["AutoThemeMenuItem"].Add_Click({
         Invoke-WPFPopup -Action "Hide" -Popups @("Theme")
         Invoke-WinutilThemeChange -theme "Auto"
+        Save-WinUtilPreferences
     })
     $sync["DarkThemeMenuItem"].Add_Click({
         Invoke-WPFPopup -Action "Hide" -Popups @("Theme")
         Invoke-WinutilThemeChange -theme "Dark"
+        Save-WinUtilPreferences
     })
     $sync["LightThemeMenuItem"].Add_Click({
         Invoke-WPFPopup -Action "Hide" -Popups @("Theme")
         Invoke-WinutilThemeChange -theme "Light"
+        Save-WinUtilPreferences
     })
 
     $sync["SettingsButton"].Add_Click({
@@ -455,6 +463,7 @@ Based on     : <a href="https://github.com/ChrisTitusTech/winutil">WinUtil</a> b
     $sync["FontScalingApplyButton"].Add_Click({
         $scaleFactor = $sync.FontScalingSlider.Value
         Invoke-WinUtilFontScaling -ScaleFactor $scaleFactor
+        Save-WinUtilPreferences
         Invoke-WPFPopup -Action "Hide" -Popups @("FontScaling")
     })
 

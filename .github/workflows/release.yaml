@@ -9,34 +9,51 @@ on:
 jobs:
   release:
     runs-on: windows-latest
+    env:
+      # A step's own env is not visible to its "if", so whether a certificate exists is decided here
+      HAS_CERTIFICATE: ${{ secrets.CERTIFICATE_BASE64 != '' }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v7
+
+      # A later release on the same day gets .2, .3 ... so every release has its own tag and the
+      # update banner can tell them apart
+      - name: Pick the version
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $date = Get-Date -Format "yy.MM.dd"
+          $tags = @(gh api "repos/$env:GITHUB_REPOSITORY/tags?per_page=100" --jq '.[].name')
+          $version = $date
+          $n = 2
+          while ($tags -contains $version) {
+            $version = "$date.$n"
+            $n++
+          }
+          echo "VERSION=$version" >> $env:GITHUB_ENV
+          echo "BLAZMA_VERSION=$version" >> $env:GITHUB_ENV
 
       - name: Compile project
         shell: pwsh
         run: |
           Set-ExecutionPolicy Bypass -Scope Process -Force; ./Compile.ps1
 
-      # Compile.ps1 stamps the script with today's date, so the release uses the same version
-      - name: Set version to today's date
-        shell: pwsh
-        run: |
-          $version = (Get-Date -Format "yy.MM.dd")
-          echo "VERSION=$version" >> $env:GITHUB_ENV
-
-      # A second release on the same day replaces the first, so the tag, the notes and the
-      # script all point at the newest commit instead of leaving the tag on the old one
-      - name: Replace an earlier release from today
+      # Signing is optional: add the secrets CERTIFICATE_BASE64 (a .pfx encoded as base64) and
+      # CERTIFICATE_PASSWORD to the repository to have every release signed
+      - name: Sign winutil.ps1
+        if: ${{ env.HAS_CERTIFICATE == 'true' }}
         shell: pwsh
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CERTIFICATE_BASE64: ${{ secrets.CERTIFICATE_BASE64 }}
+          CERTIFICATE_PASSWORD: ${{ secrets.CERTIFICATE_PASSWORD }}
         run: |
-          gh release view $env:VERSION --repo $env:GITHUB_REPOSITORY *> $null
-          if ($LASTEXITCODE -eq 0) {
-            gh release delete $env:VERSION --repo $env:GITHUB_REPOSITORY --cleanup-tag --yes
-          }
-          $global:LASTEXITCODE = 0
+          $pfxPath = Join-Path $env:RUNNER_TEMP "signing.pfx"
+          [IO.File]::WriteAllBytes($pfxPath, [Convert]::FromBase64String($env:CERTIFICATE_BASE64))
+          $certificate = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new($pfxPath, $env:CERTIFICATE_PASSWORD)
+          $result = Set-AuthenticodeSignature -FilePath ./winutil.ps1 -Certificate $certificate -TimestampServer "http://timestamp.digicert.com" -HashAlgorithm SHA256
+          Remove-Item $pfxPath -Force
+          if ($result.Status -ne "Valid") { throw "Signing failed: $($result.StatusMessage)" }
 
       - name: Create release and upload winutil.ps1
         uses: softprops/action-gh-release@v3
