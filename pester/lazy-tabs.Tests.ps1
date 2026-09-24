@@ -18,6 +18,7 @@ BeforeAll {
     function Reset-WPFCheckBoxes { param([bool]$doToggles) }
 
     . (Join-Path $script:repoRoot "functions\public\Initialize-WPFUI.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Select-WinUtilTweaksByCategory.ps1")
     . (Join-Path $script:repoRoot "functions\private\Initialize-WinUtilTabContent.ps1")
 }
 
@@ -83,6 +84,25 @@ Describe "Initialize-WinUtilTabContent" {
         }
         Should -Invoke -CommandName Invoke-WPFUIElements -Times 1 -Exactly -ParameterFilter {
             $targetGridName -eq "appxpanel" -and $columncount -eq 2
+        }
+    }
+
+    It "splits the Gaming tweaks out of the Tweaks tab into the Gaming tab" {
+        $script:sync.configs.tweaks = [pscustomobject]@{
+            WPFTweaksTelemetry = [pscustomobject]@{ category = "Essential Tweaks" }
+            WPFTweaksGamingHAGS = [pscustomobject]@{ category = "Gaming" }
+        }
+
+        Initialize-WinUtilTabContent -TabName "Tweaks"
+        Initialize-WinUtilTabContent -TabName "Gaming"
+
+        Should -Invoke -CommandName Invoke-WPFUIElements -Times 1 -Exactly -ParameterFilter {
+            $targetGridName -eq "tweakspanel" -and
+                @($configVariable.PSObject.Properties.Name) -join "," -eq "WPFTweaksTelemetry"
+        }
+        Should -Invoke -CommandName Invoke-WPFUIElements -Times 1 -Exactly -ParameterFilter {
+            $targetGridName -eq "gamingpanel" -and
+                @($configVariable.PSObject.Properties.Name) -join "," -eq "WPFTweaksGamingHAGS"
         }
     }
 

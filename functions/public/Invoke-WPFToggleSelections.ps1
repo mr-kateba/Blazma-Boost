@@ -14,7 +14,7 @@ function Invoke-WPFToggleSelections {
     $toggles = @($sync.selectedToggles)
 
     if ($toggles.Count -eq 0) {
-        Show-WinUtilMessage -Message "No toggles are selected." -Title "WinUtil" -Button "OK" -Icon "Warning" | Out-Null
+        Show-WinUtilMessage -Message "No toggles are selected." -Title "Blazma Boost" -Button "OK" -Icon "Warning" | Out-Null
         return
     }
 

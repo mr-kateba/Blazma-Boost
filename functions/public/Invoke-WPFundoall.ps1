@@ -9,7 +9,7 @@ function Invoke-WPFundoall {
     $tweaks = $sync.selectedTweaks
 
     if ($tweaks.count -eq 0) {
-        Show-WinUtilMessage -Message "Please check the tweaks you wish to undo." -Title "WinUtil" -Button "OK" -Icon "Warning"
+        Show-WinUtilMessage -Message "Please check the tweaks you wish to undo." -Title "Blazma Boost" -Button "OK" -Icon "Warning"
         return
     }
 

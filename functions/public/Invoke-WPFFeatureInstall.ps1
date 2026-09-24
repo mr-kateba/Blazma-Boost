@@ -7,7 +7,7 @@ function Invoke-WPFFeatureInstall {
     #>
 
     if ($null -eq $sync.selectedFeatures -or $sync.selectedFeatures.Count -eq 0) {
-        Show-WinUtilMessage -Message "No Windows Feature selected" -Title "WinUtil" -Button "OK" -Icon "Warning"
+        Show-WinUtilMessage -Message "No Windows Feature selected" -Title "Blazma Boost" -Button "OK" -Icon "Warning"
         return
     }
 

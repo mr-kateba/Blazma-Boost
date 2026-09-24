@@ -32,7 +32,10 @@ function Initialize-WinUtilTabContent {
                 Initialize-WinUtilInstallTabControls
             }
             "Tweaks" {
-                Invoke-WPFUIElements -configVariable $sync.configs.tweaks -targetGridName "tweakspanel" -columncount 2 -Yield:$Yield
+                Invoke-WPFUIElements -configVariable (Select-WinUtilTweaksByCategory -Category "Gaming" -Exclude) -targetGridName "tweakspanel" -columncount 2 -Yield:$Yield
+            }
+            "Gaming" {
+                Invoke-WPFUIElements -configVariable (Select-WinUtilTweaksByCategory -Category "Gaming") -targetGridName "gamingpanel" -columncount 2 -Yield:$Yield
             }
             "Config" {
                 Invoke-WPFUIElements -configVariable $sync.configs.feature -targetGridName "featurespanel" -columncount 2 -Yield:$Yield

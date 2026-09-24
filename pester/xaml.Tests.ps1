@@ -162,11 +162,13 @@ Describe "XAML document" {
             "WPFTab4",
             "WPFTab5",
             "WPFTab6",
+            "WPFTab7",
             "WPFTab1BT",
             "WPFTab2BT",
             "WPFTab3BT",
             "WPFTab4BT",
             "WPFTab5BT",
+            "WPFTab7BT",
             "SearchBar",
             "SearchBarIcon",
             "SearchBarClearButton",
@@ -180,13 +182,16 @@ Describe "XAML document" {
             "WPFSearchChipMicrosoftTools",
             "WPFSearchChipMultimediaTools",
             "WPFSearchChipProTools",
-            "WPFSearchChipSelfhostedTools",
             "WPFSearchChipUtilities",
             "appscategory",
             "appspanel",
             "tweakspanel",
             "featurespanel",
             "appxpanel",
+            "gamingpanel",
+            "WPFGamingPreset",
+            "WPFGamingTweaksButton",
+            "WPFGamingUndoButton",
             "WPFstandard",
             "WPFminimal",
             "WPFAdvanced",
@@ -219,9 +224,9 @@ Describe "XAML document" {
         $updatesTab = $script:xaml.SelectSingleNode('//*[local-name()="TabItem"][@Name="WPFTab4"]')
         $profileGrid = $updatesTab.SelectSingleNode('.//*[local-name()="UniformGrid"]')
         $expectedButtons = @{
-            WPFUpdatessecurity = "Apply Recommended"
-            WPFUpdatesdefault = "Restore Defaults"
-            WPFUpdatesdisable = "Disable Updates"
+            WPFUpdatessecurity = "تطبيق المقترح"
+            WPFUpdatesdefault = "استعادة الافتراضي"
+            WPFUpdatesdisable = "تعطيل التحديثات"
         }
 
         $profileGrid.GetAttribute("Columns") | Should -Be "3"
@@ -283,7 +288,8 @@ Describe "XAML document" {
             "WPFTab3:Config",
             "WPFTab4:Updates",
             "WPFTab5:Win11ISO",
-            "WPFTab6:AppX"
+            "WPFTab6:AppX",
+            "WPFTab7:Gaming"
         )
 
         if (@($actualTabs).Count -ne $expectedTabs.Count) {
@@ -340,7 +346,7 @@ Describe "XAML document" {
         $comboToggleStyle | Should -Not -BeNullOrEmpty
         $comboToggle.GetAttribute("Style") | Should -Be "{StaticResource ComboBoxToggleButtonStyle}"
         $comboItemStyle | Should -Not -BeNullOrEmpty
-        $navButtons.Count | Should -Be 5
+        $navButtons.Count | Should -Be 6
         foreach ($navButton in $navButtons) {
             $navButton.GetAttribute("Style") | Should -Be "{StaticResource TabToggleButton}"
         }
