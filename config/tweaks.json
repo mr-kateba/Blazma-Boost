@@ -1521,7 +1521,7 @@
   "WPFToggleMouseAcceleration": {
     "Content": "Mouse Acceleration",
     "Description": "Makes it so Cursor movement is affected by the speed of your physical mouse movements.",
-    "category": "Customize Preferences",
+    "category": "Gaming",
     "panel": "2",
     "Type": "Toggle",
     "registry": [
@@ -1832,7 +1832,7 @@
   "WPFToggleGameMode": {
     "Content": "Game Mode",
     "Description": "Toggles Windows prioritizes gaming performance by allocating system resources to games.",
-    "category": "Customize Preferences",
+    "category": "Gaming",
     "panel": "2",
     "Type": "Toggle",
     "registry": [
@@ -1903,5 +1903,120 @@
     "Type": "Button",
     "ButtonWidth": "300",
     "link": "https://winutil.christitus.com/code-reference/tweaks/performance-plans---not-for-laptops/removeultperf"
+  },
+  "WPFTweaksGamingGameDVR": {
+    "Content": "Game DVR Background Recording - Disable",
+    "Description": "Stops Xbox Game Bar from recording gameplay in the background, which costs FPS and disk writes while playing.",
+    "category": "Gaming",
+    "panel": "1",
+    "registry": [
+      {
+        "Path": "HKCU:\\System\\GameConfigStore",
+        "Name": "GameDVR_Enabled",
+        "Value": "0",
+        "Type": "DWord",
+        "OriginalValue": "1"
+      },
+      {
+        "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\GameDVR",
+        "Name": "AppCaptureEnabled",
+        "Value": "0",
+        "Type": "DWord",
+        "OriginalValue": "1"
+      },
+      {
+        "Path": "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\GameDVR",
+        "Name": "AllowGameDVR",
+        "Value": "0",
+        "Type": "DWord",
+        "OriginalValue": "<RemoveEntry>"
+      }
+    ],
+    "link": "https://github.com/mr-kateba/Blazma-Boost#gaming"
+  },
+  "WPFTweaksGamingHAGS": {
+    "Content": "Hardware-Accelerated GPU Scheduling - Enable",
+    "Description": "Lets the graphics card manage its own memory scheduling, which can lower input latency on supported GPUs. Requires a restart.",
+    "category": "Gaming",
+    "panel": "1",
+    "registry": [
+      {
+        "Path": "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\GraphicsDrivers",
+        "Name": "HwSchMode",
+        "Value": "2",
+        "Type": "DWord",
+        "OriginalValue": "1"
+      }
+    ],
+    "link": "https://github.com/mr-kateba/Blazma-Boost#gaming"
+  },
+  "WPFTweaksGamingNetworkThrottling": {
+    "Content": "Network Throttling - Disable",
+    "Description": "Removes the limit Windows puts on network traffic while multimedia is playing and reserves less CPU time for background tasks, which can reduce ping spikes in online games.",
+    "category": "Gaming",
+    "panel": "1",
+    "registry": [
+      {
+        "Path": "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile",
+        "Name": "NetworkThrottlingIndex",
+        "Value": "-1",
+        "Type": "DWord",
+        "OriginalValue": "10"
+      },
+      {
+        "Path": "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile",
+        "Name": "SystemResponsiveness",
+        "Value": "10",
+        "Type": "DWord",
+        "OriginalValue": "20"
+      }
+    ],
+    "link": "https://github.com/mr-kateba/Blazma-Boost#gaming"
+  },
+  "WPFTweaksGamingGamesPriority": {
+    "Content": "Games Scheduling Priority - High",
+    "Description": "Raises the CPU and disk priority Windows gives to games through the Multimedia Class Scheduler.",
+    "category": "Gaming",
+    "panel": "1",
+    "registry": [
+      {
+        "Path": "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile\\Tasks\\Games",
+        "Name": "Priority",
+        "Value": "6",
+        "Type": "DWord",
+        "OriginalValue": "2"
+      },
+      {
+        "Path": "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile\\Tasks\\Games",
+        "Name": "Scheduling Category",
+        "Value": "High",
+        "Type": "String",
+        "OriginalValue": "Medium"
+      },
+      {
+        "Path": "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile\\Tasks\\Games",
+        "Name": "SFIO Priority",
+        "Value": "High",
+        "Type": "String",
+        "OriginalValue": "Normal"
+      }
+    ],
+    "link": "https://github.com/mr-kateba/Blazma-Boost#gaming"
+  },
+  "WPFTweaksGamingPowerThrottling": {
+    "Content": "Power Throttling - Disable",
+    "Description": "Stops Windows from slowing down background processes to save power, so launchers, voice chat and overlays keep full CPU speed. Not recommended on laptops running on battery.",
+    "category": "Gaming",
+    "panel": "1",
+    "registry": [
+      {
+        "Path": "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Power\\PowerThrottling",
+        "Name": "PowerThrottlingOff",
+        "Value": "1",
+        "Type": "DWord",
+        "OriginalValue": "<RemoveEntry>"
+      }
+    ],
+    "link": "https://github.com/mr-kateba/Blazma-Boost#gaming"
   }
 }

@@ -1,4 +1,11 @@
 {
+  "Gaming": [
+    "WPFTweaksGamingGameDVR",
+    "WPFTweaksGamingHAGS",
+    "WPFTweaksGamingNetworkThrottling",
+    "WPFTweaksGamingGamesPriority",
+    "WPFTweaksGamingPowerThrottling"
+  ],
   "Standard": [
     "WPFTweaksActivity",
     "WPFTweaksConsumerFeatures",
