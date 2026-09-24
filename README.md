@@ -32,13 +32,22 @@
 2. الصق الأمر التالي واضغط Enter:
 
 ```powershell
+irm mr-kateba.github.io/win | iex
+```
+
+<details>
+<summary>الرابط الكامل (لو ما اشتغل الرابط القصير)</summary>
+
+```powershell
 irm https://github.com/mr-kateba/Blazma-Boost/releases/latest/download/winutil.ps1 | iex
 ```
+
+</details>
 
 ### تطبيق تحسينات الألعاب مباشرة بدون واجهة
 
 ```powershell
-& ([ScriptBlock]::Create((irm https://github.com/mr-kateba/Blazma-Boost/releases/latest/download/winutil.ps1))) -Preset Gaming
+& ([ScriptBlock]::Create((irm mr-kateba.github.io/win))) -Preset Gaming
 ```
 
 | الإعداد | الوصف |
