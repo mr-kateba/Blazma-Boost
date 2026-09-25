@@ -118,6 +118,7 @@ Describe "Interface startup failures" {
 
     BeforeEach {
         . $script:uiScriptPath
+        . (Join-Path $script:functionRoot "private\Convert-WinUtilXamlToEnglish.ps1")
         $script:sync = [Hashtable]::Synchronized(@{
             StepTimings = [System.Collections.ArrayList]::Synchronized([System.Collections.ArrayList]::new())
             preferences = @{ theme = "Auto" }

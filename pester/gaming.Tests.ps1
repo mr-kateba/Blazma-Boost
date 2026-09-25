@@ -317,7 +317,7 @@ Describe "Preferences" {
     BeforeEach {
         $script:previousLocalAppData = $env:LocalAppData
         $env:LocalAppData = Join-Path $TestDrive ([guid]::NewGuid())
-        $script:sync = @{ preferences = @{ theme = "Light"; packagemanager = "Choco" }; FontScaleFactor = 1.25 }
+        $script:sync = @{ preferences = @{ theme = "Light"; packagemanager = "Choco"; language = "en" }; FontScaleFactor = 1.25 }
     }
 
     AfterEach {
@@ -333,19 +333,21 @@ Describe "Preferences" {
 
         $script:sync.preferences.theme | Should -Be "Light"
         $script:sync.preferences.packagemanager | Should -Be "Choco"
+        $script:sync.preferences.language | Should -Be "en"
         $script:sync.FontScaleFactor | Should -Be 1.25
     }
 
     It "ignores invalid values in a hand-edited file" {
         $path = Join-Path (Join-Path $env:LocalAppData "winutil") "preferences.json"
         New-Item -ItemType Directory -Path (Split-Path -Parent $path) -Force | Out-Null
-        '{ "theme": "Purple", "packagemanager": "npm", "fontScale": 9 }' | Set-Content -LiteralPath $path
+        '{ "theme": "Purple", "packagemanager": "npm", "language": "fr", "fontScale": 9 }' | Set-Content -LiteralPath $path
         $script:sync = @{ preferences = @{ theme = "Dark"; packagemanager = "Winget" } }
 
         Import-WinUtilPreferences
 
         $script:sync.preferences.theme | Should -Be "Dark"
         $script:sync.preferences.packagemanager | Should -Be "Winget"
+        $script:sync.preferences.ContainsKey("language") | Should -BeFalse
         $script:sync.ContainsKey("FontScaleFactor") | Should -BeFalse
     }
 

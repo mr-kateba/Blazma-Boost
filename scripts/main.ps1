@@ -12,6 +12,12 @@ Write-Host @'
 # A click in the console would otherwise pause WinUtil mid-run
 Disable-WinUtilConsoleQuickEdit
 
+# The gaming look is the dark theme; Auto and Light stay available from the theme button
+$sync.preferences.theme = "Dark"
+$sync.preferences.packagemanager = "Winget"
+$sync.preferences.language = "ar"
+Import-WinUtilPreferences
+
 # Load the configuration files
 
 Initialize-WinUtilTranslation
@@ -25,10 +31,6 @@ $sync.configs.appxHashtable = @{}
 $sync.configs.appx.PSObject.Properties | ForEach-Object {
     $sync.configs.appxHashtable[$_.Name] = $_.Value
 }
-# The gaming look is the dark theme; Auto and Light stay available from the theme button
-$sync.preferences.theme = "Dark"
-$sync.preferences.packagemanager = "Winget"
-Import-WinUtilPreferences
 
 function Remove-WinUtilTempScript {
     <#
