@@ -21,6 +21,12 @@ function Format-WinUtilTemperatureReading {
     $degree = "$([char]0x00B0)C"
     $unknown = "?"
 
+    # Numbers and English inside an Arabic line are wrapped in left-to-right marks, so "29 degrees C"
+    # does not turn into "C 29 degrees" and "1330 / 12227" is not drawn backwards
+    function Format-Ltr($Value) {
+        "$([char]0x200E)$Value$([char]0x200E)"
+    }
+
     function Get-HeatLevel([object]$Celsius, [int]$Warm, [int]$Hot) {
         if ($null -eq $Celsius) { return "None" }
         $value = [double]$Celsius
@@ -43,15 +49,15 @@ function Format-WinUtilTemperatureReading {
     $gpuTemperature = if ($Gpu) { $Gpu.TemperatureC }
     $gpuLevel = Get-HeatLevel -Celsius $gpuTemperature -Warm 70 -Hot 83
     $gpuDetails = if ($Gpu) {
-        (Get-WinUtilText -Key "TempsGpuDetails" -Default "Load: {0}%`nVideo memory: {1} / {2} MB`nPower: {3} W") -f `
-            (Get-OrUnknown $Gpu.LoadPercent), (Get-OrUnknown $Gpu.MemoryUsedMB), (Get-OrUnknown $Gpu.MemoryTotalMB), (Get-OrUnknown $Gpu.PowerW)
+        (Get-WinUtilText -Key "TempsGpuDetails" -Default "Load: {0}`nVideo memory: {1} MB`nPower: {2} W") -f `
+            (Format-Ltr "$(Get-OrUnknown $Gpu.LoadPercent)%"), (Format-Ltr "$(Get-OrUnknown $Gpu.MemoryUsedMB) / $(Get-OrUnknown $Gpu.MemoryTotalMB)"), (Format-Ltr (Get-OrUnknown $Gpu.PowerW))
     } else {
         Get-WinUtilText -Key "TempsGpuUnavailable" -Default "Live GPU temperature is available for NVIDIA cards only."
     }
 
     $cpuTemperature = if ($Cpu) { $Cpu.TemperatureC }
     $cpuLevel = Get-HeatLevel -Celsius $cpuTemperature -Warm 70 -Hot 85
-    $cpuLoad = (Get-WinUtilText -Key "TempsCpuDetails" -Default "Load: {0}%") -f (Get-OrUnknown $(if ($Cpu) { $Cpu.LoadPercent }))
+    $cpuLoad = (Get-WinUtilText -Key "TempsCpuDetails" -Default "Load: {0}") -f (Format-Ltr "$(Get-OrUnknown $(if ($Cpu) { $Cpu.LoadPercent }))%")
     $cpuDetails = if ($null -eq $cpuTemperature) {
         "$cpuLoad`n$(Get-WinUtilText -Key "TempsCpuUnavailable" -Default "This PC does not report the processor temperature to Windows.")"
     } else {
@@ -60,8 +66,8 @@ function Format-WinUtilTemperatureReading {
 
     $ramUsage = if ($Memory) { $Memory.UsagePercent }
     $ramLevel = Get-HeatLevel -Celsius $ramUsage -Warm 70 -Hot 85
-    $ramStatus = if ($Memory) { (Get-WinUtilText -Key "TempsRamUsed" -Default "{0} / {1} GB in use") -f $Memory.UsedGB, $Memory.TotalGB } else { "" }
-    $ramDetails = "$((Get-WinUtilText -Key "TempsRamSpeed" -Default "Speed: {0} MHz") -f (Get-OrUnknown $(if ($Memory) { $Memory.SpeedMHz })))`n$(Get-WinUtilText -Key "TempsRamNoTemperature" -Default "Windows does not report memory temperature.")"
+    $ramStatus = if ($Memory) { (Get-WinUtilText -Key "TempsRamUsed" -Default "{0} GB in use") -f (Format-Ltr "$($Memory.UsedGB) / $($Memory.TotalGB)") } else { "" }
+    $ramDetails = "$((Get-WinUtilText -Key "TempsRamSpeed" -Default "Speed: {0} MHz") -f (Format-Ltr (Get-OrUnknown $(if ($Memory) { $Memory.SpeedMHz }))))`n$(Get-WinUtilText -Key "TempsRamNoTemperature" -Default "Windows does not report memory temperature.")"
 
     $diskCards = if ($null -ne $Disks) {
         @(foreach ($disk in @($Disks)) {
@@ -70,12 +76,12 @@ function Format-WinUtilTemperatureReading {
             $level = @("Hot", "Warm", "Good", "None") | Where-Object { $_ -in @($healthLevel, $temperatureLevel) } | Select-Object -First 1
 
             $parts = @((Get-WinUtilText -Key "TempsDiskHealth" -Default "Health: {0}") -f (Get-WinUtilText -Key "TempsDisk$($disk.Health)" -Default $disk.Health))
-            if ($null -ne $disk.TemperatureC) { $parts += (Get-WinUtilText -Key "TempsDiskTemperature" -Default "Temperature: {0}") -f "$($disk.TemperatureC)$degree" }
-            if ($null -ne $disk.WearPercent) { $parts += (Get-WinUtilText -Key "TempsDiskLife" -Default "Life left: {0}%") -f [math]::Max(0, 100 - $disk.WearPercent) }
-            if ($null -ne $disk.PowerOnHours) { $parts += (Get-WinUtilText -Key "TempsDiskHours" -Default "Powered on: {0} hours") -f $disk.PowerOnHours }
+            if ($null -ne $disk.TemperatureC) { $parts += (Get-WinUtilText -Key "TempsDiskTemperature" -Default "Temperature: {0}") -f (Format-Ltr "$($disk.TemperatureC)$degree") }
+            if ($null -ne $disk.WearPercent) { $parts += (Get-WinUtilText -Key "TempsDiskLife" -Default "Life left: {0}") -f (Format-Ltr "$([math]::Max(0, 100 - $disk.WearPercent))%") }
+            if ($null -ne $disk.PowerOnHours) { $parts += (Get-WinUtilText -Key "TempsDiskHours" -Default "Powered on: {0} hours") -f (Format-Ltr $disk.PowerOnHours) }
 
             [pscustomobject]@{
-                Title   = ("{0} ({1} GB) {2}" -f $disk.Name, $disk.SizeGB, $disk.Kind).Trim()
+                Title   = Format-Ltr ("{0} ({1} GB) {2}" -f $disk.Name, $disk.SizeGB, $disk.Kind).Trim()
                 Details = $parts -join "`n"
                 Level   = $level
             }
@@ -84,8 +90,8 @@ function Format-WinUtilTemperatureReading {
 
     # A warning to show outside the window when the GPU or CPU runs hot
     $alerts = @()
-    if ($gpuLevel -eq "Hot") { $alerts += (Get-WinUtilText -Key "TempsAlertGpu" -Default "Graphics card: {0}") -f "$gpuTemperature$degree" }
-    if ($cpuLevel -eq "Hot") { $alerts += (Get-WinUtilText -Key "TempsAlertCpu" -Default "Processor: {0}") -f "$cpuTemperature$degree" }
+    if ($gpuLevel -eq "Hot") { $alerts += (Get-WinUtilText -Key "TempsAlertGpu" -Default "Graphics card: {0}") -f (Format-Ltr "$gpuTemperature$degree") }
+    if ($cpuLevel -eq "Hot") { $alerts += (Get-WinUtilText -Key "TempsAlertCpu" -Default "Processor: {0}") -f (Format-Ltr "$cpuTemperature$degree") }
 
     [pscustomobject]@{
         GpuTemperatureC = $gpuTemperature
