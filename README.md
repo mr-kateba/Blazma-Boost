@@ -28,6 +28,27 @@
 - 🔄 **إدارة تحديثات ويندوز** وإصلاح مشاكل النظام الشائعة
 - 🌐 **عربي أو إنجليزي:** غير اللغة من قائمة الإعدادات (⚙️ ← English) وأعد تشغيل البرنامج
 
+## 📸 صور من البرنامج
+
+<p align="center">
+  <img src="docs-ar/screenshots/gaming.png" width="720" alt="تبويب الألعاب">
+</p>
+
+<table>
+  <tr>
+    <td align="center"><img src="docs-ar/screenshots/temperatures.png" alt="تبويب الحرارة"><br>الحرارة</td>
+    <td align="center"><img src="docs-ar/screenshots/specs.png" alt="تبويب مواصفاتي"><br>مواصفاتي</td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs-ar/screenshots/tweaks.png" alt="تبويب التحسينات"><br>التحسينات</td>
+    <td align="center"><img src="docs-ar/screenshots/config.png" alt="تبويب الإعدادات"><br>الإعدادات</td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs-ar/screenshots/updates.png" alt="تبويب التحديثات"><br>التحديثات</td>
+    <td align="center"><img src="docs-ar/screenshots/win11-creator.png" alt="صانع Win11"><br>صانع Win11</td>
+  </tr>
+</table>
+
 ## 🚀 طريقة التشغيل
 
 1. افتح **PowerShell كمسؤول**: كليك يمين على زر ابدأ واختر **Terminal (Admin)**
