@@ -2452,6 +2452,9 @@
                                     <TextBlock Name="WPFTempsGpuName" Text="" TextWrapping="Wrap" Margin="7,0,7,0" Foreground="{DynamicResource MainForegroundColor}"/>
                                     <TextBlock Name="WPFTempsGpuValue" Text="--" FontSize="56" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,0" Foreground="{DynamicResource MainForegroundColor}" FlowDirection="LeftToRight"/>
                                     <TextBlock Name="WPFTempsGpuStatus" Text="" FontSize="{DynamicResource HeaderFontSize}" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10" Foreground="{DynamicResource MainForegroundColor}"/>
+                                    <Border BorderBrush="{DynamicResource BorderColor}" BorderThickness="0,0,0,1" Margin="7,0,7,10">
+                                        <Canvas Name="WPFTempsGpuGraph" Height="50" ClipToBounds="True" FlowDirection="LeftToRight" ToolTip="آخر دقيقتين"/>
+                                    </Border>
                                     <TextBlock Name="WPFTempsGpuDetails" Text="جاري القراءة..." TextWrapping="Wrap" LineHeight="22" Margin="7,0,7,0" Foreground="{DynamicResource MainForegroundColor}"/>
                                 </StackPanel>
                             </Border>
@@ -2460,6 +2463,9 @@
                                     <Label Content="المعالج" FontSize="{DynamicResource HeaderFontSize}" FontFamily="{DynamicResource HeaderFontFamily}" Margin="2"/>
                                     <TextBlock Name="WPFTempsCpuValue" Text="--" FontSize="56" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,0" Foreground="{DynamicResource MainForegroundColor}" FlowDirection="LeftToRight"/>
                                     <TextBlock Name="WPFTempsCpuStatus" Text="" FontSize="{DynamicResource HeaderFontSize}" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10" Foreground="{DynamicResource MainForegroundColor}"/>
+                                    <Border BorderBrush="{DynamicResource BorderColor}" BorderThickness="0,0,0,1" Margin="7,0,7,10">
+                                        <Canvas Name="WPFTempsCpuGraph" Height="50" ClipToBounds="True" FlowDirection="LeftToRight" ToolTip="آخر دقيقتين"/>
+                                    </Border>
                                     <TextBlock Name="WPFTempsCpuDetails" Text="جاري القراءة..." TextWrapping="Wrap" LineHeight="22" Margin="7,0,7,0" Foreground="{DynamicResource MainForegroundColor}"/>
                                 </StackPanel>
                             </Border>
@@ -2487,6 +2493,7 @@
                                 الأرقام تتحدث كل 3 ثواني وأنت في هذا التبويب بس. الأخضر ممتاز، البرتقالي حار شوي، والأحمر يعني شيك على التبريد والمراوح.
                                 <LineBreak/>حرارة كرت الشاشة متاحة لكروت NVIDIA. حرارة المعالج تجي من حساس اللوحة الأم، فممكن تكون تقريبية أو ما تطلع في بعض الأجهزة.
                                 <LineBreak/>معلومات الهارد تتحدث كل 30 ثانية. ويندوز ما يعطي حرارة الرامات، فنعرض استخدامها وسرعتها.
+                                <LineBreak/>خل البرنامج مفتوح على هذا التبويب وأنت تلعب، وإذا صار الكرت أو المعالج حار بيطلع لك تنبيه من ويندوز.
                             </TextBlock>
                         </Border>
                     </StackPanel>
