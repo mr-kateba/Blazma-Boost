@@ -17,6 +17,7 @@ BeforeAll {
     function Initialize-WinUtilInstallTabControls { }
     function Reset-WPFCheckBoxes { param([bool]$doToggles) }
     function Initialize-WinUtilGamingSystemInfo { }
+    function Initialize-WinUtilStartupApps { }
     function Initialize-WinUtilHardwareSpecs { }
     function Start-WinUtilGpuSensorMonitor { }
 

@@ -19,6 +19,8 @@ BeforeAll {
     . (Join-Path $script:repoRoot "functions\private\Start-WinUtilGameServerLatencyTest.ps1")
     . (Join-Path $script:repoRoot "functions\private\Measure-WinUtilGameServerLatency.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilGpuSensor.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Get-WinUtilStartupApps.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Set-WinUtilStartupApp.ps1")
 
     function Write-WinUtilLog { param($Message, $Level, $Component) }
     function Invoke-WPFRunspace { param($ScriptBlock, $ArgumentList, $ParameterList) & $ScriptBlock }
@@ -403,5 +405,67 @@ Describe "Get-WinUtilGpuSensor" {
 
     It "returns nothing for empty output" {
         ConvertFrom-WinUtilGpuSensorLine -Line "" | Should -BeNullOrEmpty
+    }
+}
+
+Describe "Get-WinUtilStartupApps" {
+    BeforeAll {
+        $script:runKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run"
+        $script:approvedKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run"
+    }
+
+    BeforeEach {
+        Mock Test-Path { $LiteralPath -in @($script:runKey, $script:approvedKey) }
+        Mock Get-ItemProperty {
+            [pscustomobject]@{
+                PSPath = "provider path"
+                Discord = "C:\Discord\Update.exe --processStart Discord.exe"
+                Steam = "C:\Steam\steam.exe -silent"
+                OneDrive = "C:\OneDrive\OneDrive.exe /background"
+            }
+        } -ParameterFilter { $LiteralPath -eq $script:runKey }
+        Mock Get-ItemProperty {
+            [pscustomobject]@{
+                Discord = [byte[]](3, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8)
+                Steam = [byte[]](2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+            }
+        } -ParameterFilter { $LiteralPath -eq $script:approvedKey }
+    }
+
+    It "lists every Run entry with its enabled state" {
+        $apps = @(Get-WinUtilStartupApps)
+
+        $apps.Name | Should -Be @("Discord", "Steam", "OneDrive")
+        ($apps | Where-Object Name -eq "Discord").Enabled | Should -BeFalse
+        ($apps | Where-Object Name -eq "Steam").Enabled | Should -BeTrue
+        ($apps | Where-Object Name -eq "OneDrive").Enabled | Should -BeTrue
+        ($apps | Where-Object Name -eq "Steam").Command | Should -Be "C:\Steam\steam.exe -silent"
+        ($apps | Where-Object Name -eq "Steam").ApprovedKey | Should -Be $script:approvedKey
+    }
+}
+
+Describe "Set-WinUtilStartupApp" {
+    BeforeEach {
+        $script:written = $null
+        Mock Test-Path { $true }
+        Mock New-ItemProperty { $script:written = $Value }
+        $script:app = [pscustomobject]@{ Name = "Steam"; ValueName = "Steam"; ApprovedKey = "HKCU:\Approved\Run" }
+    }
+
+    It "records an enabled program as 02 followed by zeros" {
+        Set-WinUtilStartupApp -App $script:app -Enabled $true
+
+        $script:written.Length | Should -Be 12
+        $script:written[0] | Should -Be 2
+        ($script:written | Select-Object -Skip 1 | Where-Object { $_ -ne 0 }) | Should -BeNullOrEmpty
+    }
+
+    It "records a disabled program as 03 with the time it was disabled" {
+        Set-WinUtilStartupApp -App $script:app -Enabled $false
+
+        $script:written[0] | Should -Be 3
+        $disabledAt = [DateTime]::FromFileTimeUtc([BitConverter]::ToInt64($script:written, 4))
+        ([DateTime]::UtcNow - $disabledAt).TotalMinutes | Should -BeLessThan 5
+        Should -Invoke New-ItemProperty -Times 1 -ParameterFilter { $LiteralPath -eq "HKCU:\Approved\Run" -and $Name -eq "Steam" }
     }
 }
