@@ -22,11 +22,16 @@ function Get-WinUtilHardwareSpecs {
     # A right-to-left mark keeps a line that starts with "-" and English text in order in the
     # Arabic window; without it the dash is drawn at the far end of the line
     $rtl = [char]0x200F
+    # English and numbers inside an Arabic line are wrapped in left-to-right marks, so a value
+    # such as "PRO H610M (MS-7E44)" or "2560 x 1440" keeps its own order and brackets
+    function Format-Ltr($Value) {
+        "$([char]0x200E)$Value$([char]0x200E)"
+    }
 
     # Processor
     $cpuLines = foreach ($cpu in (Get-Cim "Win32_Processor")) {
         (Get-Text "SpecsCpu" "{0}`nCores: {1} / Threads: {2}`nMax clock: {3} GHz") -f `
-            ([string]$cpu.Name).Trim(), $cpu.NumberOfCores, $cpu.NumberOfLogicalProcessors, ("{0:0.0#}" -f ($cpu.MaxClockSpeed / 1000))
+            (Format-Ltr ([string]$cpu.Name).Trim()), (Format-Ltr $cpu.NumberOfCores), (Format-Ltr $cpu.NumberOfLogicalProcessors), (Format-Ltr ("{0:0.0#}" -f ($cpu.MaxClockSpeed / 1000)))
     }
 
     # Graphics. AdapterRAM is 32 bit and stops at 4 GB, so the real size comes from the
@@ -47,7 +52,7 @@ function Get-WinUtilHardwareSpecs {
             "{0} x {1} @ {2} Hz" -f $gpu.CurrentHorizontalResolution, $gpu.CurrentVerticalResolution, $gpu.CurrentRefreshRate
         } else { $unknown }
         (Get-Text "SpecsGpu" "{0}`nVideo memory: {1}`nDriver: {2} ({3})`nDisplay: {4}") -f `
-            $gpu.Name, $(if ($memory -gt 0) { Format-Size $memory } else { $unknown }), $gpu.DriverVersion, $driverDate, $display
+            (Format-Ltr $gpu.Name), (Format-Ltr $(if ($memory -gt 0) { Format-Size $memory } else { $unknown })), (Format-Ltr $gpu.DriverVersion), (Format-Ltr $driverDate), (Format-Ltr $display)
     }
 
     # Memory
@@ -59,10 +64,10 @@ function Get-WinUtilHardwareSpecs {
         Measure-Object -Maximum).Maximum
     $ramLines = @(
         (Get-Text "SpecsRam" "Total: {0} @ {1} MHz`nSlots used: {2} of {3}") -f `
-            $(if ($totalMemory) { Format-Size $totalMemory } else { $unknown }), $(if ($speed) { $speed } else { $unknown }),
-            $modules.Count, $(if ($slots) { $slots } else { $unknown })
+            (Format-Ltr $(if ($totalMemory) { Format-Size $totalMemory } else { $unknown })), (Format-Ltr $(if ($speed) { $speed } else { $unknown })),
+            (Format-Ltr $modules.Count), (Format-Ltr $(if ($slots) { $slots } else { $unknown }))
     ) + @(foreach ($module in $modules) {
-        "$rtl- {0} {1} {2} ({3})" -f (Format-Size $module.Capacity), ([string]$module.Manufacturer).Trim(), ([string]$module.PartNumber).Trim(), $module.DeviceLocator
+        "$rtl- " + (Format-Ltr ("{0} {1} {2} ({3})" -f (Format-Size $module.Capacity), ([string]$module.Manufacturer).Trim(), ([string]$module.PartNumber).Trim(), $module.DeviceLocator))
     })
 
     # Motherboard and BIOS
@@ -70,17 +75,17 @@ function Get-WinUtilHardwareSpecs {
     $bios = Get-Cim "Win32_BIOS" | Select-Object -First 1
     $biosDate = if ($bios.ReleaseDate) { ([datetime]$bios.ReleaseDate).ToString("yyyy-MM-dd") } else { $unknown }
     $boardText = (Get-Text "SpecsBoard" "{0} {1}`nBIOS: {2} ({3})") -f `
-        ([string]$board.Manufacturer).Trim(), ([string]$board.Product).Trim(), $bios.SMBIOSBIOSVersion, $biosDate
+        (Format-Ltr ([string]$board.Manufacturer).Trim()), (Format-Ltr ([string]$board.Product).Trim()), (Format-Ltr $bios.SMBIOSBIOSVersion), (Format-Ltr $biosDate)
 
     # Storage. MSFT_PhysicalDisk knows SSD from HDD and the bus; Win32_DiskDrive is the fallback.
     $diskLines = @(foreach ($disk in (Get-Cim "MSFT_PhysicalDisk" "root\Microsoft\Windows\Storage")) {
         $media = switch ([int]$disk.MediaType) { 3 { "HDD" } 4 { "SSD" } default { "" } }
         $bus = switch ([int]$disk.BusType) { 7 { "USB" } 11 { "SATA" } 17 { "NVMe" } default { "" } }
-        "$rtl- {0} ({1}) {2}" -f ([string]$disk.FriendlyName).Trim(), (Format-Size $disk.Size), (("$bus $media").Trim())
+        "$rtl- " + (Format-Ltr ("{0} ({1}) {2}" -f ([string]$disk.FriendlyName).Trim(), (Format-Size $disk.Size), (("$bus $media").Trim())))
     })
     if ($diskLines.Count -eq 0) {
         $diskLines = @(foreach ($disk in (Get-Cim "Win32_DiskDrive")) {
-            "$rtl- {0} ({1})" -f ([string]$disk.Model).Trim(), (Format-Size $disk.Size)
+            "$rtl- " + (Format-Ltr ("{0} ({1})" -f ([string]$disk.Model).Trim(), (Format-Size $disk.Size)))
         })
     }
 
@@ -93,7 +98,7 @@ function Get-WinUtilHardwareSpecs {
     # Windows
     $os = Get-Cim "Win32_OperatingSystem" | Select-Object -First 1
     $windowsText = (Get-Text "SpecsWindows" "{0}`nVersion: {1} (build {2})`nArchitecture: {3}") -f `
-        $os.Caption, $os.Version, $os.BuildNumber, $os.OSArchitecture
+        (Format-Ltr $os.Caption), (Format-Ltr $os.Version), (Format-Ltr $os.BuildNumber), (Format-Ltr $os.OSArchitecture)
 
     [pscustomobject]@{
         Cpu     = if ($cpuLines) { $cpuLines -join "`n`n" } else { $unknown }

@@ -228,13 +228,17 @@ Describe "Get-WinUtilHardwareSpecs" {
 
         $specs = Get-WinUtilHardwareSpecs
 
-        $specs.Cpu | Should -Be "AMD Ryzen 7 5800X`nCores: 8 / Threads: 16`nMax clock: 3.8 GHz"
-        $specs.Gpu | Should -Be "NVIDIA GeForce RTX 3070`nVideo memory: 8 GB`nDriver: 32.0.15.6094 (2024-08-01)`nDisplay: 2560 x 1440 @ 165 Hz"
+        ($specs.Cpu -replace [char]0x200E, '') | Should -Be "AMD Ryzen 7 5800X`nCores: 8 / Threads: 16`nMax clock: 3.8 GHz"
+        ($specs.Gpu -replace [char]0x200E, '') | Should -Be "NVIDIA GeForce RTX 3070`nVideo memory: 8 GB`nDriver: 32.0.15.6094 (2024-08-01)`nDisplay: 2560 x 1440 @ 165 Hz"
         $rtl = [char]0x200F
-        $specs.Ram | Should -Be "Total: 32 GB @ 3200 MHz`nSlots used: 2 of 4`n$rtl- 16 GB Corsair CMK16GX4 (DIMM1)`n$rtl- 16 GB Corsair CMK16GX4 (DIMM2)"
-        $specs.Board | Should -Be "ASUSTeK COMPUTER INC. ROG STRIX B550-F GAMING`nBIOS: 3002 (2023-02-10)"
-        $specs.Storage | Should -Be "$rtl- Samsung SSD 980 PRO 1TB (1 TB) NVMe SSD"
-        $specs.Windows | Should -Be "Windows 11 Pro`nVersion: 10.0.26100 (build 26100)`nArchitecture: 64-bit"
+        ($specs.Ram -replace [char]0x200E, '') | Should -Be "Total: 32 GB @ 3200 MHz`nSlots used: 2 of 4`n$rtl- 16 GB Corsair CMK16GX4 (DIMM1)`n$rtl- 16 GB Corsair CMK16GX4 (DIMM2)"
+        ($specs.Board -replace [char]0x200E, '') | Should -Be "ASUSTeK COMPUTER INC. ROG STRIX B550-F GAMING`nBIOS: 3002 (2023-02-10)"
+        ($specs.Storage -replace [char]0x200E, '') | Should -Be "$rtl- Samsung SSD 980 PRO 1TB (1 TB) NVMe SSD"
+        ($specs.Windows -replace [char]0x200E, '') | Should -Be "Windows 11 Pro`nVersion: 10.0.26100 (build 26100)`nArchitecture: 64-bit"
+        # English values keep their order and brackets in the Arabic window
+        $ltr = [char]0x200E
+        $specs.Board | Should -Match "^$ltr.*ROG STRIX B550-F GAMING$ltr"
+        $specs.Gpu | Should -Match "$($ltr)2560 x 1440 @ 165 Hz$ltr"
     }
 
     It "shows ? instead of failing when Windows reports nothing" {
@@ -592,10 +596,10 @@ Describe "Format-WinUtilTemperatureReading" {
         $reading.GpuValue | Should -Be "84$([char]0x00B0)C"
         $reading.GpuLevel | Should -Be "Hot"
         $reading.GpuName | Should -Be "RTX 3070"
-        $reading.GpuDetails | Should -Be "Load: 97%`nVideo memory: 7000 / 8192 MB`nPower: 160 W"
+        ($reading.GpuDetails -replace [char]0x200E, '') | Should -Be "Load: 97%`nVideo memory: 7000 / 8192 MB`nPower: 160 W"
         $reading.CpuValue | Should -Be "55$([char]0x00B0)C"
         $reading.CpuLevel | Should -Be "Good"
-        $reading.CpuDetails | Should -Be "Load: 40%"
+        ($reading.CpuDetails -replace [char]0x200E, '') | Should -Be "Load: 40%"
     }
 
     It "explains what is missing without an NVIDIA card or a thermal zone" {
@@ -604,9 +608,9 @@ Describe "Format-WinUtilTemperatureReading" {
         $reading.GpuValue | Should -Be "--"
         $reading.GpuLevel | Should -Be "None"
         $reading.GpuStatus | Should -Be ""
-        $reading.GpuDetails | Should -Match "NVIDIA"
+        ($reading.GpuDetails -replace [char]0x200E, '') | Should -Match "NVIDIA"
         $reading.CpuValue | Should -Be "--"
-        $reading.CpuDetails | Should -Match "^Load: 12%`n"
+        ($reading.CpuDetails -replace [char]0x200E, '') | Should -Match "^Load: 12%`n"
     }
 
     It "calls 70 degrees warm" {
@@ -710,14 +714,14 @@ Describe "Format-WinUtilTemperatureReading memory and disks" {
 
         $reading.RamValue | Should -Be "75%"
         $reading.RamLevel | Should -Be "Warm"
-        $reading.RamStatus | Should -Be "12 / 16 GB in use"
-        $reading.RamDetails | Should -Match "^Speed: 3200 MHz"
+        ($reading.RamStatus -replace [char]0x200E, '') | Should -Be "12 / 16 GB in use"
+        ($reading.RamDetails -replace [char]0x200E, '') | Should -Match "^Speed: 3200 MHz"
         $reading.DisksRead | Should -BeTrue
-        $reading.Disks[0].Title | Should -Be "Samsung SSD 980 (932 GB) NVMe SSD"
+        ($reading.Disks[0].Title -replace [char]0x200E, '') | Should -Be "Samsung SSD 980 (932 GB) NVMe SSD"
         $reading.Disks[0].Level | Should -Be "Hot"
-        $reading.Disks[0].Details | Should -Be "Health: Healthy`nTemperature: 72$([char]0x00B0)C`nLife left: 97%`nPowered on: 1234 hours"
+        ($reading.Disks[0].Details -replace [char]0x200E, '') | Should -Be "Health: Healthy`nTemperature: 72$([char]0x00B0)C`nLife left: 97%`nPowered on: 1234 hours"
         $reading.Disks[1].Level | Should -Be "Good"
-        $reading.Disks[1].Details | Should -Be "Health: Healthy"
+        ($reading.Disks[1].Details -replace [char]0x200E, '') | Should -Be "Health: Healthy"
     }
 
     It "leaves the disks alone when they were not read this time" {
@@ -732,7 +736,7 @@ Describe "Heat alerts" {
 
         $reading = Format-WinUtilTemperatureReading -Gpu $gpu -Cpu $cpu
 
-        $reading.HotAlert | Should -Be "Graphics card: 88$([char]0x00B0)C"
+        ($reading.HotAlert -replace [char]0x200E, '') | Should -Be "Graphics card: 88$([char]0x00B0)C"
         $reading.GpuTemperatureC | Should -Be "88"
         $reading.CpuTemperatureC | Should -Be 60
     }
