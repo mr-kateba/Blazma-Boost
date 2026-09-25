@@ -681,3 +681,29 @@ Describe "Heat alerts" {
         Should -Invoke Set-WinUtilTaskbaritem -Times 1 -ParameterFilter { $overlay -eq "warning" }
     }
 }
+
+Describe "Measure-WinUtilGameServerLatency" {
+    It "measures every region at once and leaves unreachable ones empty" {
+        $listener = [System.Net.Sockets.TcpListener]::new([System.Net.IPAddress]::Loopback, 0)
+        $listener.Start()
+        try {
+            $script:sync = @{
+                configs = @{
+                    gameservers = [pscustomobject]@{
+                        Local   = [pscustomobject]@{ Name = "Local"; Host = "127.0.0.1" }
+                        Nowhere = [pscustomobject]@{ Name = "Nowhere"; Host = "no-such-host.invalid" }
+                    }
+                }
+            }
+
+            $results = @(Measure-WinUtilGameServerLatency -Port $listener.LocalEndpoint.Port -TimeoutMs 1500)
+
+            $results.Name | Should -Be @("Local", "Nowhere")
+            $results[0].LatencyMs | Should -Not -BeNullOrEmpty
+            $results[1].LatencyMs | Should -BeNullOrEmpty
+        } finally {
+            $listener.Stop()
+            Remove-Variable -Name sync -Scope Script -ErrorAction SilentlyContinue
+        }
+    }
+}

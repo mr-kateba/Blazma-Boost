@@ -1284,6 +1284,18 @@
     },
     "AwsLondon": {
       "Name": "لندن (AWS eu-west-2)"
+    },
+    "AwsMilan": {
+      "Name": "ميلان (AWS eu-south-1)"
+    },
+    "AwsCapeTown": {
+      "Name": "كيب تاون (AWS af-south-1)"
+    },
+    "AwsSingapore": {
+      "Name": "سنغافورة (AWS ap-southeast-1)"
+    },
+    "AwsVirginia": {
+      "Name": "أمريكا الشرقية (AWS us-east-1)"
     }
   },
   "english": {
