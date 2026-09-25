@@ -19,6 +19,12 @@ BeforeAll {
     . (Join-Path $script:repoRoot "functions\private\Start-WinUtilGameServerLatencyTest.ps1")
     . (Join-Path $script:repoRoot "functions\private\Measure-WinUtilGameServerLatency.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilGpuSensor.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Get-WinUtilCpuSensor.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Format-WinUtilTemperatureReading.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Get-WinUtilMemorySensor.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Get-WinUtilDiskHealth.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Measure-WinUtilDiskSpeed.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Start-WinUtilDiskSpeedTest.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilStartupApps.ps1")
     . (Join-Path $script:repoRoot "functions\private\Set-WinUtilStartupApp.ps1")
 
@@ -29,7 +35,10 @@ BeforeAll {
     function Invoke-WPFtweaksbutton { }
     # Get-CimInstance does not exist outside Windows; a stub lets Pester mock it there too
     if (-not (Get-Command Get-CimInstance -ErrorAction SilentlyContinue)) {
-        function Get-CimInstance { param($ClassName, $ErrorAction) }
+        function Get-CimInstance { param($ClassName, $Namespace, $ErrorAction) }
+    }
+    if (-not (Get-Command Get-CimAssociatedInstance -ErrorAction SilentlyContinue)) {
+        function Get-CimAssociatedInstance { param($InputObject, $ResultClassName, $ErrorAction) }
     }
 }
 
@@ -391,16 +400,17 @@ Describe "Get-WinUtilGpuSensor" {
     }
 
     It "reads every value from one nvidia-smi line" {
-        $sensor = ConvertFrom-WinUtilGpuSensorLine -Line "55, 12, 1200, 8192, 45.50"
+        $sensor = ConvertFrom-WinUtilGpuSensorLine -Line "55, 12, 1200, 8192, 45.50, NVIDIA GeForce RTX 3060, Laptop"
         $sensor.TemperatureC | Should -Be "55"
         $sensor.LoadPercent | Should -Be "12"
         $sensor.MemoryUsedMB | Should -Be "1200"
         $sensor.MemoryTotalMB | Should -Be "8192"
         $sensor.PowerW | Should -Be 46
+        $sensor.Name | Should -Be "NVIDIA GeForce RTX 3060, Laptop"
     }
 
     It "leaves values the card does not report empty" {
-        $sensor = ConvertFrom-WinUtilGpuSensorLine -Line "61, 3, 500, 4096, [N/A]"
+        $sensor = ConvertFrom-WinUtilGpuSensorLine -Line "61, 3, 500, 4096, [N/A], NVIDIA T600"
         $sensor.TemperatureC | Should -Be "61"
         $sensor.PowerW | Should -BeNullOrEmpty
     }
@@ -469,5 +479,178 @@ Describe "Set-WinUtilStartupApp" {
         $disabledAt = [DateTime]::FromFileTimeUtc([BitConverter]::ToInt64($script:written, 4))
         ([DateTime]::UtcNow - $disabledAt).TotalMinutes | Should -BeLessThan 5
         Should -Invoke New-ItemProperty -Times 1 -ParameterFilter { $LiteralPath -eq "HKCU:\Approved\Run" -and $Name -eq "Steam" }
+    }
+}
+
+Describe "Get-WinUtilCpuSensor" {
+    It "takes the hottest plausible thermal zone and the average load" {
+        Mock Get-CimInstance {
+            @([pscustomobject]@{ LoadPercentage = 20 }, [pscustomobject]@{ LoadPercentage = 31 })
+        } -ParameterFilter { $ClassName -eq "Win32_Processor" }
+        Mock Get-CimInstance {
+            @(
+                [pscustomobject]@{ HighPrecisionTemperature = 3182; Temperature = 318 },
+                [pscustomobject]@{ HighPrecisionTemperature = 3332; Temperature = 333 },
+                [pscustomobject]@{ HighPrecisionTemperature = 0; Temperature = 0 }
+            )
+        } -ParameterFilter { $ClassName -eq "Win32_PerfFormattedData_Counters_ThermalZoneInformation" }
+
+        $sensor = Get-WinUtilCpuSensor
+
+        $sensor.TemperatureC | Should -Be 60
+        $sensor.LoadPercent | Should -Be 26
+    }
+
+    It "reports no temperature when the PC has no thermal zone" {
+        Mock Get-CimInstance { [pscustomobject]@{ LoadPercentage = 5 } } -ParameterFilter { $ClassName -eq "Win32_Processor" }
+        Mock Get-CimInstance { throw "Invalid class" } -ParameterFilter { $ClassName -eq "Win32_PerfFormattedData_Counters_ThermalZoneInformation" }
+
+        $sensor = Get-WinUtilCpuSensor
+
+        $sensor.TemperatureC | Should -BeNullOrEmpty
+        $sensor.LoadPercent | Should -Be 5
+    }
+}
+
+Describe "Format-WinUtilTemperatureReading" {
+    It "shows both temperatures with their heat level" {
+        $gpu = [pscustomobject]@{ TemperatureC = "84"; LoadPercent = "97"; MemoryUsedMB = "7000"; MemoryTotalMB = "8192"; PowerW = 160; Name = "RTX 3070" }
+        $cpu = [pscustomobject]@{ TemperatureC = 55; LoadPercent = 40 }
+
+        $reading = Format-WinUtilTemperatureReading -Gpu $gpu -Cpu $cpu
+
+        $reading.GpuValue | Should -Be "84$([char]0x00B0)C"
+        $reading.GpuLevel | Should -Be "Hot"
+        $reading.GpuName | Should -Be "RTX 3070"
+        $reading.GpuDetails | Should -Be "Load: 97%`nVideo memory: 7000 / 8192 MB`nPower: 160 W"
+        $reading.CpuValue | Should -Be "55$([char]0x00B0)C"
+        $reading.CpuLevel | Should -Be "Good"
+        $reading.CpuDetails | Should -Be "Load: 40%"
+    }
+
+    It "explains what is missing without an NVIDIA card or a thermal zone" {
+        $reading = Format-WinUtilTemperatureReading -Gpu $null -Cpu ([pscustomobject]@{ TemperatureC = $null; LoadPercent = 12 })
+
+        $reading.GpuValue | Should -Be "--"
+        $reading.GpuLevel | Should -Be "None"
+        $reading.GpuStatus | Should -Be ""
+        $reading.GpuDetails | Should -Match "NVIDIA"
+        $reading.CpuValue | Should -Be "--"
+        $reading.CpuDetails | Should -Match "^Load: 12%`n"
+    }
+
+    It "calls 70 degrees warm" {
+        (Format-WinUtilTemperatureReading -Gpu ([pscustomobject]@{ TemperatureC = "70" }) -Cpu $null).GpuLevel | Should -Be "Warm"
+    }
+}
+
+Describe "Get-WinUtilMemorySensor" {
+    It "reports use in GB and percent and the fastest module speed" {
+        Mock Get-CimInstance { [pscustomobject]@{ TotalVisibleMemorySize = 16777216; FreePhysicalMemory = 4194304 } } -ParameterFilter { $ClassName -eq "Win32_OperatingSystem" }
+        Mock Get-CimInstance {
+            @([pscustomobject]@{ ConfiguredClockSpeed = 3200; Speed = 3600 }, [pscustomobject]@{ ConfiguredClockSpeed = 0; Speed = 2666 })
+        } -ParameterFilter { $ClassName -eq "Win32_PhysicalMemory" }
+
+        $memory = Get-WinUtilMemorySensor
+
+        $memory.TotalGB | Should -Be 16
+        $memory.UsedGB | Should -Be 12
+        $memory.UsagePercent | Should -Be 75
+        $memory.SpeedMHz | Should -Be 3200
+    }
+}
+
+Describe "Get-WinUtilDiskHealth" {
+    It "reads type, health and SMART values, leaving out what a drive does not report" {
+        Mock Get-CimInstance {
+            @(
+                [pscustomobject]@{ FriendlyName = "Samsung SSD 980 "; MediaType = 4; BusType = 17; HealthStatus = 0; Size = 1000204886016 },
+                [pscustomobject]@{ FriendlyName = "WDC WD10EZEX"; MediaType = 3; BusType = 11; HealthStatus = 1; Size = 1000204886016 }
+            )
+        } -ParameterFilter { $ClassName -eq "MSFT_PhysicalDisk" }
+        # The real cmdlet only takes CIM objects; dropping the type lets the test disks through
+        Mock Get-CimAssociatedInstance {
+            if ($InputObject.FriendlyName -like "Samsung*") {
+                [pscustomobject]@{ Temperature = 41; Wear = 3; PowerOnHours = 1234 }
+            } else {
+                [pscustomobject]@{ Temperature = 0; Wear = 0; PowerOnHours = 20000 }
+            }
+        } -RemoveParameterType InputObject
+
+        $disks = @(Get-WinUtilDiskHealth)
+
+        $disks[0].Name | Should -Be "Samsung SSD 980"
+        $disks[0].Kind | Should -Be "NVMe SSD"
+        $disks[0].SizeGB | Should -Be 932
+        $disks[0].Health | Should -Be "Healthy"
+        $disks[0].TemperatureC | Should -Be 41
+        $disks[0].WearPercent | Should -Be 3
+        $disks[1].Kind | Should -Be "SATA HDD"
+        $disks[1].Health | Should -Be "Warning"
+        $disks[1].TemperatureC | Should -BeNullOrEmpty
+        $disks[1].WearPercent | Should -BeNullOrEmpty
+        $disks[1].PowerOnHours | Should -Be 20000
+    }
+}
+
+Describe "ConvertFrom-WinUtilWinsatDiskOutput" {
+    It "reads the read, write and random read speeds" {
+        $output = @"
+> Disk  Random 16.0 Read                       521.71 MB/s          8.1
+> Disk  Sequential 64.0 Read                   2104.14 MB/s          9.2
+> Disk  Sequential 64.0 Write                  1640,75 MB/s          9.0
+"@
+        $speed = ConvertFrom-WinUtilWinsatDiskOutput -Output $output
+
+        $speed.SequentialReadMBs | Should -Be 2104
+        $speed.SequentialWriteMBs | Should -Be 1641
+        $speed.RandomReadMBs | Should -Be 522
+    }
+
+    It "returns nothing when the test did not run" {
+        ConvertFrom-WinUtilWinsatDiskOutput -Output "Error: the assessment cannot run on battery power" | Should -BeNullOrEmpty
+    }
+}
+
+Describe "Start-WinUtilDiskSpeedTest" {
+    It "shows the measured speeds and enables the button again" {
+        Mock Measure-WinUtilDiskSpeed { [pscustomobject]@{ SequentialReadMBs = 3000; SequentialWriteMBs = 2500; RandomReadMBs = $null } }
+        $script:sync = @{
+            WPFTempsDiskSpeedResult = [pscustomobject]@{ Text = "" }
+            WPFTempsDiskSpeedTest = [pscustomobject]@{ IsEnabled = $true }
+        }
+
+        Start-WinUtilDiskSpeedTest
+
+        $script:sync.WPFTempsDiskSpeedResult.Text | Should -Be "Read: 3000 MB/s`nWrite: 2500 MB/s`nRandom read (like loading a game): ? MB/s"
+        $script:sync.WPFTempsDiskSpeedTest.IsEnabled | Should -BeTrue
+        Remove-Variable -Name sync -Scope Script
+    }
+}
+
+Describe "Format-WinUtilTemperatureReading memory and disks" {
+    It "shows memory use and one card per disk with its worst level" {
+        $memory = [pscustomobject]@{ UsedGB = 12; TotalGB = 16; UsagePercent = 75; SpeedMHz = 3200 }
+        $disks = @(
+            [pscustomobject]@{ Name = "Samsung SSD 980"; SizeGB = 932; Kind = "NVMe SSD"; Health = "Healthy"; TemperatureC = 72; WearPercent = 3; PowerOnHours = 1234 },
+            [pscustomobject]@{ Name = "WDC"; SizeGB = 932; Kind = "SATA HDD"; Health = "Healthy"; TemperatureC = $null; WearPercent = $null; PowerOnHours = $null }
+        )
+
+        $reading = Format-WinUtilTemperatureReading -Gpu $null -Cpu $null -Memory $memory -Disks $disks
+
+        $reading.RamValue | Should -Be "75%"
+        $reading.RamLevel | Should -Be "Warm"
+        $reading.RamStatus | Should -Be "12 / 16 GB in use"
+        $reading.RamDetails | Should -Match "^Speed: 3200 MHz"
+        $reading.DisksRead | Should -BeTrue
+        $reading.Disks[0].Title | Should -Be "Samsung SSD 980 (932 GB) NVMe SSD"
+        $reading.Disks[0].Level | Should -Be "Hot"
+        $reading.Disks[0].Details | Should -Be "Health: Healthy`nTemperature: 72$([char]0x00B0)C`nLife left: 97%`nPowered on: 1234 hours"
+        $reading.Disks[1].Level | Should -Be "Good"
+        $reading.Disks[1].Details | Should -Be "Health: Healthy"
+    }
+
+    It "leaves the disks alone when they were not read this time" {
+        (Format-WinUtilTemperatureReading -Gpu $null -Cpu $null -Memory $null -Disks $null).DisksRead | Should -BeFalse
     }
 }

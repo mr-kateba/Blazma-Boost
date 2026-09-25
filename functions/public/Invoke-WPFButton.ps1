@@ -179,6 +179,7 @@ function Invoke-WPFButtonAction {
         "WPFGamingGPUDriver" {Open-WinUtilGpuDriverUpdater}
         "WPFGamingPing" {Start-WinUtilGameServerLatencyTest}
         "WPFStartupAppsRefresh" {Initialize-WinUtilStartupApps}
+        "WPFTempsDiskSpeedTest" {Start-WinUtilDiskSpeedTest}
         "WPFSpecsRefresh" {Initialize-WinUtilHardwareSpecs}
         "WPFSpecsDriverDownload" {Open-WinUtilGpuDriverUpdater}
         "WPFSpecsCopy" {Copy-WinUtilHardwareSpecs}

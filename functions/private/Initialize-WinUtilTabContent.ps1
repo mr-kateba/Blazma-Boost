@@ -41,7 +41,9 @@ function Initialize-WinUtilTabContent {
             }
             "Specs" {
                 Initialize-WinUtilHardwareSpecs
-                Start-WinUtilGpuSensorMonitor
+            }
+            "Temps" {
+                Start-WinUtilTemperatureMonitor
             }
             "Config" {
                 Invoke-WPFUIElements -configVariable $sync.configs.feature -targetGridName "featurespanel" -columncount 2 -Yield:$Yield
