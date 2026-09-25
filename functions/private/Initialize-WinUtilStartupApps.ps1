@@ -33,7 +33,11 @@ function Initialize-WinUtilStartupApps {
 
             foreach ($app in $Apps) {
                 $checkBox = New-Object System.Windows.Controls.CheckBox
-                $checkBox.Content = $app.Name
+                $checkBox.Content = switch ($app.Kind) {
+                    "Store" { (Get-WinUtilText -Key "StartupKindStore" -Default "{0} (Store app)") -f $app.Name }
+                    "Task" { (Get-WinUtilText -Key "StartupKindTask" -Default "{0} (scheduled task)") -f $app.Name }
+                    default { $app.Name }
+                }
                 $checkBox.ToolTip = $app.Command
                 $checkBox.IsChecked = $app.Enabled
                 $checkBox.Tag = $app

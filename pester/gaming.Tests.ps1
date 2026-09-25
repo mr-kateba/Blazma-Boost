@@ -30,6 +30,7 @@ BeforeAll {
     . (Join-Path $script:repoRoot "functions\private\Start-WinUtilDiskSpeedTest.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilStartupApps.ps1")
     . (Join-Path $script:repoRoot "functions\private\Set-WinUtilStartupApp.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Get-WinUtilStartupTasks.ps1")
 
     function Write-WinUtilLog { param($Message, $Level, $Component) }
     function Invoke-WPFRunspace { param($ScriptBlock, $ArgumentList, $ParameterList) & $ScriptBlock }
@@ -430,6 +431,7 @@ Describe "Get-WinUtilStartupApps" {
     }
 
     BeforeEach {
+        Mock Get-WinUtilStartupTasks { }
         Mock Test-Path { $LiteralPath -in @($script:runKey, $script:approvedKey) }
         Mock Get-ItemProperty {
             [pscustomobject]@{
@@ -456,6 +458,50 @@ Describe "Get-WinUtilStartupApps" {
         ($apps | Where-Object Name -eq "OneDrive").Enabled | Should -BeTrue
         ($apps | Where-Object Name -eq "Steam").Command | Should -Be "C:\Steam\steam.exe -silent"
         ($apps | Where-Object Name -eq "Steam").ApprovedKey | Should -Be $script:approvedKey
+        ($apps | Where-Object Name -eq "Steam").Kind | Should -Be "Approved"
+    }
+
+    It "adds Store apps with their startup task state, leaving out policy-controlled ones" {
+        $storeRoot = "HKCU:\Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\SystemAppData"
+        Mock Test-Path { $LiteralPath -eq $storeRoot }
+        Mock Get-ChildItem {
+            @(
+                [pscustomobject]@{ PSChildName = "SpotifyAB.SpotifyMusic_zpdnekdrzrea0"; PSPath = "spotify" },
+                [pscustomobject]@{ PSChildName = "Contoso.Managed_abc"; PSPath = "managed" }
+            )
+        } -ParameterFilter { $LiteralPath -eq $storeRoot }
+        Mock Get-ChildItem { [pscustomobject]@{ PSPath = "spotify\task" } } -ParameterFilter { $LiteralPath -eq "spotify" }
+        Mock Get-ChildItem { [pscustomobject]@{ PSPath = "managed\task" } } -ParameterFilter { $LiteralPath -eq "managed" }
+        Mock Get-ItemProperty { [pscustomobject]@{ State = 1 } } -ParameterFilter { $LiteralPath -eq "spotify\task" }
+        Mock Get-ItemProperty { [pscustomobject]@{ State = 4 } } -ParameterFilter { $LiteralPath -eq "managed\task" }
+
+        $apps = @(Get-WinUtilStartupApps)
+
+        $apps.Count | Should -Be 1
+        $apps[0].Kind | Should -Be "Store"
+        $apps[0].Name | Should -Be "SpotifyMusic"
+        $apps[0].Enabled | Should -BeFalse
+        $apps[0].StateKey | Should -Be "spotify\task"
+    }
+}
+
+Describe "Get-WinUtilStartupTasks" {
+    It "keeps only non-Windows tasks that run at sign-in" {
+        $logon = [pscustomobject]@{ CimClass = [pscustomobject]@{ CimClassName = "MSFT_TaskLogonTrigger" } }
+        $daily = [pscustomobject]@{ CimClass = [pscustomobject]@{ CimClassName = "MSFT_TaskDailyTrigger" } }
+        $tasks = @(
+            [pscustomobject]@{ TaskName = "LauncherUpdate"; TaskPath = "\"; State = "Disabled"; Triggers = @($logon); Actions = @([pscustomobject]@{ Execute = "C:\Launcher\update.exe"; Arguments = "/silent" }) },
+            [pscustomobject]@{ TaskName = "Cleanup"; TaskPath = "\"; State = "Ready"; Triggers = @($daily); Actions = @() },
+            [pscustomobject]@{ TaskName = "OneDrive"; TaskPath = "\Microsoft\Windows\"; State = "Ready"; Triggers = @($logon); Actions = @() }
+        )
+
+        $startup = @(Get-WinUtilStartupTasks -Task $tasks)
+
+        $startup.Count | Should -Be 1
+        $startup[0].Kind | Should -Be "Task"
+        $startup[0].Name | Should -Be "LauncherUpdate"
+        $startup[0].Command | Should -Be "C:\Launcher\update.exe /silent"
+        $startup[0].Enabled | Should -BeFalse
     }
 }
 
@@ -473,6 +519,27 @@ Describe "Set-WinUtilStartupApp" {
         $script:written.Length | Should -Be 12
         $script:written[0] | Should -Be 2
         ($script:written | Select-Object -Skip 1 | Where-Object { $_ -ne 0 }) | Should -BeNullOrEmpty
+    }
+
+    It "sets a Store app's startup task state" {
+        $store = [pscustomobject]@{ Kind = "Store"; Name = "SpotifyMusic"; StateKey = "spotify\task" }
+
+        Set-WinUtilStartupApp -App $store -Enabled $false
+
+        $script:written | Should -Be 1
+        Should -Invoke New-ItemProperty -Times 1 -ParameterFilter { $LiteralPath -eq "spotify\task" -and $Name -eq "State" }
+    }
+
+    It "enables and disables a scheduled task" {
+        # Functions win over cmdlets, so these stand in for the Windows ScheduledTasks module
+        function Enable-ScheduledTask { param($TaskName, $TaskPath, $ErrorAction) $script:taskCall = "Enable $TaskPath$TaskName" }
+        function Disable-ScheduledTask { param($TaskName, $TaskPath, $ErrorAction) $script:taskCall = "Disable $TaskPath$TaskName" }
+        $task = [pscustomobject]@{ Kind = "Task"; Name = "LauncherUpdate"; TaskName = "LauncherUpdate"; TaskPath = "\" }
+
+        Set-WinUtilStartupApp -App $task -Enabled $false
+        $script:taskCall | Should -Be "Disable \LauncherUpdate"
+        Set-WinUtilStartupApp -App $task -Enabled $true
+        $script:taskCall | Should -Be "Enable \LauncherUpdate"
     }
 
     It "records a disabled program as 03 with the time it was disabled" {

@@ -46,7 +46,9 @@
     "TempsDiskSpeedFailed": "ما قدرنا نسوي الاختبار. جرب مرة ثانية واللابتوب على الشاحن.",
     "TempsHotAlertTitle": "جهازك حار!",
     "TempsAlertGpu": "كرت الشاشة: {0}",
-    "TempsAlertCpu": "المعالج: {0}"
+    "TempsAlertCpu": "المعالج: {0}",
+    "StartupKindStore": "{0} (من المتجر)",
+    "StartupKindTask": "{0} (مهمة مجدولة)"
   },
   "categories": {
     "Essential Tweaks": "تحسينات أساسية",
