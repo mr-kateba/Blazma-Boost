@@ -2317,6 +2317,14 @@
                                         <Button Name="WPFGamingPing" Content=" قياس البنق " HorizontalAlignment="Left" Margin="2" Width="{DynamicResource ButtonWidth}" Height="{DynamicResource ButtonHeight}"/>
                                     </StackPanel>
                                 </Border>
+                                <Border Style="{StaticResource BorderStyle}" Margin="0,0,0,8">
+                                    <StackPanel Margin="10,5,10,10">
+                                        <Label Content="برامج بدء التشغيل:" FontSize="{DynamicResource FontSize}" FontWeight="Bold" Margin="2"/>
+                                        <TextBlock Name="WPFStartupAppsStatus" Text="" TextWrapping="Wrap" Margin="7,0,7,6" Foreground="{DynamicResource MainForegroundColor}"/>
+                                        <WrapPanel Name="WPFStartupAppsList" Orientation="Horizontal" Margin="5,0,5,6"/>
+                                        <Button Name="WPFStartupAppsRefresh" Content=" تحديث القائمة " HorizontalAlignment="Left" Margin="2" Width="{DynamicResource ButtonWidth}" Height="{DynamicResource ButtonHeight}"/>
+                                    </StackPanel>
+                                </Border>
                                 <Label Content="تحسينات الألعاب:" FontSize="{DynamicResource FontSize}" VerticalAlignment="Center" Margin="2"/>
                                 <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,2,0,0">
                                     <Button Name="WPFGamingOneClick" Content=" وضع الألعاب بضغطة " Margin="2" Width="{DynamicResource ButtonWidth}" Height="{DynamicResource ButtonHeight}"

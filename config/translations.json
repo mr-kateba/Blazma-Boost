@@ -20,7 +20,11 @@
     "PingRunning": "جاري القياس...",
     "PingUnreachable": "لا يوجد رد",
     "GpuLive": "الحرارة: {0}°C | الاستخدام: {1}% | ذاكرة الكرت: {2} / {3} ميجا | الطاقة: {4} واط",
-    "GpuLiveUnavailable": "الحرارة المباشرة متاحة لكروت NVIDIA فقط."
+    "GpuLiveUnavailable": "الحرارة المباشرة متاحة لكروت NVIDIA فقط.",
+    "StartupAppsLoading": "جاري قراءة برامج بدء التشغيل...",
+    "StartupAppsEmpty": "ما فيه برامج تشتغل مع الويندوز.",
+    "StartupAppsCount": "{0} برنامج يشتغل مع الويندوز. شيل الصح عن أي برنامج ما تحتاجه عشان الجهاز يقلع أسرع.",
+    "StartupAppsFailed": "ما قدرنا نغير {0}: {1}"
   },
   "categories": {
     "Essential Tweaks": "تحسينات أساسية",
