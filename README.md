@@ -46,6 +46,12 @@ irm https://github.com/mr-kateba/Blazma-Boost/releases/latest/download/winutil.p
 
 </details>
 
+### أو حمّل البرنامج
+
+1. نزّل [**BlazmaBoost.zip**](https://github.com/mr-kateba/Blazma-Boost/releases/latest/download/BlazmaBoost.zip)
+2. فك الضغط: كليك يمين على الملف ← **Extract All**
+3. شغّل **Start-BlazmaBoost.bat** من المجلد (لو طلع لك "Windows protected your PC" اضغط **More info** ← **Run anyway**)
+
 ### تطبيق تحسينات الألعاب مباشرة بدون واجهة
 
 ```powershell
