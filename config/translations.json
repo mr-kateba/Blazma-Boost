@@ -43,7 +43,10 @@
     "TempsDiskHours": "ساعات التشغيل: {0} ساعة",
     "TempsDiskSpeedRunning": "جاري القياس... يأخذ حوالي دقيقة.",
     "TempsDiskSpeedResult": "القراءة: {0} ميجا/ثانية\nالكتابة: {1} ميجا/ثانية\nالقراءة العشوائية (زي تحميل الألعاب): {2} ميجا/ثانية",
-    "TempsDiskSpeedFailed": "ما قدرنا نسوي الاختبار. جرب مرة ثانية واللابتوب على الشاحن."
+    "TempsDiskSpeedFailed": "ما قدرنا نسوي الاختبار. جرب مرة ثانية واللابتوب على الشاحن.",
+    "TempsHotAlertTitle": "جهازك حار!",
+    "TempsAlertGpu": "كرت الشاشة: {0}",
+    "TempsAlertCpu": "المعالج: {0}"
   },
   "categories": {
     "Essential Tweaks": "تحسينات أساسية",
@@ -1454,6 +1457,8 @@
     "الهارد و SSD": "Drives",
     " اختبار سرعة الهارد ": " Test drive speed ",
     "يقيس سرعة القراءة والكتابة لقرص الويندوز باستخدام أداة ويندوز نفسها. يأخذ حوالي دقيقة.": "Measures the read and write speed of the Windows drive with Windows' own tool. Takes about a minute.",
-    "معلومات الهارد تتحدث كل 30 ثانية. ويندوز ما يعطي حرارة الرامات، فنعرض استخدامها وسرعتها.": "Drive information refreshes every 30 seconds. Windows does not report memory temperature, so memory use and speed are shown instead."
+    "معلومات الهارد تتحدث كل 30 ثانية. ويندوز ما يعطي حرارة الرامات، فنعرض استخدامها وسرعتها.": "Drive information refreshes every 30 seconds. Windows does not report memory temperature, so memory use and speed are shown instead.",
+    "آخر دقيقتين": "The last two minutes",
+    "خل البرنامج مفتوح على هذا التبويب وأنت تلعب، وإذا صار الكرت أو المعالج حار بيطلع لك تنبيه من ويندوز.": "Leave the app open on this tab while you play, and Windows will notify you if the graphics card or processor gets hot."
   }
 }

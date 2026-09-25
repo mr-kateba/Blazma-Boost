@@ -21,6 +21,7 @@ BeforeAll {
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilGpuSensor.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilCpuSensor.ps1")
     . (Join-Path $script:repoRoot "functions\private\Format-WinUtilTemperatureReading.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Show-WinUtilHeatAlert.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilMemorySensor.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilDiskHealth.ps1")
     . (Join-Path $script:repoRoot "functions\private\Measure-WinUtilDiskSpeed.ps1")
@@ -652,5 +653,31 @@ Describe "Format-WinUtilTemperatureReading memory and disks" {
 
     It "leaves the disks alone when they were not read this time" {
         (Format-WinUtilTemperatureReading -Gpu $null -Cpu $null -Memory $null -Disks $null).DisksRead | Should -BeFalse
+    }
+}
+
+Describe "Heat alerts" {
+    It "names what is hot, and only that" {
+        $gpu = [pscustomobject]@{ TemperatureC = "88" }
+        $cpu = [pscustomobject]@{ TemperatureC = 60; LoadPercent = 10 }
+
+        $reading = Format-WinUtilTemperatureReading -Gpu $gpu -Cpu $cpu
+
+        $reading.HotAlert | Should -Be "Graphics card: 88$([char]0x00B0)C"
+        $reading.GpuTemperatureC | Should -Be "88"
+        $reading.CpuTemperatureC | Should -Be 60
+    }
+
+    It "has no alert when nothing is hot" {
+        (Format-WinUtilTemperatureReading -Gpu ([pscustomobject]@{ TemperatureC = "60" }) -Cpu $null).HotAlert | Should -BeNullOrEmpty
+    }
+
+    It "falls back to the taskbar warning where Windows notifications are not available" {
+        function Set-WinUtilTaskbaritem { param($overlay) }
+        Mock Set-WinUtilTaskbaritem { }
+
+        Show-WinUtilHeatAlert -Message "Graphics card: 88C"
+
+        Should -Invoke Set-WinUtilTaskbaritem -Times 1 -ParameterFilter { $overlay -eq "warning" }
     }
 }

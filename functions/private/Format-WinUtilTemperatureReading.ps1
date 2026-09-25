@@ -82,7 +82,15 @@ function Format-WinUtilTemperatureReading {
         })
     }
 
+    # A warning to show outside the window when the GPU or CPU runs hot
+    $alerts = @()
+    if ($gpuLevel -eq "Hot") { $alerts += (Get-WinUtilText -Key "TempsAlertGpu" -Default "Graphics card: {0}") -f "$gpuTemperature$degree" }
+    if ($cpuLevel -eq "Hot") { $alerts += (Get-WinUtilText -Key "TempsAlertCpu" -Default "Processor: {0}") -f "$cpuTemperature$degree" }
+
     [pscustomobject]@{
+        GpuTemperatureC = $gpuTemperature
+        CpuTemperatureC = $cpuTemperature
+        HotAlert   = if ($alerts.Count -gt 0) { $alerts -join " | " } else { $null }
         RamValue   = if ($null -ne $ramUsage) { "$ramUsage%" } else { "--" }
         RamLevel   = $ramLevel
         RamStatus  = $ramStatus
