@@ -18,6 +18,7 @@ BeforeAll {
     . (Join-Path $script:repoRoot "functions\private\Import-WinUtilPreferences.ps1")
     . (Join-Path $script:repoRoot "functions\private\Start-WinUtilGameServerLatencyTest.ps1")
     . (Join-Path $script:repoRoot "functions\private\Measure-WinUtilGameServerLatency.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Get-WinUtilGpuSensor.ps1")
 
     function Write-WinUtilLog { param($Message, $Level, $Component) }
     function Invoke-WPFRunspace { param($ScriptBlock, $ArgumentList, $ParameterList) & $ScriptBlock }
@@ -370,5 +371,37 @@ Describe "Start-WinUtilGameServerLatencyTest" {
         $script:sync.WPFGamingPingResult.Text | Should -Be "Bahrain: 31 ms`nFrankfurt: 95 ms`nUAE: no response"
         $script:sync.WPFGamingPing.IsEnabled | Should -BeTrue
         Remove-Variable -Name sync -Scope Script
+    }
+}
+
+Describe "Get-WinUtilGpuSensor" {
+    It "returns nothing when nvidia-smi is not installed" {
+        $previous = @($env:SystemRoot, $env:ProgramFiles)
+        try {
+            $env:SystemRoot = Join-Path $TestDrive "nowindows"
+            $env:ProgramFiles = Join-Path $TestDrive "noprogramfiles"
+            Get-WinUtilGpuSensor | Should -BeNullOrEmpty
+        } finally {
+            $env:SystemRoot, $env:ProgramFiles = $previous
+        }
+    }
+
+    It "reads every value from one nvidia-smi line" {
+        $sensor = ConvertFrom-WinUtilGpuSensorLine -Line "55, 12, 1200, 8192, 45.50"
+        $sensor.TemperatureC | Should -Be "55"
+        $sensor.LoadPercent | Should -Be "12"
+        $sensor.MemoryUsedMB | Should -Be "1200"
+        $sensor.MemoryTotalMB | Should -Be "8192"
+        $sensor.PowerW | Should -Be 46
+    }
+
+    It "leaves values the card does not report empty" {
+        $sensor = ConvertFrom-WinUtilGpuSensorLine -Line "61, 3, 500, 4096, [N/A]"
+        $sensor.TemperatureC | Should -Be "61"
+        $sensor.PowerW | Should -BeNullOrEmpty
+    }
+
+    It "returns nothing for empty output" {
+        ConvertFrom-WinUtilGpuSensorLine -Line "" | Should -BeNullOrEmpty
     }
 }

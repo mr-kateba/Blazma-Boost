@@ -2377,6 +2377,7 @@
                                 <StackPanel Margin="10,5,10,10">
                                     <Label Name="WPFSpecsGPUHeader" Content="كرت الشاشة" FontSize="{DynamicResource HeaderFontSize}" FontFamily="{DynamicResource HeaderFontFamily}" Margin="2"/>
                                     <TextBlock Name="WPFSpecsGPU" Text="جاري القراءة..." TextWrapping="Wrap" Margin="7,0,7,0" Foreground="{DynamicResource MainForegroundColor}"/>
+                                    <TextBlock Name="WPFSpecsGpuLive" Text="" TextWrapping="Wrap" FontWeight="Bold" Margin="7,8,7,0" Foreground="{DynamicResource LabelboxForegroundColor}"/>
                                     <TextBlock Name="WPFSpecsDriverStatus" Text="جاري التحقق من تحديثات التعريف..." TextWrapping="Wrap" FontWeight="Bold" Margin="7,10,7,5" Foreground="{DynamicResource MainForegroundColor}"/>
                                     <Button Name="WPFSpecsDriverDownload" Content=" تحديث التعريف " ToolTip="يفتح NVIDIA App أو AMD Adrenalin، وإذا ما كان مثبت يفتح صفحة تحميله" HorizontalAlignment="Left" IsEnabled="False" Margin="5,0,5,0" Width="Auto" Padding="10,0" Height="{DynamicResource ButtonHeight}"/>
                                 </StackPanel>

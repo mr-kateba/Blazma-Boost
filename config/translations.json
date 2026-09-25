@@ -18,7 +18,9 @@
     "DriverCheckFailed": "تعذر التحقق من وجود تعريف أحدث. تأكد من اتصالك بالإنترنت.",
     "GuideUrl": "https://github.com/mr-kateba/Blazma-Boost/blob/main/docs-ar/tweaks.md",
     "PingRunning": "جاري القياس...",
-    "PingUnreachable": "لا يوجد رد"
+    "PingUnreachable": "لا يوجد رد",
+    "GpuLive": "الحرارة: {0}°C | الاستخدام: {1}% | ذاكرة الكرت: {2} / {3} ميجا | الطاقة: {4} واط",
+    "GpuLiveUnavailable": "الحرارة المباشرة متاحة لكروت NVIDIA فقط."
   },
   "categories": {
     "Essential Tweaks": "تحسينات أساسية",
