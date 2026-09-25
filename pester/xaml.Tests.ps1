@@ -211,7 +211,22 @@ Describe "XAML document" {
             "WPFSpecsRefresh",
             "WPFSpecsCopy",
             "WPFSpecsDriverStatus",
-            "WPFSpecsGpuLive",
+            "WPFTab9",
+            "WPFTab9BT",
+            "tempspanel",
+            "WPFTempsGpuName",
+            "WPFTempsGpuValue",
+            "WPFTempsGpuStatus",
+            "WPFTempsGpuDetails",
+            "WPFTempsCpuValue",
+            "WPFTempsCpuStatus",
+            "WPFTempsCpuDetails",
+            "WPFTempsRamValue",
+            "WPFTempsRamStatus",
+            "WPFTempsRamDetails",
+            "WPFTempsDiskList",
+            "WPFTempsDiskSpeedTest",
+            "WPFTempsDiskSpeedResult",
             "WPFGamingPing",
             "WPFGamingPingResult",
             "WPFStartupAppsStatus",
@@ -323,7 +338,8 @@ Describe "XAML document" {
             "WPFTab5:Win11ISO",
             "WPFTab6:AppX",
             "WPFTab7:Gaming",
-            "WPFTab8:Specs"
+            "WPFTab8:Specs",
+            "WPFTab9:Temps"
         )
 
         if (@($actualTabs).Count -ne $expectedTabs.Count) {
@@ -382,7 +398,7 @@ Describe "XAML document" {
         $comboToggleStyle | Should -Not -BeNullOrEmpty
         $comboToggle.GetAttribute("Style") | Should -Be "{StaticResource ComboBoxToggleButtonStyle}"
         $comboItemStyle | Should -Not -BeNullOrEmpty
-        $navButtons.Count | Should -Be 7
+        $navButtons.Count | Should -Be 8
         foreach ($navButton in $navButtons) {
             $navButton.GetAttribute("Style") | Should -Be "{StaticResource TabToggleButton}"
         }
@@ -478,8 +494,9 @@ Describe "XAML and sync wiring" {
             "SessionState",
             "TabWarmupQueue",
             "GamingGpuVendor",
-            "GpuSensorTimer",
-            "GpuSensorBusy",
+            "TemperatureTimer",
+            "TemperatureBusy",
+            "TemperatureDiskReadAt",
             "BackgroundQueues",
             "ConsoleProgressState",
             "LastInputAt",
