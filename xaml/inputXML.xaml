@@ -2442,6 +2442,10 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
                             <Border Grid.Column="0" Style="{StaticResource BorderStyle}" Margin="5">
                                 <StackPanel Margin="15,10,15,15">
                                     <Label Content="كرت الشاشة" FontSize="{DynamicResource HeaderFontSize}" FontFamily="{DynamicResource HeaderFontFamily}" Margin="2"/>
@@ -2459,11 +2463,30 @@
                                     <TextBlock Name="WPFTempsCpuDetails" Text="جاري القراءة..." TextWrapping="Wrap" LineHeight="22" Margin="7,0,7,0" Foreground="{DynamicResource MainForegroundColor}"/>
                                 </StackPanel>
                             </Border>
+                            <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource BorderStyle}" Margin="5">
+                                <StackPanel Margin="15,10,15,15">
+                                    <Label Content="الرامات" FontSize="{DynamicResource HeaderFontSize}" FontFamily="{DynamicResource HeaderFontFamily}" Margin="2"/>
+                                    <TextBlock Name="WPFTempsRamValue" Text="--" FontSize="56" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,0" Foreground="{DynamicResource MainForegroundColor}" FlowDirection="LeftToRight"/>
+                                    <TextBlock Name="WPFTempsRamStatus" Text="" FontSize="{DynamicResource HeaderFontSize}" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10" Foreground="{DynamicResource MainForegroundColor}"/>
+                                    <TextBlock Name="WPFTempsRamDetails" Text="جاري القراءة..." TextWrapping="Wrap" LineHeight="22" Margin="7,0,7,0" Foreground="{DynamicResource MainForegroundColor}"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource BorderStyle}" Margin="5">
+                                <StackPanel Margin="15,10,15,15">
+                                    <Label Content="الهارد و SSD" FontSize="{DynamicResource HeaderFontSize}" FontFamily="{DynamicResource HeaderFontFamily}" Margin="2"/>
+                                    <StackPanel Name="WPFTempsDiskList" Margin="0,5,0,0">
+                                        <TextBlock Text="جاري القراءة..." Margin="7,0,7,0" Foreground="{DynamicResource MainForegroundColor}"/>
+                                    </StackPanel>
+                                    <Button Name="WPFTempsDiskSpeedTest" Content=" اختبار سرعة الهارد " ToolTip="يقيس سرعة القراءة والكتابة لقرص الويندوز باستخدام أداة ويندوز نفسها. يأخذ حوالي دقيقة." HorizontalAlignment="Left" Margin="5,5,5,5" Width="Auto" Padding="10,0" Height="{DynamicResource ButtonHeight}"/>
+                                    <TextBlock Name="WPFTempsDiskSpeedResult" Text="" TextWrapping="Wrap" LineHeight="22" FontWeight="Bold" Margin="7,5,7,0" Foreground="{DynamicResource MainForegroundColor}"/>
+                                </StackPanel>
+                            </Border>
                         </Grid>
                         <Border Style="{StaticResource BorderStyle}" Margin="5">
                             <TextBlock Padding="10" TextWrapping="Wrap" Foreground="{DynamicResource MainForegroundColor}">
                                 الأرقام تتحدث كل 3 ثواني وأنت في هذا التبويب بس. الأخضر ممتاز، البرتقالي حار شوي، والأحمر يعني شيك على التبريد والمراوح.
                                 <LineBreak/>حرارة كرت الشاشة متاحة لكروت NVIDIA. حرارة المعالج تجي من حساس اللوحة الأم، فممكن تكون تقريبية أو ما تطلع في بعض الأجهزة.
+                                <LineBreak/>معلومات الهارد تتحدث كل 30 ثانية. ويندوز ما يعطي حرارة الرامات، فنعرض استخدامها وسرعتها.
                             </TextBlock>
                         </Border>
                     </StackPanel>
