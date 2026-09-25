@@ -21,6 +21,10 @@ BeforeAll {
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilGpuSensor.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilCpuSensor.ps1")
     . (Join-Path $script:repoRoot "functions\private\Format-WinUtilTemperatureReading.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Get-WinUtilMemorySensor.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Get-WinUtilDiskHealth.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Measure-WinUtilDiskSpeed.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Start-WinUtilDiskSpeedTest.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilStartupApps.ps1")
     . (Join-Path $script:repoRoot "functions\private\Set-WinUtilStartupApp.ps1")
 
@@ -32,6 +36,11 @@ BeforeAll {
     # Get-CimInstance does not exist outside Windows; a stub lets Pester mock it there too
     if (-not (Get-Command Get-CimInstance -ErrorAction SilentlyContinue)) {
         function Get-CimInstance { param($ClassName, $ErrorAction) }
+    }
+    # The Storage module is Windows only
+    if (-not (Get-Command Get-PhysicalDisk -ErrorAction SilentlyContinue)) {
+        function Get-PhysicalDisk { param($ErrorAction) }
+        function Get-StorageReliabilityCounter { param([Parameter(ValueFromPipeline)]$PhysicalDisk, $ErrorAction) process { } }
     }
 }
 
@@ -534,5 +543,115 @@ Describe "Format-WinUtilTemperatureReading" {
 
     It "calls 70 degrees warm" {
         (Format-WinUtilTemperatureReading -Gpu ([pscustomobject]@{ TemperatureC = "70" }) -Cpu $null).GpuLevel | Should -Be "Warm"
+    }
+}
+
+Describe "Get-WinUtilMemorySensor" {
+    It "reports use in GB and percent and the fastest module speed" {
+        Mock Get-CimInstance { [pscustomobject]@{ TotalVisibleMemorySize = 16777216; FreePhysicalMemory = 4194304 } } -ParameterFilter { $ClassName -eq "Win32_OperatingSystem" }
+        Mock Get-CimInstance {
+            @([pscustomobject]@{ ConfiguredClockSpeed = 3200; Speed = 3600 }, [pscustomobject]@{ ConfiguredClockSpeed = 0; Speed = 2666 })
+        } -ParameterFilter { $ClassName -eq "Win32_PhysicalMemory" }
+
+        $memory = Get-WinUtilMemorySensor
+
+        $memory.TotalGB | Should -Be 16
+        $memory.UsedGB | Should -Be 12
+        $memory.UsagePercent | Should -Be 75
+        $memory.SpeedMHz | Should -Be 3200
+    }
+}
+
+Describe "Get-WinUtilDiskHealth" {
+    It "reads type, health and SMART values, leaving out what a drive does not report" {
+        Mock Get-PhysicalDisk {
+            @(
+                [pscustomobject]@{ FriendlyName = "Samsung SSD 980 "; MediaType = "SSD"; BusType = "NVMe"; HealthStatus = "Healthy"; Size = 1000204886016 },
+                [pscustomobject]@{ FriendlyName = "WDC WD10EZEX"; MediaType = 3; BusType = 11; HealthStatus = 1; Size = 1000204886016 }
+            )
+        }
+        Mock Get-StorageReliabilityCounter {
+            if ($PhysicalDisk.FriendlyName -like "Samsung*") {
+                [pscustomobject]@{ Temperature = 41; Wear = 3; PowerOnHours = 1234 }
+            } else {
+                [pscustomobject]@{ Temperature = 0; Wear = 0; PowerOnHours = 20000 }
+            }
+        }
+
+        $disks = @(Get-WinUtilDiskHealth)
+
+        $disks[0].Name | Should -Be "Samsung SSD 980"
+        $disks[0].Kind | Should -Be "NVMe SSD"
+        $disks[0].SizeGB | Should -Be 932
+        $disks[0].Health | Should -Be "Healthy"
+        $disks[0].TemperatureC | Should -Be 41
+        $disks[0].WearPercent | Should -Be 3
+        $disks[1].Kind | Should -Be "SATA HDD"
+        $disks[1].Health | Should -Be "Warning"
+        $disks[1].TemperatureC | Should -BeNullOrEmpty
+        $disks[1].WearPercent | Should -BeNullOrEmpty
+        $disks[1].PowerOnHours | Should -Be 20000
+    }
+}
+
+Describe "ConvertFrom-WinUtilWinsatDiskOutput" {
+    It "reads the read, write and random read speeds" {
+        $output = @"
+> Disk  Random 16.0 Read                       521.71 MB/s          8.1
+> Disk  Sequential 64.0 Read                   2104.14 MB/s          9.2
+> Disk  Sequential 64.0 Write                  1640,75 MB/s          9.0
+"@
+        $speed = ConvertFrom-WinUtilWinsatDiskOutput -Output $output
+
+        $speed.SequentialReadMBs | Should -Be 2104
+        $speed.SequentialWriteMBs | Should -Be 1641
+        $speed.RandomReadMBs | Should -Be 522
+    }
+
+    It "returns nothing when the test did not run" {
+        ConvertFrom-WinUtilWinsatDiskOutput -Output "Error: the assessment cannot run on battery power" | Should -BeNullOrEmpty
+    }
+}
+
+Describe "Start-WinUtilDiskSpeedTest" {
+    It "shows the measured speeds and enables the button again" {
+        Mock Measure-WinUtilDiskSpeed { [pscustomobject]@{ SequentialReadMBs = 3000; SequentialWriteMBs = 2500; RandomReadMBs = $null } }
+        $script:sync = @{
+            WPFTempsDiskSpeedResult = [pscustomobject]@{ Text = "" }
+            WPFTempsDiskSpeedTest = [pscustomobject]@{ IsEnabled = $true }
+        }
+
+        Start-WinUtilDiskSpeedTest
+
+        $script:sync.WPFTempsDiskSpeedResult.Text | Should -Be "Read: 3000 MB/s`nWrite: 2500 MB/s`nRandom read (like loading a game): ? MB/s"
+        $script:sync.WPFTempsDiskSpeedTest.IsEnabled | Should -BeTrue
+        Remove-Variable -Name sync -Scope Script
+    }
+}
+
+Describe "Format-WinUtilTemperatureReading memory and disks" {
+    It "shows memory use and one card per disk with its worst level" {
+        $memory = [pscustomobject]@{ UsedGB = 12; TotalGB = 16; UsagePercent = 75; SpeedMHz = 3200 }
+        $disks = @(
+            [pscustomobject]@{ Name = "Samsung SSD 980"; SizeGB = 932; Kind = "NVMe SSD"; Health = "Healthy"; TemperatureC = 72; WearPercent = 3; PowerOnHours = 1234 },
+            [pscustomobject]@{ Name = "WDC"; SizeGB = 932; Kind = "SATA HDD"; Health = "Healthy"; TemperatureC = $null; WearPercent = $null; PowerOnHours = $null }
+        )
+
+        $reading = Format-WinUtilTemperatureReading -Gpu $null -Cpu $null -Memory $memory -Disks $disks
+
+        $reading.RamValue | Should -Be "75%"
+        $reading.RamLevel | Should -Be "Warm"
+        $reading.RamStatus | Should -Be "12 / 16 GB in use"
+        $reading.RamDetails | Should -Match "^Speed: 3200 MHz"
+        $reading.DisksRead | Should -BeTrue
+        $reading.Disks[0].Title | Should -Be "Samsung SSD 980 (932 GB) NVMe SSD"
+        $reading.Disks[0].Level | Should -Be "Hot"
+        $reading.Disks[0].Details | Should -Be "Health: Healthy`nTemperature: 72$([char]0x00B0)C`nLife left: 97%`nPowered on: 1234 hours"
+        $reading.Disks[1].Level | Should -Be "Good"
+        $reading.Disks[1].Details | Should -Be "Health: Healthy"
+    }
+
+    It "leaves the disks alone when they were not read this time" {
+        (Format-WinUtilTemperatureReading -Gpu $null -Cpu $null -Memory $null -Disks $null).DisksRead | Should -BeFalse
     }
 }
