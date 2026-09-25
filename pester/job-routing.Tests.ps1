@@ -11,8 +11,11 @@ Describe "Work routing" {
     It "never hands work to a console window of its own" {
         # A separate console takes the work outside the job layer, so it gets no progress bar,
         # no taskbar state and no log lines, and the window outlives WinUtil
+        # The one exception is the self-update, whose new window is the new version of WinUtil
+        # replacing this one rather than work handed off by it
+        $relaunchers = @("Start-WinUtilSelfUpdate.ps1")
         $offenders = @()
-        foreach ($file in (Get-ChildItem -Path $script:functionRoot -Filter *.ps1 -Recurse)) {
+        foreach ($file in (Get-ChildItem -Path $script:functionRoot -Filter *.ps1 -Recurse | Where-Object { $_.Name -notin $relaunchers })) {
             $text = Get-Content -Path $file.FullName -Raw
             foreach ($line in ($text -split "`r?`n")) {
                 if ($line -match '^\s*#') { continue }
