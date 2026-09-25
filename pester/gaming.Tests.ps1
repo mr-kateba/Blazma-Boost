@@ -21,12 +21,16 @@ BeforeAll {
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilGpuSensor.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilCpuSensor.ps1")
     . (Join-Path $script:repoRoot "functions\private\Format-WinUtilTemperatureReading.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Show-WinUtilHeatAlert.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Start-WinUtilSelfUpdate.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Show-WinUtilRestartNotice.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilMemorySensor.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilDiskHealth.ps1")
     . (Join-Path $script:repoRoot "functions\private\Measure-WinUtilDiskSpeed.ps1")
     . (Join-Path $script:repoRoot "functions\private\Start-WinUtilDiskSpeedTest.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilStartupApps.ps1")
     . (Join-Path $script:repoRoot "functions\private\Set-WinUtilStartupApp.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Get-WinUtilStartupTasks.ps1")
 
     function Write-WinUtilLog { param($Message, $Level, $Component) }
     function Invoke-WPFRunspace { param($ScriptBlock, $ArgumentList, $ParameterList) & $ScriptBlock }
@@ -427,6 +431,7 @@ Describe "Get-WinUtilStartupApps" {
     }
 
     BeforeEach {
+        Mock Get-WinUtilStartupTasks { }
         Mock Test-Path { $LiteralPath -in @($script:runKey, $script:approvedKey) }
         Mock Get-ItemProperty {
             [pscustomobject]@{
@@ -453,6 +458,50 @@ Describe "Get-WinUtilStartupApps" {
         ($apps | Where-Object Name -eq "OneDrive").Enabled | Should -BeTrue
         ($apps | Where-Object Name -eq "Steam").Command | Should -Be "C:\Steam\steam.exe -silent"
         ($apps | Where-Object Name -eq "Steam").ApprovedKey | Should -Be $script:approvedKey
+        ($apps | Where-Object Name -eq "Steam").Kind | Should -Be "Approved"
+    }
+
+    It "adds Store apps with their startup task state, leaving out policy-controlled ones" {
+        $storeRoot = "HKCU:\Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\SystemAppData"
+        Mock Test-Path { $LiteralPath -eq $storeRoot }
+        Mock Get-ChildItem {
+            @(
+                [pscustomobject]@{ PSChildName = "SpotifyAB.SpotifyMusic_zpdnekdrzrea0"; PSPath = "spotify" },
+                [pscustomobject]@{ PSChildName = "Contoso.Managed_abc"; PSPath = "managed" }
+            )
+        } -ParameterFilter { $LiteralPath -eq $storeRoot }
+        Mock Get-ChildItem { [pscustomobject]@{ PSPath = "spotify\task" } } -ParameterFilter { $LiteralPath -eq "spotify" }
+        Mock Get-ChildItem { [pscustomobject]@{ PSPath = "managed\task" } } -ParameterFilter { $LiteralPath -eq "managed" }
+        Mock Get-ItemProperty { [pscustomobject]@{ State = 1 } } -ParameterFilter { $LiteralPath -eq "spotify\task" }
+        Mock Get-ItemProperty { [pscustomobject]@{ State = 4 } } -ParameterFilter { $LiteralPath -eq "managed\task" }
+
+        $apps = @(Get-WinUtilStartupApps)
+
+        $apps.Count | Should -Be 1
+        $apps[0].Kind | Should -Be "Store"
+        $apps[0].Name | Should -Be "SpotifyMusic"
+        $apps[0].Enabled | Should -BeFalse
+        $apps[0].StateKey | Should -Be "spotify\task"
+    }
+}
+
+Describe "Get-WinUtilStartupTasks" {
+    It "keeps only non-Windows tasks that run at sign-in" {
+        $logon = [pscustomobject]@{ CimClass = [pscustomobject]@{ CimClassName = "MSFT_TaskLogonTrigger" } }
+        $daily = [pscustomobject]@{ CimClass = [pscustomobject]@{ CimClassName = "MSFT_TaskDailyTrigger" } }
+        $tasks = @(
+            [pscustomobject]@{ TaskName = "LauncherUpdate"; TaskPath = "\"; State = "Disabled"; Triggers = @($logon); Actions = @([pscustomobject]@{ Execute = "C:\Launcher\update.exe"; Arguments = "/silent" }) },
+            [pscustomobject]@{ TaskName = "Cleanup"; TaskPath = "\"; State = "Ready"; Triggers = @($daily); Actions = @() },
+            [pscustomobject]@{ TaskName = "OneDrive"; TaskPath = "\Microsoft\Windows\"; State = "Ready"; Triggers = @($logon); Actions = @() }
+        )
+
+        $startup = @(Get-WinUtilStartupTasks -Task $tasks)
+
+        $startup.Count | Should -Be 1
+        $startup[0].Kind | Should -Be "Task"
+        $startup[0].Name | Should -Be "LauncherUpdate"
+        $startup[0].Command | Should -Be "C:\Launcher\update.exe /silent"
+        $startup[0].Enabled | Should -BeFalse
     }
 }
 
@@ -470,6 +519,27 @@ Describe "Set-WinUtilStartupApp" {
         $script:written.Length | Should -Be 12
         $script:written[0] | Should -Be 2
         ($script:written | Select-Object -Skip 1 | Where-Object { $_ -ne 0 }) | Should -BeNullOrEmpty
+    }
+
+    It "sets a Store app's startup task state" {
+        $store = [pscustomobject]@{ Kind = "Store"; Name = "SpotifyMusic"; StateKey = "spotify\task" }
+
+        Set-WinUtilStartupApp -App $store -Enabled $false
+
+        $script:written | Should -Be 1
+        Should -Invoke New-ItemProperty -Times 1 -ParameterFilter { $LiteralPath -eq "spotify\task" -and $Name -eq "State" }
+    }
+
+    It "enables and disables a scheduled task" {
+        # Functions win over cmdlets, so these stand in for the Windows ScheduledTasks module
+        function Enable-ScheduledTask { param($TaskName, $TaskPath, $ErrorAction) $script:taskCall = "Enable $TaskPath$TaskName" }
+        function Disable-ScheduledTask { param($TaskName, $TaskPath, $ErrorAction) $script:taskCall = "Disable $TaskPath$TaskName" }
+        $task = [pscustomobject]@{ Kind = "Task"; Name = "LauncherUpdate"; TaskName = "LauncherUpdate"; TaskPath = "\" }
+
+        Set-WinUtilStartupApp -App $task -Enabled $false
+        $script:taskCall | Should -Be "Disable \LauncherUpdate"
+        Set-WinUtilStartupApp -App $task -Enabled $true
+        $script:taskCall | Should -Be "Enable \LauncherUpdate"
     }
 
     It "records a disabled program as 03 with the time it was disabled" {
@@ -652,5 +722,140 @@ Describe "Format-WinUtilTemperatureReading memory and disks" {
 
     It "leaves the disks alone when they were not read this time" {
         (Format-WinUtilTemperatureReading -Gpu $null -Cpu $null -Memory $null -Disks $null).DisksRead | Should -BeFalse
+    }
+}
+
+Describe "Heat alerts" {
+    It "names what is hot, and only that" {
+        $gpu = [pscustomobject]@{ TemperatureC = "88" }
+        $cpu = [pscustomobject]@{ TemperatureC = 60; LoadPercent = 10 }
+
+        $reading = Format-WinUtilTemperatureReading -Gpu $gpu -Cpu $cpu
+
+        $reading.HotAlert | Should -Be "Graphics card: 88$([char]0x00B0)C"
+        $reading.GpuTemperatureC | Should -Be "88"
+        $reading.CpuTemperatureC | Should -Be 60
+    }
+
+    It "has no alert when nothing is hot" {
+        (Format-WinUtilTemperatureReading -Gpu ([pscustomobject]@{ TemperatureC = "60" }) -Cpu $null).HotAlert | Should -BeNullOrEmpty
+    }
+
+    It "falls back to the taskbar warning where Windows notifications are not available" {
+        function Set-WinUtilTaskbaritem { param($overlay) }
+        Mock Set-WinUtilTaskbaritem { }
+
+        Show-WinUtilHeatAlert -Message "Graphics card: 88C"
+
+        Should -Invoke Set-WinUtilTaskbaritem -Times 1 -ParameterFilter { $overlay -eq "warning" }
+    }
+}
+
+Describe "Measure-WinUtilGameServerLatency" {
+    It "measures every region at once and leaves unreachable ones empty" {
+        $listener = [System.Net.Sockets.TcpListener]::new([System.Net.IPAddress]::Loopback, 0)
+        $listener.Start()
+        try {
+            $script:sync = @{
+                configs = @{
+                    gameservers = [pscustomobject]@{
+                        Local   = [pscustomobject]@{ Name = "Local"; Host = "127.0.0.1" }
+                        Nowhere = [pscustomobject]@{ Name = "Nowhere"; Host = "no-such-host.invalid" }
+                    }
+                }
+            }
+
+            $results = @(Measure-WinUtilGameServerLatency -Port $listener.LocalEndpoint.Port -TimeoutMs 1500)
+
+            $results.Name | Should -Be @("Local", "Nowhere")
+            $results[0].LatencyMs | Should -Not -BeNullOrEmpty
+            $results[1].LatencyMs | Should -BeNullOrEmpty
+        } finally {
+            $listener.Stop()
+            Remove-Variable -Name sync -Scope Script -ErrorAction SilentlyContinue
+        }
+    }
+}
+
+Describe "Start-WinUtilSelfUpdate" {
+    BeforeEach {
+        function Show-WinUtilMessage { param($Message, $Title, $Button, $Icon) }
+        $script:closed = $false
+        $form = [pscustomobject]@{}
+        $form | Add-Member -MemberType ScriptMethod -Name Close -Value { $script:closed = $true }
+        $script:sync = @{ Form = $form; ActiveJob = $null }
+        Mock Start-Process { }
+    }
+
+    AfterEach {
+        Remove-Variable -Name sync -Scope Script -ErrorAction SilentlyContinue
+    }
+
+    It "opens the latest release and closes this window when the user agrees" {
+        Mock Show-WinUtilMessage { "Yes" }
+
+        Start-WinUtilSelfUpdate
+
+        Should -Invoke Start-Process -Times 1 -ParameterFilter { ($ArgumentList -join " ") -match "releases/latest/download/winutil.ps1" }
+        $script:closed | Should -BeTrue
+    }
+
+    It "does nothing when the user says no" {
+        Mock Show-WinUtilMessage { "No" }
+
+        Start-WinUtilSelfUpdate
+
+        Should -Invoke Start-Process -Times 0
+        $script:closed | Should -BeFalse
+    }
+
+    It "waits for a running task" {
+        Mock Show-WinUtilMessage { "Yes" }
+        $script:sync.ActiveJob = "Tweaks"
+
+        Start-WinUtilSelfUpdate
+
+        Should -Invoke Start-Process -Times 0
+        $script:closed | Should -BeFalse
+    }
+}
+
+Describe "Show-WinUtilRestartNotice" {
+    BeforeEach {
+        function Show-WinUtilMessage { param($Message, $Title, $Button, $Icon) }
+        Mock Show-WinUtilMessage { }
+        $script:sync = @{
+            configs = @{
+                tweaks = [pscustomobject]@{
+                    WPFTweaksGamingHAGS = [pscustomobject]@{ Content = "Hardware-Accelerated GPU Scheduling - Enable"; RestartRequired = "true" }
+                    WPFTweaksGamingGameDVR = [pscustomobject]@{ Content = "Game DVR Background Recording - Disable" }
+                }
+            }
+        }
+    }
+
+    AfterEach {
+        Remove-Variable -Name sync -Scope Script -ErrorAction SilentlyContinue
+    }
+
+    It "lists only the tweaks that need a restart" {
+        Show-WinUtilRestartNotice -Tweaks @("WPFTweaksGamingHAGS", "WPFTweaksGamingGameDVR")
+
+        Should -Invoke Show-WinUtilMessage -Times 1 -ParameterFilter { $Message -eq "Restart your PC to finish these changes:`n- Hardware-Accelerated GPU Scheduling - Enable" }
+    }
+
+    It "says nothing when no tweak needs a restart" {
+        Show-WinUtilRestartNotice -Tweaks @("WPFTweaksGamingGameDVR")
+
+        Should -Invoke Show-WinUtilMessage -Times 0
+    }
+}
+
+Describe "Restart-required tweaks" {
+    It "marks restart-required tweaks with the string true" {
+        $tweaks = Get-Content -Path (Join-Path $script:repoRoot "config\tweaks.json") -Raw | ConvertFrom-Json
+        $marked = @($tweaks.PSObject.Properties | Where-Object { $null -ne $_.Value.RestartRequired })
+        $marked.Count | Should -BeGreaterThan 0
+        $marked | ForEach-Object { $_.Value.RestartRequired | Should -Be "true" }
     }
 }

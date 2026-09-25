@@ -52,6 +52,9 @@ BeforeAll {
     function Get-WinUtilRegistryBackup {
         param($Tweak, $Path, $Name, [switch]$Remove)
     }
+    function Show-WinUtilRestartNotice {
+        param([string[]]$Tweaks)
+    }
 
     function script:New-WinUtilTweaksConfig {
         [pscustomobject]@{

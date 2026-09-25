@@ -1939,6 +1939,7 @@
     "Description": "Lets the graphics card manage its own memory scheduling, which can lower input latency on supported GPUs. Requires a restart.",
     "category": "Gaming",
     "panel": "1",
+    "RestartRequired": "true",
     "registry": [
       {
         "Path": "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\GraphicsDrivers",
@@ -1955,6 +1956,7 @@
     "Description": "Removes the limit Windows puts on network traffic while multimedia is playing and reserves less CPU time for background tasks, which can reduce ping spikes in online games.",
     "category": "Gaming",
     "panel": "1",
+    "RestartRequired": "true",
     "registry": [
       {
         "Path": "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile",
@@ -2008,6 +2010,7 @@
     "Description": "Stops Windows from slowing down background processes to save power, so launchers, voice chat and overlays keep full CPU speed. Not recommended on laptops running on battery.",
     "category": "Gaming",
     "panel": "1",
+    "RestartRequired": "true",
     "registry": [
       {
         "Path": "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Power\\PowerThrottling",
@@ -2049,6 +2052,7 @@
     "Description": "Sends small network packets straight away instead of batching them (TcpAckFrequency and TCPNoDelay on every network adapter). Can lower latency in some online games; undo removes the values again.",
     "category": "Gaming",
     "panel": "1",
+    "RestartRequired": "true",
     "InvokeScript": [
       "
       $interfaces = \"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters\\Interfaces\"
