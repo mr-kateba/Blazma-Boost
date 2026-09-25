@@ -18,8 +18,10 @@ function Initialize-WinUtilGamingSystemInfo {
         }
 
         $format = Get-WinUtilText -Key "SystemSummary" -Default "CPU: {0}`nGPU: {1} (driver {2})`nRAM: {3} GB`nWindows: {4}"
+        # Left-to-right marks keep English values such as "Windows 11 Pro (26200)" in order in the Arabic window
+        $values = @($summary.Cpu, $summary.Gpu, $summary.GpuDriver, $summary.RamGB, $summary.Windows) | ForEach-Object { "$([char]0x200E)$_$([char]0x200E)" }
         Invoke-WPFUIThread -Async -Parameters @{
-            Text = ($format -f $summary.Cpu, $summary.Gpu, $summary.GpuDriver, $summary.RamGB, $summary.Windows)
+            Text = ($format -f $values)
             Vendor = $summary.GpuVendor
         } -ScriptBlock {
             param($Text, $Vendor)
