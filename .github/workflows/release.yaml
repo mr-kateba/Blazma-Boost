@@ -55,13 +55,30 @@ jobs:
           Remove-Item $pfxPath -Force
           if ($result.Status -ne "Valid") { throw "Signing failed: $($result.StatusMessage)" }
 
-      - name: Create release and upload winutil.ps1
+      # For people who would rather download than paste a command: the script and a launcher
+      - name: Package the download
+        shell: pwsh
+        run: |
+          Compress-Archive -Path ./winutil.ps1, ./tools/Start-BlazmaBoost.bat -DestinationPath ./BlazmaBoost.zip
+
+      - name: Create release and upload the files
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ env.VERSION }}
           name: Blazma Boost ${{ env.VERSION }}
+          body: |
+            ## طريقة التشغيل
+
+            **بأمر واحد:** افتح PowerShell كمسؤول والصق:
+            ```powershell
+            irm mr-kateba.github.io/win | iex
+            ```
+
+            **أو بالتحميل:** نزّل **BlazmaBoost.zip** من الملفات تحت، فك الضغط (كليك يمين ← Extract All)، ثم شغّل **Start-BlazmaBoost.bat**. لو طلع لك "Windows protected your PC" اضغط More info ← Run anyway.
           generate_release_notes: true
-          files: ./winutil.ps1
+          files: |
+            ./winutil.ps1
+            ./BlazmaBoost.zip
           make_latest: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
