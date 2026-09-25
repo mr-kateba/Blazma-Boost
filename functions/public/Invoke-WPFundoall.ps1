@@ -28,5 +28,7 @@ function Invoke-WPFundoall {
             }
             Step-WinUtilJob -Percent ([int]((($i + 1) / $total) * 100))
         }
+
+        Show-WinUtilRestartNotice -Tweaks $Tweaks
     }
 }

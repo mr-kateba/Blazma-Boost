@@ -22,5 +22,21 @@
   "AwsLondon": {
     "Name": "London (AWS eu-west-2)",
     "Host": "dynamodb.eu-west-2.amazonaws.com"
+  },
+  "AwsMilan": {
+    "Name": "Milan (AWS eu-south-1)",
+    "Host": "dynamodb.eu-south-1.amazonaws.com"
+  },
+  "AwsCapeTown": {
+    "Name": "Cape Town (AWS af-south-1)",
+    "Host": "dynamodb.af-south-1.amazonaws.com"
+  },
+  "AwsSingapore": {
+    "Name": "Singapore (AWS ap-southeast-1)",
+    "Host": "dynamodb.ap-southeast-1.amazonaws.com"
+  },
+  "AwsVirginia": {
+    "Name": "US East (AWS us-east-1)",
+    "Host": "dynamodb.us-east-1.amazonaws.com"
   }
 }
