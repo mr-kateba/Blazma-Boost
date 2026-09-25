@@ -19,8 +19,13 @@
     "GuideUrl": "https://github.com/mr-kateba/Blazma-Boost/blob/main/docs-ar/tweaks.md",
     "PingRunning": "جاري القياس...",
     "PingUnreachable": "لا يوجد رد",
-    "GpuLive": "الحرارة: {0}°C | الاستخدام: {1}% | ذاكرة الكرت: {2} / {3} ميجا | الطاقة: {4} واط",
-    "GpuLiveUnavailable": "الحرارة المباشرة متاحة لكروت NVIDIA فقط.",
+    "TempsGood": "ممتازة",
+    "TempsWarm": "حارة شوي",
+    "TempsHot": "حارة! شيك على التبريد",
+    "TempsGpuDetails": "الاستخدام: {0}%\nذاكرة الكرت: {1} / {2} ميجا\nالطاقة: {3} واط",
+    "TempsGpuUnavailable": "حرارة كرت الشاشة المباشرة متاحة لكروت NVIDIA فقط.",
+    "TempsCpuDetails": "الاستخدام: {0}%",
+    "TempsCpuUnavailable": "جهازك ما يعطي حرارة المعالج لويندوز.",
     "StartupAppsLoading": "جاري قراءة برامج بدء التشغيل...",
     "StartupAppsEmpty": "ما فيه برامج تشتغل مع الويندوز.",
     "StartupAppsCount": "{0} برنامج يشتغل مع الويندوز. شيل الصح عن أي برنامج ما تحتاجه عشان الجهاز يقلع أسرع.",
@@ -1428,6 +1433,9 @@
     "النظام": "System",
     "تحديث المواصفات": "Refresh specs",
     "نسخ المواصفات": "Copy specs",
-    "انسخ المواصفات وشاركها مع أحد يساعدك": "Copy the specs to share with someone who is helping you"
+    "انسخ المواصفات وشاركها مع أحد يساعدك": "Copy the specs to share with someone who is helping you",
+    "الحرارة": "Temperatures",
+    "الأرقام تتحدث كل 3 ثواني وأنت في هذا التبويب بس. الأخضر ممتاز، البرتقالي حار شوي، والأحمر يعني شيك على التبريد والمراوح.": "The numbers refresh every 3 seconds, only while this tab is open. Green is good, orange is warm, and red means check your cooling and fans.",
+    "حرارة كرت الشاشة متاحة لكروت NVIDIA. حرارة المعالج تجي من حساس اللوحة الأم، فممكن تكون تقريبية أو ما تطلع في بعض الأجهزة.": "GPU temperature is available for NVIDIA cards. The processor temperature comes from the motherboard sensor, so it can be approximate or missing on some PCs."
   }
 }

@@ -19,6 +19,8 @@ BeforeAll {
     . (Join-Path $script:repoRoot "functions\private\Start-WinUtilGameServerLatencyTest.ps1")
     . (Join-Path $script:repoRoot "functions\private\Measure-WinUtilGameServerLatency.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilGpuSensor.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Get-WinUtilCpuSensor.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Format-WinUtilTemperatureReading.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilStartupApps.ps1")
     . (Join-Path $script:repoRoot "functions\private\Set-WinUtilStartupApp.ps1")
 
@@ -391,16 +393,17 @@ Describe "Get-WinUtilGpuSensor" {
     }
 
     It "reads every value from one nvidia-smi line" {
-        $sensor = ConvertFrom-WinUtilGpuSensorLine -Line "55, 12, 1200, 8192, 45.50"
+        $sensor = ConvertFrom-WinUtilGpuSensorLine -Line "55, 12, 1200, 8192, 45.50, NVIDIA GeForce RTX 3060, Laptop"
         $sensor.TemperatureC | Should -Be "55"
         $sensor.LoadPercent | Should -Be "12"
         $sensor.MemoryUsedMB | Should -Be "1200"
         $sensor.MemoryTotalMB | Should -Be "8192"
         $sensor.PowerW | Should -Be 46
+        $sensor.Name | Should -Be "NVIDIA GeForce RTX 3060, Laptop"
     }
 
     It "leaves values the card does not report empty" {
-        $sensor = ConvertFrom-WinUtilGpuSensorLine -Line "61, 3, 500, 4096, [N/A]"
+        $sensor = ConvertFrom-WinUtilGpuSensorLine -Line "61, 3, 500, 4096, [N/A], NVIDIA T600"
         $sensor.TemperatureC | Should -Be "61"
         $sensor.PowerW | Should -BeNullOrEmpty
     }
@@ -469,5 +472,67 @@ Describe "Set-WinUtilStartupApp" {
         $disabledAt = [DateTime]::FromFileTimeUtc([BitConverter]::ToInt64($script:written, 4))
         ([DateTime]::UtcNow - $disabledAt).TotalMinutes | Should -BeLessThan 5
         Should -Invoke New-ItemProperty -Times 1 -ParameterFilter { $LiteralPath -eq "HKCU:\Approved\Run" -and $Name -eq "Steam" }
+    }
+}
+
+Describe "Get-WinUtilCpuSensor" {
+    It "takes the hottest plausible thermal zone and the average load" {
+        Mock Get-CimInstance {
+            @([pscustomobject]@{ LoadPercentage = 20 }, [pscustomobject]@{ LoadPercentage = 31 })
+        } -ParameterFilter { $ClassName -eq "Win32_Processor" }
+        Mock Get-CimInstance {
+            @(
+                [pscustomobject]@{ HighPrecisionTemperature = 3182; Temperature = 318 },
+                [pscustomobject]@{ HighPrecisionTemperature = 3332; Temperature = 333 },
+                [pscustomobject]@{ HighPrecisionTemperature = 0; Temperature = 0 }
+            )
+        } -ParameterFilter { $ClassName -eq "Win32_PerfFormattedData_Counters_ThermalZoneInformation" }
+
+        $sensor = Get-WinUtilCpuSensor
+
+        $sensor.TemperatureC | Should -Be 60
+        $sensor.LoadPercent | Should -Be 26
+    }
+
+    It "reports no temperature when the PC has no thermal zone" {
+        Mock Get-CimInstance { [pscustomobject]@{ LoadPercentage = 5 } } -ParameterFilter { $ClassName -eq "Win32_Processor" }
+        Mock Get-CimInstance { throw "Invalid class" } -ParameterFilter { $ClassName -eq "Win32_PerfFormattedData_Counters_ThermalZoneInformation" }
+
+        $sensor = Get-WinUtilCpuSensor
+
+        $sensor.TemperatureC | Should -BeNullOrEmpty
+        $sensor.LoadPercent | Should -Be 5
+    }
+}
+
+Describe "Format-WinUtilTemperatureReading" {
+    It "shows both temperatures with their heat level" {
+        $gpu = [pscustomobject]@{ TemperatureC = "84"; LoadPercent = "97"; MemoryUsedMB = "7000"; MemoryTotalMB = "8192"; PowerW = 160; Name = "RTX 3070" }
+        $cpu = [pscustomobject]@{ TemperatureC = 55; LoadPercent = 40 }
+
+        $reading = Format-WinUtilTemperatureReading -Gpu $gpu -Cpu $cpu
+
+        $reading.GpuValue | Should -Be "84$([char]0x00B0)C"
+        $reading.GpuLevel | Should -Be "Hot"
+        $reading.GpuName | Should -Be "RTX 3070"
+        $reading.GpuDetails | Should -Be "Load: 97%`nVideo memory: 7000 / 8192 MB`nPower: 160 W"
+        $reading.CpuValue | Should -Be "55$([char]0x00B0)C"
+        $reading.CpuLevel | Should -Be "Good"
+        $reading.CpuDetails | Should -Be "Load: 40%"
+    }
+
+    It "explains what is missing without an NVIDIA card or a thermal zone" {
+        $reading = Format-WinUtilTemperatureReading -Gpu $null -Cpu ([pscustomobject]@{ TemperatureC = $null; LoadPercent = 12 })
+
+        $reading.GpuValue | Should -Be "--"
+        $reading.GpuLevel | Should -Be "None"
+        $reading.GpuStatus | Should -Be ""
+        $reading.GpuDetails | Should -Match "NVIDIA"
+        $reading.CpuValue | Should -Be "--"
+        $reading.CpuDetails | Should -Match "^Load: 12%`n"
+    }
+
+    It "calls 70 degrees warm" {
+        (Format-WinUtilTemperatureReading -Gpu ([pscustomobject]@{ TemperatureC = "70" }) -Cpu $null).GpuLevel | Should -Be "Warm"
     }
 }

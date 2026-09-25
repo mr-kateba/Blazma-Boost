@@ -220,6 +220,7 @@ function Start-WinUtilUserInterface {
                 "W" { Invoke-WPFButton "WPFTab5BT"; $keyEventArgs.Handled = $true } # Navigate to Win11ISO tab
                 "G" { Invoke-WPFButton "WPFTab7BT"; $keyEventArgs.Handled = $true } # Navigate to Gaming tab
                 "S" { Invoke-WPFButton "WPFTab8BT"; $keyEventArgs.Handled = $true } # Navigate to My Specs tab
+                "H" { Invoke-WPFButton "WPFTab9BT"; $keyEventArgs.Handled = $true } # Navigate to Temperatures tab
             }
         }
         # Handle Ctrl key combinations for specific actions

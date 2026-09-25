@@ -1,7 +1,7 @@
 function Get-WinUtilGpuSensor {
     <#
     .SYNOPSIS
-        Reads the live temperature, load, video memory and power of an NVIDIA card
+        Reads the name, live temperature, load, video memory and power of an NVIDIA card
 
     .DESCRIPTION
         Uses nvidia-smi, which every NVIDIA driver installs. Returns $null when it is missing
@@ -17,7 +17,7 @@ function Get-WinUtilGpuSensor {
         return $null
     }
 
-    $line = @(& $nvidiaSmi --query-gpu=temperature.gpu,utilization.gpu,memory.used,memory.total,power.draw --format=csv,noheader,nounits 2>$null)[0]
+    $line = @(& $nvidiaSmi --query-gpu=temperature.gpu,utilization.gpu,memory.used,memory.total,power.draw,name --format=csv,noheader,nounits 2>$null)[0]
     ConvertFrom-WinUtilGpuSensorLine -Line $line
 }
 
@@ -33,8 +33,9 @@ function ConvertFrom-WinUtilGpuSensorLine {
         return $null
     }
 
+    # The name comes last and is split off whole, so a comma in it cannot shift the numbers.
     # "[N/A]" (or "[Not Supported]") marks a value this card does not report
-    $values = @($Line -split ',' | ForEach-Object {
+    $values = @($Line -split ',', 6 | ForEach-Object {
         $value = $_.Trim()
         if ($value -match '^\[') { $null } else { $value }
     })
@@ -45,5 +46,6 @@ function ConvertFrom-WinUtilGpuSensorLine {
         MemoryUsedMB  = $values[2]
         MemoryTotalMB = $values[3]
         PowerW        = if ($values[4]) { [math]::Round([double]$values[4], [System.MidpointRounding]::AwayFromZero) } else { $null }
+        Name          = $values[5]
     }
 }
