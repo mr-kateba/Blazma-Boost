@@ -23,6 +23,7 @@ BeforeAll {
     . (Join-Path $script:repoRoot "functions\private\Format-WinUtilTemperatureReading.ps1")
     . (Join-Path $script:repoRoot "functions\private\Show-WinUtilHeatAlert.ps1")
     . (Join-Path $script:repoRoot "functions\private\Start-WinUtilSelfUpdate.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Show-WinUtilRestartNotice.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilMemorySensor.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilDiskHealth.ps1")
     . (Join-Path $script:repoRoot "functions\private\Measure-WinUtilDiskSpeed.ps1")
@@ -749,5 +750,45 @@ Describe "Start-WinUtilSelfUpdate" {
 
         Should -Invoke Start-Process -Times 0
         $script:closed | Should -BeFalse
+    }
+}
+
+Describe "Show-WinUtilRestartNotice" {
+    BeforeEach {
+        function Show-WinUtilMessage { param($Message, $Title, $Button, $Icon) }
+        Mock Show-WinUtilMessage { }
+        $script:sync = @{
+            configs = @{
+                tweaks = [pscustomobject]@{
+                    WPFTweaksGamingHAGS = [pscustomobject]@{ Content = "Hardware-Accelerated GPU Scheduling - Enable"; RestartRequired = "true" }
+                    WPFTweaksGamingGameDVR = [pscustomobject]@{ Content = "Game DVR Background Recording - Disable" }
+                }
+            }
+        }
+    }
+
+    AfterEach {
+        Remove-Variable -Name sync -Scope Script -ErrorAction SilentlyContinue
+    }
+
+    It "lists only the tweaks that need a restart" {
+        Show-WinUtilRestartNotice -Tweaks @("WPFTweaksGamingHAGS", "WPFTweaksGamingGameDVR")
+
+        Should -Invoke Show-WinUtilMessage -Times 1 -ParameterFilter { $Message -eq "Restart your PC to finish these changes:`n- Hardware-Accelerated GPU Scheduling - Enable" }
+    }
+
+    It "says nothing when no tweak needs a restart" {
+        Show-WinUtilRestartNotice -Tweaks @("WPFTweaksGamingGameDVR")
+
+        Should -Invoke Show-WinUtilMessage -Times 0
+    }
+}
+
+Describe "Restart-required tweaks" {
+    It "marks restart-required tweaks with the string true" {
+        $tweaks = Get-Content -Path (Join-Path $script:repoRoot "config\tweaks.json") -Raw | ConvertFrom-Json
+        $marked = @($tweaks.PSObject.Properties | Where-Object { $null -ne $_.Value.RestartRequired })
+        $marked.Count | Should -BeGreaterThan 0
+        $marked | ForEach-Object { $_.Value.RestartRequired | Should -Be "true" }
     }
 }

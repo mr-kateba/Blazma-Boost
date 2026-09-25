@@ -1266,7 +1266,8 @@
     "{0} is still running. Wait for it to finish before starting another action.": "{0} ما زال يعمل. انتظر حتى ينتهي قبل أن تبدأ عملية أخرى.",
     "Restart Blazma Boost to switch the language.": "أعد تشغيل Blazma Boost عشان تتغير اللغة.",
     "Wait for the current task to finish, then update.": "انتظر لين تخلص العملية الحالية، وبعدين حدّث.",
-    "Blazma Boost will close and open the new version. Continue?": "البرنامج بيسكر ويفتح النسخة الجديدة. تكمل؟"
+    "Blazma Boost will close and open the new version. Continue?": "البرنامج بيسكر ويفتح النسخة الجديدة. تكمل؟",
+    "Restart your PC to finish these changes:\n{0}": "أعد تشغيل الجهاز عشان تكتمل هذي التغييرات:\n{0}"
   },
   "gameservers": {
     "AwsBahrain": {

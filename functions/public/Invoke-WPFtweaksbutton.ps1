@@ -62,5 +62,7 @@ function Invoke-WPFtweaksbutton {
       $completedSteps++
       Step-WinUtilJob -Percent ([int](($completedSteps / $totalSteps) * 100))
     }
+
+    Show-WinUtilRestartNotice -Tweaks $tweaksToRun
   }
 }
