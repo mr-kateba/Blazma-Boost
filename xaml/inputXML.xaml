@@ -1056,7 +1056,7 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Name="WPFUpdateBannerText" Text="يوجد إصدار جديد من Blazma Boost" Foreground="White" FontWeight="Bold"
                     VerticalAlignment="Center" FontSize="13" Background="Transparent"/>
-                <Button Name="WPFUpdateBannerButton" Content=" صفحة التحميل " Margin="10,0,0,0" Width="Auto" Height="Auto" Padding="8,2"/>
+                <Button Name="WPFUpdateBannerButton" Content=" حدّث الحين " Margin="10,0,0,0" Width="Auto" Height="Auto" Padding="8,2"/>
             </StackPanel>
         </Border>
         <Grid Grid.Row="1" Grid.Column="1" Background="{DynamicResource MainBackgroundColor}">

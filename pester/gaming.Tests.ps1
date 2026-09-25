@@ -22,6 +22,7 @@ BeforeAll {
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilCpuSensor.ps1")
     . (Join-Path $script:repoRoot "functions\private\Format-WinUtilTemperatureReading.ps1")
     . (Join-Path $script:repoRoot "functions\private\Show-WinUtilHeatAlert.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Start-WinUtilSelfUpdate.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilMemorySensor.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilDiskHealth.ps1")
     . (Join-Path $script:repoRoot "functions\private\Measure-WinUtilDiskSpeed.ps1")
@@ -705,5 +706,48 @@ Describe "Measure-WinUtilGameServerLatency" {
             $listener.Stop()
             Remove-Variable -Name sync -Scope Script -ErrorAction SilentlyContinue
         }
+    }
+}
+
+Describe "Start-WinUtilSelfUpdate" {
+    BeforeEach {
+        function Show-WinUtilMessage { param($Message, $Title, $Button, $Icon) }
+        $script:closed = $false
+        $form = [pscustomobject]@{}
+        $form | Add-Member -MemberType ScriptMethod -Name Close -Value { $script:closed = $true }
+        $script:sync = @{ Form = $form; ActiveJob = $null }
+        Mock Start-Process { }
+    }
+
+    AfterEach {
+        Remove-Variable -Name sync -Scope Script -ErrorAction SilentlyContinue
+    }
+
+    It "opens the latest release and closes this window when the user agrees" {
+        Mock Show-WinUtilMessage { "Yes" }
+
+        Start-WinUtilSelfUpdate
+
+        Should -Invoke Start-Process -Times 1 -ParameterFilter { ($ArgumentList -join " ") -match "releases/latest/download/winutil.ps1" }
+        $script:closed | Should -BeTrue
+    }
+
+    It "does nothing when the user says no" {
+        Mock Show-WinUtilMessage { "No" }
+
+        Start-WinUtilSelfUpdate
+
+        Should -Invoke Start-Process -Times 0
+        $script:closed | Should -BeFalse
+    }
+
+    It "waits for a running task" {
+        Mock Show-WinUtilMessage { "Yes" }
+        $script:sync.ActiveJob = "Tweaks"
+
+        Start-WinUtilSelfUpdate
+
+        Should -Invoke Start-Process -Times 0
+        $script:closed | Should -BeFalse
     }
 }

@@ -1264,7 +1264,9 @@
     "ALL data on Disk {0} ({1}, {2} GB) will be PERMANENTLY ERASED.\n\nAre you sure you want to continue?": "سيتم مسح كل البيانات على القرص {0} ({1}، {2} جيجا) نهائياً.\n\nهل أنت متأكد أنك تريد المتابعة؟",
     "USB write failed:\n\n{0}": "فشلت الكتابة على الفلاشة:\n\n{0}",
     "{0} is still running. Wait for it to finish before starting another action.": "{0} ما زال يعمل. انتظر حتى ينتهي قبل أن تبدأ عملية أخرى.",
-    "Restart Blazma Boost to switch the language.": "أعد تشغيل Blazma Boost عشان تتغير اللغة."
+    "Restart Blazma Boost to switch the language.": "أعد تشغيل Blazma Boost عشان تتغير اللغة.",
+    "Wait for the current task to finish, then update.": "انتظر لين تخلص العملية الحالية، وبعدين حدّث.",
+    "Blazma Boost will close and open the new version. Continue?": "البرنامج بيسكر ويفتح النسخة الجديدة. تكمل؟"
   },
   "gameservers": {
     "AwsBahrain": {
@@ -1426,7 +1428,6 @@
     "تثبيت المحدد": "Install Selected",
     "إزالة المحدد": "Remove Selected",
     "يوجد إصدار جديد من Blazma Boost": "A new version of Blazma Boost is available",
-    " صفحة التحميل ": " Download page ",
     "التثبيت": "Install",
     "التحسينات": "Tweaks",
     "مواصفاتي": "My Specs",
@@ -1471,6 +1472,7 @@
     "يقيس سرعة القراءة والكتابة لقرص الويندوز باستخدام أداة ويندوز نفسها. يأخذ حوالي دقيقة.": "Measures the read and write speed of the Windows drive with Windows' own tool. Takes about a minute.",
     "معلومات الهارد تتحدث كل 30 ثانية. ويندوز ما يعطي حرارة الرامات، فنعرض استخدامها وسرعتها.": "Drive information refreshes every 30 seconds. Windows does not report memory temperature, so memory use and speed are shown instead.",
     "آخر دقيقتين": "The last two minutes",
-    "خل البرنامج مفتوح على هذا التبويب وأنت تلعب، وإذا صار الكرت أو المعالج حار بيطلع لك تنبيه من ويندوز.": "Leave the app open on this tab while you play, and Windows will notify you if the graphics card or processor gets hot."
+    "خل البرنامج مفتوح على هذا التبويب وأنت تلعب، وإذا صار الكرت أو المعالج حار بيطلع لك تنبيه من ويندوز.": "Leave the app open on this tab while you play, and Windows will notify you if the graphics card or processor gets hot.",
+    " حدّث الحين ": " Update now "
   }
 }
