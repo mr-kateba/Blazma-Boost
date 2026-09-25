@@ -1,7 +1,7 @@
 function Save-WinUtilPreferences {
     <#
     .SYNOPSIS
-        Remembers the theme, package manager and font size for the next launch
+        Remembers the theme, package manager, language and font size for the next launch
 
     .DESCRIPTION
         Written to %LocalAppData%\winutil\preferences.json. A failure only means the next launch
@@ -14,6 +14,7 @@ function Save-WinUtilPreferences {
         [ordered]@{
             theme          = $sync.preferences.theme
             packagemanager = $sync.preferences.packagemanager
+            language       = $sync.preferences.language
             fontScale      = if ($sync.ContainsKey("FontScaleFactor")) { [double]$sync.FontScaleFactor } else { 1.0 }
         } | ConvertTo-Json | Set-Content -LiteralPath $path -Encoding UTF8
     } catch {

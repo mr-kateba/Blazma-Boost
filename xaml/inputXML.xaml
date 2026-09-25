@@ -1253,6 +1253,7 @@
                                 </MenuItem.ToolTip>
                             </MenuItem>
                             <Separator/>
+                            <MenuItem FontSize="{DynamicResource ButtonFontSize}" Header="English" Tag="العربية" Name="LanguageMenuItem" Foreground="{DynamicResource MainForegroundColor}"/>
                             <MenuItem FontSize="{DynamicResource ButtonFontSize}" Header="حول البرنامج" Name="AboutMenuItem" Foreground="{DynamicResource MainForegroundColor}"/>
                             <MenuItem FontSize="{DynamicResource ButtonFontSize}" Header="صفحة المشروع" Name="DocumentationMenuItem" Foreground="{DynamicResource MainForegroundColor}"/>
                         </StackPanel>
