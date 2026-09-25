@@ -183,7 +183,7 @@ function Invoke-WPFButtonAction {
         "WPFSpecsRefresh" {Initialize-WinUtilHardwareSpecs}
         "WPFSpecsDriverDownload" {Open-WinUtilGpuDriverUpdater}
         "WPFSpecsCopy" {Copy-WinUtilHardwareSpecs}
-        "WPFUpdateBannerButton" {Start-Process "https://github.com/mr-kateba/Blazma-Boost/releases/latest"}
+        "WPFUpdateBannerButton" {Start-WinUtilSelfUpdate}
         "WPFUpdatesdefault" {Invoke-WPFUpdatesdefault}
         "WPFUpdatesdisable" {Invoke-WPFUpdatesdisable -Confirmed:$UpdatesDisableConfirmed}
         "WPFUpdatessecurity" {Invoke-WPFUpdatessecurity}
