@@ -16,7 +16,7 @@ WinUtil is a Windows PowerShell utility with a WPF interface. The repository is 
 - Tests: Pester tests under `pester/`.
 - Lint: PowerShell Script Analyzer with settings in `lint/PSScriptAnalyser.ps1`.
 - Docs: Astro + Starlight site under `docs/`, built independently of `Compile.ps1` (its own `package.json`/`node_modules`).
-- Release artifact: generated root `winutil.ps1`.
+- Release artifact: generated root `winutil.ps1`, also packaged with `tools/Start-BlazmaBoost.bat` (a double-click launcher) as `BlazmaBoost.zip`.
 
 ### Repository Layout
 
