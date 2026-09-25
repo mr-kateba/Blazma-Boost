@@ -7,6 +7,7 @@ BeforeAll {
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilText.ps1")
     . (Join-Path $script:repoRoot "functions\private\Initialize-WinUtilTranslation.ps1")
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilMessageText.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Convert-WinUtilXamlToEnglish.ps1")
 
     function script:Get-TranslationConfig {
         param([string]$Name)
@@ -20,7 +21,7 @@ Describe "translations.json" {
         $stale = New-Object System.Collections.Generic.List[string]
 
         foreach ($section in $translations.PSObject.Properties) {
-            if ($section.Name -in @("strings", "categories", "messages")) { continue }
+            if ($section.Name -in @("strings", "categories", "messages", "english")) { continue }
 
             $config = Get-TranslationConfig -Name $section.Name
             foreach ($entry in $section.Value.PSObject.Properties) {
@@ -163,5 +164,63 @@ Describe "Get-WinUtilMessageText" {
     It "returns untranslated and empty text unchanged" {
         Get-WinUtilMessageText -Text "Something new" | Should -Be "Something new"
         Get-WinUtilMessageText -Text "" | Should -Be ""
+    }
+}
+
+Describe "Convert-WinUtilXamlToEnglish" {
+    BeforeAll {
+        $script:xamlText = Get-Content -Path (Join-Path $script:repoRoot "xaml\inputXML.xaml") -Raw -Encoding UTF8
+        $script:english = (Get-TranslationConfig -Name "translations").english
+    }
+
+    AfterEach {
+        Remove-Variable -Name sync -Scope Script -ErrorAction SilentlyContinue
+    }
+
+    It "has English for every Arabic text in the window" {
+        $script:sync = @{ preferences = @{ language = "en" }; configs = @{ translations = [pscustomobject]@{ english = $script:english } } }
+        [xml]$xaml = $script:xamlText
+
+        Convert-WinUtilXamlToEnglish -Xaml $xaml
+
+        $left = @($xaml.SelectNodes("//@* | //text()") | Where-Object {
+            # The language menu item offers Arabic by design
+            $_.Value -match '\p{IsArabic}' -and -not ($_.NodeType -eq "Attribute" -and $_.OwnerElement.GetAttribute("Name") -eq "LanguageMenuItem")
+        } | ForEach-Object { $_.Value.Trim() })
+        if ($left.Count -gt 0) {
+            throw "Add these to the english section of translations.json:`n$($left -join "`n")"
+        }
+        $xaml.DocumentElement.FlowDirection | Should -Be "LeftToRight"
+        $xaml.SelectSingleNode("//*[@Name='LanguageMenuItem']").Header | Should -Match '\p{IsArabic}'
+        $xaml.SelectSingleNode("//*[@Name='WPFWin11ISOBackButton']").Content | Should -Be ([string][char]0xE76B)
+    }
+
+    It "leaves the Arabic window alone" {
+        $script:sync = @{ preferences = @{ language = "ar" }; configs = @{ translations = [pscustomobject]@{ english = $script:english } } }
+        [xml]$xaml = $script:xamlText
+
+        Convert-WinUtilXamlToEnglish -Xaml $xaml
+
+        $xaml.DocumentElement.FlowDirection | Should -Be "RightToLeft"
+        $xaml.SelectSingleNode("//*[@Name='LanguageMenuItem']").Header | Should -Be "English"
+    }
+}
+
+Describe "Initialize-WinUtilTranslation in English" {
+    It "keeps the English configs and drops the Arabic strings" {
+        $script:sync = @{
+            preferences = @{ language = "en" }
+            configs = @{
+                translations = [pscustomobject]@{ strings = [pscustomobject]@{ SelectedApps = "ar" }; english = [pscustomobject]@{ a = "b" }; tweaks = [pscustomobject]@{ T = [pscustomobject]@{ Content = "ar" } } }
+                tweaks = [pscustomobject]@{ T = [pscustomobject]@{ Content = "English" } }
+            }
+        }
+
+        Initialize-WinUtilTranslation
+
+        $script:sync.configs.tweaks.T.Content | Should -Be "English"
+        Get-WinUtilText -Key "SelectedApps" -Default "Selected Apps: {0}" | Should -Be "Selected Apps: {0}"
+        $script:sync.configs.translations.english.a | Should -Be "b"
+        Remove-Variable -Name sync -Scope Script
     }
 }
