@@ -2043,5 +2043,33 @@
       "
     ],
     "link": "https://github.com/mr-kateba/Blazma-Boost#gaming"
+  },
+  "WPFTweaksGamingNagle": {
+    "Content": "Nagle's Algorithm - Disable",
+    "Description": "Sends small network packets straight away instead of batching them (TcpAckFrequency and TCPNoDelay on every network adapter). Can lower latency in some online games; undo removes the values again.",
+    "category": "Gaming",
+    "panel": "1",
+    "InvokeScript": [
+      "
+      $interfaces = \"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters\\Interfaces\"
+      Get-ChildItem -Path $interfaces | ForEach-Object {
+        $adapter = Get-ItemProperty -Path $_.PSPath
+        # Only adapters that have an address; the rest are unused virtual or disconnected ones
+        if ($adapter.DhcpIPAddress -or ($adapter.IPAddress -and $adapter.IPAddress -ne '0.0.0.0')) {
+          Set-ItemProperty -Path $_.PSPath -Name TcpAckFrequency -Type DWord -Value 1
+          Set-ItemProperty -Path $_.PSPath -Name TCPNoDelay -Type DWord -Value 1
+        }
+      }
+      "
+    ],
+    "UndoScript": [
+      "
+      $interfaces = \"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters\\Interfaces\"
+      Get-ChildItem -Path $interfaces | ForEach-Object {
+        Remove-ItemProperty -Path $_.PSPath -Name TcpAckFrequency, TCPNoDelay -ErrorAction SilentlyContinue
+      }
+      "
+    ],
+    "link": "https://github.com/mr-kateba/Blazma-Boost#gaming"
   }
 }
