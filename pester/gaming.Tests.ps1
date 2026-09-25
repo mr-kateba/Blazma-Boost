@@ -35,12 +35,10 @@ BeforeAll {
     function Invoke-WPFtweaksbutton { }
     # Get-CimInstance does not exist outside Windows; a stub lets Pester mock it there too
     if (-not (Get-Command Get-CimInstance -ErrorAction SilentlyContinue)) {
-        function Get-CimInstance { param($ClassName, $ErrorAction) }
+        function Get-CimInstance { param($ClassName, $Namespace, $ErrorAction) }
     }
-    # The Storage module is Windows only
-    if (-not (Get-Command Get-PhysicalDisk -ErrorAction SilentlyContinue)) {
-        function Get-PhysicalDisk { param($ErrorAction) }
-        function Get-StorageReliabilityCounter { param([Parameter(ValueFromPipeline)][object[]]$PhysicalDisk, $ErrorAction) process { } }
+    if (-not (Get-Command Get-CimAssociatedInstance -ErrorAction SilentlyContinue)) {
+        function Get-CimAssociatedInstance { param($InputObject, $ResultClassName, $ErrorAction) }
     }
 }
 
@@ -564,20 +562,20 @@ Describe "Get-WinUtilMemorySensor" {
 
 Describe "Get-WinUtilDiskHealth" {
     It "reads type, health and SMART values, leaving out what a drive does not report" {
-        Mock Get-PhysicalDisk {
+        Mock Get-CimInstance {
             @(
-                [pscustomobject]@{ FriendlyName = "Samsung SSD 980 "; MediaType = "SSD"; BusType = "NVMe"; HealthStatus = "Healthy"; Size = 1000204886016 },
+                [pscustomobject]@{ FriendlyName = "Samsung SSD 980 "; MediaType = 4; BusType = 17; HealthStatus = 0; Size = 1000204886016 },
                 [pscustomobject]@{ FriendlyName = "WDC WD10EZEX"; MediaType = 3; BusType = 11; HealthStatus = 1; Size = 1000204886016 }
             )
-        }
-        # The real cmdlet only takes CIM disk objects; dropping the type lets the test disks through
-        Mock Get-StorageReliabilityCounter {
-            if (@($PhysicalDisk)[0].FriendlyName -like "Samsung*") {
+        } -ParameterFilter { $ClassName -eq "MSFT_PhysicalDisk" }
+        # The real cmdlet only takes CIM objects; dropping the type lets the test disks through
+        Mock Get-CimAssociatedInstance {
+            if ($InputObject.FriendlyName -like "Samsung*") {
                 [pscustomobject]@{ Temperature = 41; Wear = 3; PowerOnHours = 1234 }
             } else {
                 [pscustomobject]@{ Temperature = 0; Wear = 0; PowerOnHours = 20000 }
             }
-        } -RemoveParameterType PhysicalDisk
+        } -RemoveParameterType InputObject
 
         $disks = @(Get-WinUtilDiskHealth)
 
