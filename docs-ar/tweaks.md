@@ -522,6 +522,16 @@
 
 - ريجستري: `HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers\HwSchMode`: `2` (التراجع يرجع قيمتك السابقة، أو `1` إذا ما كانت محفوظة)
 
+<a id="wpftweaksgamingnagle"></a>
+
+### خوارزمية Nagle - تعطيل
+
+يرسل حزم الشبكة الصغيرة فوراً بدل ما يجمعها، على كل كروت الشبكة المتصلة. قد يقلل التأخير في بعض الألعاب الأونلاين، والتراجع يرجع الإعداد الافتراضي.
+
+**وش يغيّر:**
+
+- يشغّل سكربت PowerShell وله سكربت تراجع
+
 <a id="wpftweaksgamingnetworkthrottling"></a>
 
 ### تقييد الشبكة - تعطيل
