@@ -5,7 +5,7 @@ function Import-WinUtilPreferences {
 
     .DESCRIPTION
         Only known values are taken, so a damaged or hand-edited file can never put an invalid
-        theme, package manager or font size into effect.
+        theme, package manager, language or font size into effect.
     #>
 
     $path = Join-Path (Join-Path $env:LocalAppData "winutil") "preferences.json"
@@ -25,6 +25,9 @@ function Import-WinUtilPreferences {
     }
     if ($saved.packagemanager -in @("Winget", "Choco")) {
         $sync.preferences.packagemanager = [string]$saved.packagemanager
+    }
+    if ($saved.language -in @("ar", "en")) {
+        $sync.preferences.language = [string]$saved.language
     }
     $fontScale = $saved.fontScale -as [double]
     if ($fontScale -ge 0.75 -and $fontScale -le 2.0 -and $fontScale -ne 1.0) {

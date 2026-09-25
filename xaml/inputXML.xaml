@@ -1253,6 +1253,7 @@
                                 </MenuItem.ToolTip>
                             </MenuItem>
                             <Separator/>
+                            <MenuItem FontSize="{DynamicResource ButtonFontSize}" Header="English" Tag="العربية" Name="LanguageMenuItem" Foreground="{DynamicResource MainForegroundColor}"/>
                             <MenuItem FontSize="{DynamicResource ButtonFontSize}" Header="حول البرنامج" Name="AboutMenuItem" Foreground="{DynamicResource MainForegroundColor}"/>
                             <MenuItem FontSize="{DynamicResource ButtonFontSize}" Header="صفحة المشروع" Name="DocumentationMenuItem" Foreground="{DynamicResource MainForegroundColor}"/>
                         </StackPanel>
@@ -2317,6 +2318,14 @@
                                         <Button Name="WPFGamingPing" Content=" قياس البنق " HorizontalAlignment="Left" Margin="2" Width="{DynamicResource ButtonWidth}" Height="{DynamicResource ButtonHeight}"/>
                                     </StackPanel>
                                 </Border>
+                                <Border Style="{StaticResource BorderStyle}" Margin="0,0,0,8">
+                                    <StackPanel Margin="10,5,10,10">
+                                        <Label Content="برامج بدء التشغيل:" FontSize="{DynamicResource FontSize}" FontWeight="Bold" Margin="2"/>
+                                        <TextBlock Name="WPFStartupAppsStatus" Text="" TextWrapping="Wrap" Margin="7,0,7,6" Foreground="{DynamicResource MainForegroundColor}"/>
+                                        <WrapPanel Name="WPFStartupAppsList" Orientation="Horizontal" Margin="5,0,5,6"/>
+                                        <Button Name="WPFStartupAppsRefresh" Content=" تحديث القائمة " HorizontalAlignment="Left" Margin="2" Width="{DynamicResource ButtonWidth}" Height="{DynamicResource ButtonHeight}"/>
+                                    </StackPanel>
+                                </Border>
                                 <Label Content="تحسينات الألعاب:" FontSize="{DynamicResource FontSize}" VerticalAlignment="Center" Margin="2"/>
                                 <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,2,0,0">
                                     <Button Name="WPFGamingOneClick" Content=" وضع الألعاب بضغطة " Margin="2" Width="{DynamicResource ButtonWidth}" Height="{DynamicResource ButtonHeight}"
@@ -2377,6 +2386,7 @@
                                 <StackPanel Margin="10,5,10,10">
                                     <Label Name="WPFSpecsGPUHeader" Content="كرت الشاشة" FontSize="{DynamicResource HeaderFontSize}" FontFamily="{DynamicResource HeaderFontFamily}" Margin="2"/>
                                     <TextBlock Name="WPFSpecsGPU" Text="جاري القراءة..." TextWrapping="Wrap" Margin="7,0,7,0" Foreground="{DynamicResource MainForegroundColor}"/>
+                                    <TextBlock Name="WPFSpecsGpuLive" Text="" TextWrapping="Wrap" FontWeight="Bold" Margin="7,8,7,0" Foreground="{DynamicResource LabelboxForegroundColor}"/>
                                     <TextBlock Name="WPFSpecsDriverStatus" Text="جاري التحقق من تحديثات التعريف..." TextWrapping="Wrap" FontWeight="Bold" Margin="7,10,7,5" Foreground="{DynamicResource MainForegroundColor}"/>
                                     <Button Name="WPFSpecsDriverDownload" Content=" تحديث التعريف " ToolTip="يفتح NVIDIA App أو AMD Adrenalin، وإذا ما كان مثبت يفتح صفحة تحميله" HorizontalAlignment="Left" IsEnabled="False" Margin="5,0,5,0" Width="Auto" Padding="10,0" Height="{DynamicResource ButtonHeight}"/>
                                 </StackPanel>

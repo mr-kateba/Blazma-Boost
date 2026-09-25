@@ -15,6 +15,12 @@ function Initialize-WinUtilTranslation {
         return
     }
 
+    # In English the configs keep their English text; only the XAML map is needed
+    if ($sync.preferences.language -eq "en") {
+        $sync.configs.translations = [pscustomobject]@{ english = $translations.english }
+        return
+    }
+
     $guideUrl = $translations.strings.GuideUrl
 
     foreach ($section in $translations.PSObject.Properties) {

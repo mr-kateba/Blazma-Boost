@@ -118,6 +118,7 @@ Describe "Interface startup failures" {
 
     BeforeEach {
         . $script:uiScriptPath
+        . (Join-Path $script:functionRoot "private\Convert-WinUtilXamlToEnglish.ps1")
         $script:sync = [Hashtable]::Synchronized(@{
             StepTimings = [System.Collections.ArrayList]::Synchronized([System.Collections.ArrayList]::new())
             preferences = @{ theme = "Auto" }
@@ -210,8 +211,12 @@ Describe "XAML document" {
             "WPFSpecsRefresh",
             "WPFSpecsCopy",
             "WPFSpecsDriverStatus",
+            "WPFSpecsGpuLive",
             "WPFGamingPing",
             "WPFGamingPingResult",
+            "WPFStartupAppsStatus",
+            "WPFStartupAppsList",
+            "WPFStartupAppsRefresh",
             "WPFSpecsDriverDownload",
             "WPFUpdateBannerText",
             "WPFUpdateBannerButton",
@@ -473,6 +478,8 @@ Describe "XAML and sync wiring" {
             "SessionState",
             "TabWarmupQueue",
             "GamingGpuVendor",
+            "GpuSensorTimer",
+            "GpuSensorBusy",
             "BackgroundQueues",
             "ConsoleProgressState",
             "LastInputAt",

@@ -19,6 +19,7 @@ function Start-WinUtilUserInterface {
     }
 
     [xml]$XAML = $inputXML
+    Convert-WinUtilXamlToEnglish -Xaml $XAML
 
     # Read the XAML file
     $readerOperationSuccessful = $false # There's more cases of failure then success.
@@ -438,6 +439,12 @@ Version      : <a href="https://github.com/mr-kateba/Blazma-Boost/releases/tag/$
 Based on     : <a href="https://github.com/ChrisTitusTech/winutil">WinUtil</a> by <a href="https://github.com/ChrisTitusTech">@ChrisTitusTech</a> and contributors
 "@
         Show-CustomDialog -Title "About" -Message $authorInfo
+    })
+    $sync["LanguageMenuItem"].Add_Click({
+        Invoke-WPFPopup -Action "Hide" -Popups @("Settings")
+        $sync.preferences.language = if ($sync.preferences.language -eq "en") { "ar" } else { "en" }
+        Save-WinUtilPreferences
+        Show-WinUtilMessage -Message "Restart Blazma Boost to switch the language." | Out-Null
     })
     $sync["DocumentationMenuItem"].Add_Click({
         Invoke-WPFPopup -Action "Hide" -Popups @("Settings")
