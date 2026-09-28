@@ -47,8 +47,24 @@ jobs:
           git checkout -B "$SYNC_BRANCH"
           if git merge upstream/main --no-edit -m "Merge WinUtil upstream changes"; then
             echo "result=merged" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # The README is the fork's own Arabic page, so WinUtil's README changes never apply
+          # to it; a conflict there alone is settled by keeping ours
+          keep_ours="README.md"
+          git diff --name-only --diff-filter=U > conflicts.txt
+          for file in $keep_ours; do
+            if grep -qxF "$file" conflicts.txt; then
+              git checkout --ours -- "$file"
+              git add -- "$file"
+            fi
+          done
+          git diff --name-only --diff-filter=U > conflicts.txt
+          if [ ! -s conflicts.txt ]; then
+            git commit --no-edit
+            echo "result=merged" >> "$GITHUB_OUTPUT"
           else
-            git diff --name-only --diff-filter=U > conflicts.txt
             git merge --abort
             echo "result=conflict" >> "$GITHUB_OUTPUT"
           fi
