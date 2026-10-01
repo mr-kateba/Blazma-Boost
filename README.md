@@ -152,6 +152,8 @@ git merge upstream/main
 
 ## 🙏 شكر وتقدير
 
+تطوير **kateba** ([@mr-kateba](https://github.com/mr-kateba)).
+
 هذا المشروع مبني على [WinUtil](https://github.com/ChrisTitusTech/winutil) من تطوير **Chris Titus Tech** والمساهمين فيه. كل الشكر لهم.
 هذا المشروع **غير تابع رسمياً** للمشروع الأصلي.
 

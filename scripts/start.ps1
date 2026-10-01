@@ -1,6 +1,7 @@
 <#
 .NOTES
     Project        : Blazma Boost
+    Author         : kateba (https://github.com/mr-kateba)
     GitHub         : https://github.com/mr-kateba/Blazma-Boost
     Based on       : WinUtil by Chris Titus @christitustech (https://github.com/ChrisTitusTech/winutil)
     Runspace Author: @DeveloperDurp

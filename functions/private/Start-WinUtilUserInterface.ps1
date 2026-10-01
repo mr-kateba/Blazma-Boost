@@ -436,6 +436,7 @@ function Start-WinUtilUserInterface {
 
         $authorInfo = @"
 Blazma Boost : <a href="https://github.com/mr-kateba/Blazma-Boost">mr-kateba/Blazma-Boost</a>
+Author       : <a href="https://github.com/mr-kateba">kateba (@mr-kateba)</a>
 Version      : <a href="https://github.com/mr-kateba/Blazma-Boost/releases/tag/$($sync.version)">$($sync.version)</a>
 Based on     : <a href="https://github.com/ChrisTitusTech/winutil">WinUtil</a> by <a href="https://github.com/ChrisTitusTech">@ChrisTitusTech</a> and contributors
 "@
