@@ -500,18 +500,6 @@
 - ريجستري: `HKCU:\Software\Microsoft\Windows\CurrentVersion\GameDVR\AppCaptureEnabled`: `0` (التراجع يرجع قيمتك السابقة، أو `1` إذا ما كانت محفوظة)
 - ريجستري: `HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR\AllowGameDVR`: `0` (التراجع يرجع قيمتك السابقة، أو حذف القيمة إذا ما كانت محفوظة)
 
-<a id="wpftweaksgaminggamespriority"></a>
-
-### أولوية الألعاب - عالية
-
-يرفع أولوية المعالج والقرص التي يعطيها ويندوز للألعاب.
-
-**وش يغيّر:**
-
-- ريجستري: `HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games\Priority`: `6` (التراجع يرجع قيمتك السابقة، أو `2` إذا ما كانت محفوظة)
-- ريجستري: `HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games\Scheduling Category`: `High` (التراجع يرجع قيمتك السابقة، أو `Medium` إذا ما كانت محفوظة)
-- ريجستري: `HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games\SFIO Priority`: `High` (التراجع يرجع قيمتك السابقة، أو `Normal` إذا ما كانت محفوظة)
-
 <a id="wpftweaksgaminghags"></a>
 
 ### جدولة كرت الشاشة بالعتاد (HAGS) - تفعيل
@@ -521,27 +509,6 @@
 **وش يغيّر:**
 
 - ريجستري: `HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers\HwSchMode`: `2` (التراجع يرجع قيمتك السابقة، أو `1` إذا ما كانت محفوظة)
-
-<a id="wpftweaksgamingnagle"></a>
-
-### خوارزمية Nagle - تعطيل
-
-يرسل حزم الشبكة الصغيرة فوراً بدل ما يجمعها، على كل كروت الشبكة المتصلة. قد يقلل التأخير في بعض الألعاب الأونلاين، والتراجع يرجع الإعداد الافتراضي.
-
-**وش يغيّر:**
-
-- يشغّل سكربت PowerShell وله سكربت تراجع
-
-<a id="wpftweaksgamingnetworkthrottling"></a>
-
-### تقييد الشبكة - تعطيل
-
-يلغي تقييد ويندوز للشبكة أثناء تشغيل الوسائط ويقلل الوقت المحجوز لمهام الخلفية، مما قد يخفف ارتفاعات البنق في الألعاب الأونلاين.
-
-**وش يغيّر:**
-
-- ريجستري: `HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\NetworkThrottlingIndex`: `-1` (التراجع يرجع قيمتك السابقة، أو `10` إذا ما كانت محفوظة)
-- ريجستري: `HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\SystemResponsiveness`: `10` (التراجع يرجع قيمتك السابقة، أو `20` إذا ما كانت محفوظة)
 
 <a id="wpftweaksgamingpowerthrottling"></a>
 
