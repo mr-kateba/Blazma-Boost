@@ -12,13 +12,19 @@ function Get-WinUtilMemorySensor {
     $totalKB = [double]$os.TotalVisibleMemorySize
     $freeKB = [double]$os.FreePhysicalMemory
 
-    $speed = $null
-    try {
-        $speed = (@(Get-CimInstance -ClassName Win32_PhysicalMemory -ErrorAction Stop) | ForEach-Object {
-            if ($_.ConfiguredClockSpeed) { $_.ConfiguredClockSpeed } else { $_.Speed }
-        } | Measure-Object -Maximum).Maximum
-    } catch {
-        Write-Verbose "Could not read the memory speed: $($_.Exception.Message)"
+    # The module speed cannot change while WinUtil runs, so it is read once and kept
+    $speed = if ($sync) { $sync.MemorySpeedMHz }
+    if (-not $speed) {
+        try {
+            $speed = (@(Get-CimInstance -ClassName Win32_PhysicalMemory -ErrorAction Stop) | ForEach-Object {
+                if ($_.ConfiguredClockSpeed) { $_.ConfiguredClockSpeed } else { $_.Speed }
+            } | Measure-Object -Maximum).Maximum
+            if ($sync -and $speed) {
+                $sync.MemorySpeedMHz = $speed
+            }
+        } catch {
+            Write-Verbose "Could not read the memory speed: $($_.Exception.Message)"
+        }
     }
 
     [pscustomobject]@{

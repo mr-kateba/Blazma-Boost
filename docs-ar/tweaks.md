@@ -330,7 +330,7 @@
 
 ### تنظيف القرص - تشغيل
 
-يشغل تنظيف القرص على C: ويحذف تحديثات ويندوز القديمة.
+يشغل تنظيف القرص على C: وينظّف ملفات تحديثات ويندوز القديمة، مع إبقاء إمكانية إزالة التحديثات المثبتة.
 
 **وش يغيّر:**
 
@@ -500,18 +500,6 @@
 - ريجستري: `HKCU:\Software\Microsoft\Windows\CurrentVersion\GameDVR\AppCaptureEnabled`: `0` (التراجع يرجع قيمتك السابقة، أو `1` إذا ما كانت محفوظة)
 - ريجستري: `HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR\AllowGameDVR`: `0` (التراجع يرجع قيمتك السابقة، أو حذف القيمة إذا ما كانت محفوظة)
 
-<a id="wpftweaksgaminggamespriority"></a>
-
-### أولوية الألعاب - عالية
-
-يرفع أولوية المعالج والقرص التي يعطيها ويندوز للألعاب.
-
-**وش يغيّر:**
-
-- ريجستري: `HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games\Priority`: `6` (التراجع يرجع قيمتك السابقة، أو `2` إذا ما كانت محفوظة)
-- ريجستري: `HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games\Scheduling Category`: `High` (التراجع يرجع قيمتك السابقة، أو `Medium` إذا ما كانت محفوظة)
-- ريجستري: `HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games\SFIO Priority`: `High` (التراجع يرجع قيمتك السابقة، أو `Normal` إذا ما كانت محفوظة)
-
 <a id="wpftweaksgaminghags"></a>
 
 ### جدولة كرت الشاشة بالعتاد (HAGS) - تفعيل
@@ -522,26 +510,15 @@
 
 - ريجستري: `HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers\HwSchMode`: `2` (التراجع يرجع قيمتك السابقة، أو `1` إذا ما كانت محفوظة)
 
-<a id="wpftweaksgamingnagle"></a>
+<a id="wpftweaksgamingmemoryintegrity"></a>
 
-### خوارزمية Nagle - تعطيل
+### حماية الذاكرة (عزل النواة) - تعطيل
 
-يرسل حزم الشبكة الصغيرة فوراً بدل ما يجمعها، على كل كروت الشبكة المتصلة. قد يقلل التأخير في بعض الألعاب الأونلاين، والتراجع يرجع الإعداد الافتراضي.
-
-**وش يغيّر:**
-
-- يشغّل سكربت PowerShell وله سكربت تراجع
-
-<a id="wpftweaksgamingnetworkthrottling"></a>
-
-### تقييد الشبكة - تعطيل
-
-يلغي تقييد ويندوز للشبكة أثناء تشغيل الوسائط ويقلل الوقت المحجوز لمهام الخلفية، مما قد يخفف ارتفاعات البنق في الألعاب الأونلاين.
+قد يرفع الفريمات شوي في بعض الألعاب، لكنه يقلل حماية ويندوز من التعريفات الخبيثة. استخدمه بس إذا تقبل هذا الخطر، وتركها شغالة أأمن لأغلب الناس. يحتاج إعادة تشغيل، وما يشتغل إذا كانت مفروضة من جهة عمل أو من إعدادات البيوس.
 
 **وش يغيّر:**
 
-- ريجستري: `HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\NetworkThrottlingIndex`: `-1` (التراجع يرجع قيمتك السابقة، أو `10` إذا ما كانت محفوظة)
-- ريجستري: `HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\SystemResponsiveness`: `10` (التراجع يرجع قيمتك السابقة، أو `20` إذا ما كانت محفوظة)
+- ريجستري: `HKLM:\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity\Enabled`: `0` (التراجع يرجع قيمتك السابقة، أو حذف القيمة إذا ما كانت محفوظة)
 
 <a id="wpftweaksgamingpowerthrottling"></a>
 
@@ -562,6 +539,16 @@
 **وش يغيّر:**
 
 - يشغّل سكربت PowerShell وما له سكربت تراجع
+
+<a id="wpftweaksgamingwindowedoptimizations"></a>
+
+### تحسين الألعاب في وضع النافذة - تفعيل
+
+يفعّل ميزة ويندوز 11 اللي تخلي ألعاب DirectX 10 و11 في وضع النافذة أو بدون حدود تعرض بطريقة أسرع، فيقل تأخير الاستجابة وتشتغل تقنية تزامن الشاشة (VRR). إعدادات DirectX الثانية تبقى زي ما هي. ما له تأثير على ويندوز 10.
+
+**وش يغيّر:**
+
+- يشغّل سكربت PowerShell وله سكربت تراجع
 
 ## خطط الطاقة - ليست للابتوب
 
