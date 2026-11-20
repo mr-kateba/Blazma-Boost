@@ -1951,6 +1951,54 @@
     ],
     "link": "https://github.com/mr-kateba/Blazma-Boost#gaming"
   },
+  "WPFTweaksGamingWindowedOptimizations": {
+    "Content": "Optimizations for Windowed Games - Enable",
+    "Description": "Turns on the Windows 11 setting that lets windowed and borderless DirectX 10 and 11 games use the faster flip presentation, which lowers input latency and allows variable refresh rate. Other DirectX settings are kept. Has no effect on Windows 10.",
+    "category": "Gaming",
+    "panel": "1",
+    "InvokeScript": [
+      "
+      # Other DirectX settings share this value, so only this one entry is changed
+      $path = \"HKCU:\\Software\\Microsoft\\DirectX\\UserGpuPreferences\"
+      if (-not (Test-Path -Path $path)) {
+        New-Item -Path $path -Force | Out-Null
+      }
+      $current = [string](Get-ItemProperty -Path $path -Name DirectXUserGlobalSettings -ErrorAction SilentlyContinue).DirectXUserGlobalSettings
+      $entries = @($current -split ';' | Where-Object { $_ -and $_ -notlike 'SwapEffectUpgradeEnable=*' }) + 'SwapEffectUpgradeEnable=1'
+      Set-ItemProperty -Path $path -Name DirectXUserGlobalSettings -Type String -Value (($entries | ForEach-Object { \"$_;\" }) -join '')
+      "
+    ],
+    "UndoScript": [
+      "
+      $path = \"HKCU:\\Software\\Microsoft\\DirectX\\UserGpuPreferences\"
+      $current = [string](Get-ItemProperty -Path $path -Name DirectXUserGlobalSettings -ErrorAction SilentlyContinue).DirectXUserGlobalSettings
+      $entries = @($current -split ';' | Where-Object { $_ -and $_ -notlike 'SwapEffectUpgradeEnable=*' })
+      if ($entries.Count -gt 0) {
+        Set-ItemProperty -Path $path -Name DirectXUserGlobalSettings -Type String -Value (($entries | ForEach-Object { \"$_;\" }) -join '')
+      } else {
+        Remove-ItemProperty -Path $path -Name DirectXUserGlobalSettings -ErrorAction SilentlyContinue
+      }
+      "
+    ],
+    "link": "https://github.com/mr-kateba/Blazma-Boost#gaming"
+  },
+  "WPFTweaksGamingMemoryIntegrity": {
+    "Content": "Memory Integrity (Core Isolation) - Disable",
+    "Description": "Can raise FPS by a few percent in some games, but lowers the protection Windows has against malicious drivers. Only use it if you accept that risk; leaving it on is safer for most people. Requires a restart, and does nothing where an organization or a firmware lock enforces it.",
+    "category": "Gaming",
+    "panel": "1",
+    "RestartRequired": "true",
+    "registry": [
+      {
+        "Path": "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\\Scenarios\\HypervisorEnforcedCodeIntegrity",
+        "Name": "Enabled",
+        "Value": "0",
+        "Type": "DWord",
+        "OriginalValue": "<RemoveEntry>"
+      }
+    ],
+    "link": "https://github.com/mr-kateba/Blazma-Boost#gaming"
+  },
   "WPFTweaksGamingPowerThrottling": {
     "Content": "Power Throttling - Disable",
     "Description": "Stops Windows from slowing down background processes to save power, so launchers, voice chat and overlays keep full CPU speed. Not recommended on laptops running on battery.",
