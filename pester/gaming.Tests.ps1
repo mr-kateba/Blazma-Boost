@@ -33,7 +33,8 @@ BeforeAll {
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilStartupTasks.ps1")
 
     function Write-WinUtilLog { param($Message, $Level, $Component) }
-    function Invoke-WPFRunspace { param($ScriptBlock, $ArgumentList, $ParameterList) & $ScriptBlock }
+    # Runs the work at once and, like the real one, hands back a handle for the started work
+    function Invoke-WPFRunspace { param($ScriptBlock, $ArgumentList, $ParameterList) $null = & $ScriptBlock; [pscustomobject]@{ IsCompleted = $true } }
     function Invoke-WPFUIThread { param([scriptblock]$ScriptBlock, [hashtable]$Parameters, [switch]$Async) & $ScriptBlock @Parameters }
     function Invoke-WPFPresets { param($preset, $imported, $checkboxfilterpattern) }
     function Invoke-WPFtweaksbutton { }
@@ -393,6 +394,20 @@ Describe "Start-WinUtilGameServerLatencyTest" {
         $script:sync.WPFGamingPing.IsEnabled | Should -BeTrue
         Remove-Variable -Name sync -Scope Script
     }
+
+    It "unlocks the button and says so when the measurement fails" {
+        Mock Measure-WinUtilGameServerLatency { throw "network is down" }
+        $script:sync = @{
+            WPFGamingPingResult = [pscustomobject]@{ Text = "" }
+            WPFGamingPing = [pscustomobject]@{ IsEnabled = $true }
+        }
+
+        Start-WinUtilGameServerLatencyTest
+
+        $script:sync.WPFGamingPingResult.Text | Should -Match "could not run"
+        $script:sync.WPFGamingPing.IsEnabled | Should -BeTrue
+        Remove-Variable -Name sync -Scope Script
+    }
 }
 
 Describe "Get-WinUtilGpuSensor" {
@@ -557,7 +572,31 @@ Describe "Set-WinUtilStartupApp" {
 }
 
 Describe "Get-WinUtilCpuSensor" {
+    AfterEach {
+        Remove-Variable -Name sync -Scope Script -ErrorAction SilentlyContinue
+    }
+
+    It "works the load out from two raw counter readings without asking Win32_Processor" {
+        $script:sync = [Hashtable]::Synchronized(@{
+            CpuLoadSample = [pscustomobject]@{ PercentProcessorTime = 1000; Timestamp_Sys100NS = 10000 }
+        })
+        Mock Get-CimInstance {
+            [pscustomobject]@{ PercentProcessorTime = 1750; Timestamp_Sys100NS = 11000 }
+        } -ParameterFilter { $ClassName -eq "Win32_PerfRawData_PerfOS_Processor" }
+        Mock Get-CimInstance { throw "should not be asked" } -ParameterFilter { $ClassName -eq "Win32_Processor" }
+        Mock Get-CimInstance { throw "Invalid class" } -ParameterFilter { $ClassName -eq "Win32_PerfFormattedData_Counters_ThermalZoneInformation" }
+
+        $sensor = Get-WinUtilCpuSensor
+
+        # 750 of 1000 ticks idle, so a quarter busy
+        $sensor.LoadPercent | Should -Be 25
+        $script:sync.CpuLoadSample.Timestamp_Sys100NS | Should -Be 11000
+        Should -Invoke Get-CimInstance -Times 0 -ParameterFilter { $ClassName -eq "Win32_Processor" }
+    }
+
     It "takes the hottest plausible thermal zone and the average load" {
+        # No raw counter, so the load comes from Win32_Processor; on Windows the real counter would answer
+        Mock Get-CimInstance { throw "Invalid class" } -ParameterFilter { $ClassName -eq "Win32_PerfRawData_PerfOS_Processor" }
         Mock Get-CimInstance {
             @([pscustomobject]@{ LoadPercentage = 20 }, [pscustomobject]@{ LoadPercentage = 31 })
         } -ParameterFilter { $ClassName -eq "Win32_Processor" }
@@ -576,6 +615,7 @@ Describe "Get-WinUtilCpuSensor" {
     }
 
     It "reports no temperature when the PC has no thermal zone" {
+        Mock Get-CimInstance { throw "Invalid class" } -ParameterFilter { $ClassName -eq "Win32_PerfRawData_PerfOS_Processor" }
         Mock Get-CimInstance { [pscustomobject]@{ LoadPercentage = 5 } } -ParameterFilter { $ClassName -eq "Win32_Processor" }
         Mock Get-CimInstance { throw "Invalid class" } -ParameterFilter { $ClassName -eq "Win32_PerfFormattedData_Counters_ThermalZoneInformation" }
 
@@ -631,6 +671,19 @@ Describe "Get-WinUtilMemorySensor" {
         $memory.UsedGB | Should -Be 12
         $memory.UsagePercent | Should -Be 75
         $memory.SpeedMHz | Should -Be 3200
+    }
+
+    It "reads the module speed once and keeps it" {
+        $script:sync = [Hashtable]::Synchronized(@{})
+        Mock Get-CimInstance { [pscustomobject]@{ TotalVisibleMemorySize = 16777216; FreePhysicalMemory = 4194304 } } -ParameterFilter { $ClassName -eq "Win32_OperatingSystem" }
+        Mock Get-CimInstance { [pscustomobject]@{ ConfiguredClockSpeed = 6000 } } -ParameterFilter { $ClassName -eq "Win32_PhysicalMemory" }
+
+        $null = Get-WinUtilMemorySensor
+        $memory = Get-WinUtilMemorySensor
+
+        $memory.SpeedMHz | Should -Be 6000
+        Should -Invoke Get-CimInstance -Times 1 -Exactly -ParameterFilter { $ClassName -eq "Win32_PhysicalMemory" }
+        Remove-Variable -Name sync -Scope Script -ErrorAction SilentlyContinue
     }
 }
 

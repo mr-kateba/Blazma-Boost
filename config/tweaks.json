@@ -1103,13 +1103,13 @@
   },
   "WPFTweaksDiskCleanup": {
     "Content": "Disk Cleanup - Run",
-    "Description": "Runs Disk Cleanup on Drive C: and removes old Windows Updates.",
+    "Description": "Runs Disk Cleanup on Drive C: and cleans up superseded Windows Update files, keeping the ability to uninstall installed updates.",
     "category": "Essential Tweaks",
     "panel": "1",
     "InvokeScript": [
       "
       cleanmgr.exe /d C: /VERYLOWDISK
-      Dism.exe /online /Cleanup-Image /StartComponentCleanup /ResetBase
+      Dism.exe /online /Cleanup-Image /StartComponentCleanup
       "
     ],
     "link": "https://winutil.christitus.com/code-reference/tweaks/essential-tweaks/diskcleanup"
@@ -1951,56 +1951,50 @@
     ],
     "link": "https://github.com/mr-kateba/Blazma-Boost#gaming"
   },
-  "WPFTweaksGamingNetworkThrottling": {
-    "Content": "Network Throttling - Disable",
-    "Description": "Removes the limit Windows puts on network traffic while multimedia is playing and reserves less CPU time for background tasks, which can reduce ping spikes in online games.",
+  "WPFTweaksGamingWindowedOptimizations": {
+    "Content": "Optimizations for Windowed Games - Enable",
+    "Description": "Turns on the Windows 11 setting that lets windowed and borderless DirectX 10 and 11 games use the faster flip presentation, which lowers input latency and allows variable refresh rate. Other DirectX settings are kept. Has no effect on Windows 10.",
+    "category": "Gaming",
+    "panel": "1",
+    "InvokeScript": [
+      "
+      # Other DirectX settings share this value, so only this one entry is changed
+      $path = \"HKCU:\\Software\\Microsoft\\DirectX\\UserGpuPreferences\"
+      if (-not (Test-Path -Path $path)) {
+        New-Item -Path $path -Force | Out-Null
+      }
+      $current = [string](Get-ItemProperty -Path $path -Name DirectXUserGlobalSettings -ErrorAction SilentlyContinue).DirectXUserGlobalSettings
+      $entries = @($current -split ';' | Where-Object { $_ -and $_ -notlike 'SwapEffectUpgradeEnable=*' }) + 'SwapEffectUpgradeEnable=1'
+      Set-ItemProperty -Path $path -Name DirectXUserGlobalSettings -Type String -Value (($entries | ForEach-Object { \"$_;\" }) -join '')
+      "
+    ],
+    "UndoScript": [
+      "
+      $path = \"HKCU:\\Software\\Microsoft\\DirectX\\UserGpuPreferences\"
+      $current = [string](Get-ItemProperty -Path $path -Name DirectXUserGlobalSettings -ErrorAction SilentlyContinue).DirectXUserGlobalSettings
+      $entries = @($current -split ';' | Where-Object { $_ -and $_ -notlike 'SwapEffectUpgradeEnable=*' })
+      if ($entries.Count -gt 0) {
+        Set-ItemProperty -Path $path -Name DirectXUserGlobalSettings -Type String -Value (($entries | ForEach-Object { \"$_;\" }) -join '')
+      } else {
+        Remove-ItemProperty -Path $path -Name DirectXUserGlobalSettings -ErrorAction SilentlyContinue
+      }
+      "
+    ],
+    "link": "https://github.com/mr-kateba/Blazma-Boost#gaming"
+  },
+  "WPFTweaksGamingMemoryIntegrity": {
+    "Content": "Memory Integrity (Core Isolation) - Disable",
+    "Description": "Can raise FPS by a few percent in some games, but lowers the protection Windows has against malicious drivers. Only use it if you accept that risk; leaving it on is safer for most people. Requires a restart, and does nothing where an organization or a firmware lock enforces it.",
     "category": "Gaming",
     "panel": "1",
     "RestartRequired": "true",
     "registry": [
       {
-        "Path": "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile",
-        "Name": "NetworkThrottlingIndex",
-        "Value": "-1",
+        "Path": "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\\Scenarios\\HypervisorEnforcedCodeIntegrity",
+        "Name": "Enabled",
+        "Value": "0",
         "Type": "DWord",
-        "OriginalValue": "10"
-      },
-      {
-        "Path": "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile",
-        "Name": "SystemResponsiveness",
-        "Value": "10",
-        "Type": "DWord",
-        "OriginalValue": "20"
-      }
-    ],
-    "link": "https://github.com/mr-kateba/Blazma-Boost#gaming"
-  },
-  "WPFTweaksGamingGamesPriority": {
-    "Content": "Games Scheduling Priority - High",
-    "Description": "Raises the CPU and disk priority Windows gives to games through the Multimedia Class Scheduler.",
-    "category": "Gaming",
-    "panel": "1",
-    "registry": [
-      {
-        "Path": "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile\\Tasks\\Games",
-        "Name": "Priority",
-        "Value": "6",
-        "Type": "DWord",
-        "OriginalValue": "2"
-      },
-      {
-        "Path": "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile\\Tasks\\Games",
-        "Name": "Scheduling Category",
-        "Value": "High",
-        "Type": "String",
-        "OriginalValue": "Medium"
-      },
-      {
-        "Path": "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Multimedia\\SystemProfile\\Tasks\\Games",
-        "Name": "SFIO Priority",
-        "Value": "High",
-        "Type": "String",
-        "OriginalValue": "Normal"
+        "OriginalValue": "<RemoveEntry>"
       }
     ],
     "link": "https://github.com/mr-kateba/Blazma-Boost#gaming"
@@ -2042,35 +2036,6 @@
         if (Test-Path -LiteralPath $shaderCache) {
           Get-ChildItem -LiteralPath $shaderCache -Force -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
         }
-      }
-      "
-    ],
-    "link": "https://github.com/mr-kateba/Blazma-Boost#gaming"
-  },
-  "WPFTweaksGamingNagle": {
-    "Content": "Nagle's Algorithm - Disable",
-    "Description": "Sends small network packets straight away instead of batching them (TcpAckFrequency and TCPNoDelay on every network adapter). Can lower latency in some online games; undo removes the values again.",
-    "category": "Gaming",
-    "panel": "1",
-    "RestartRequired": "true",
-    "InvokeScript": [
-      "
-      $interfaces = \"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters\\Interfaces\"
-      Get-ChildItem -Path $interfaces | ForEach-Object {
-        $adapter = Get-ItemProperty -Path $_.PSPath
-        # Only adapters that have an address; the rest are unused virtual or disconnected ones
-        if ($adapter.DhcpIPAddress -or ($adapter.IPAddress -and $adapter.IPAddress -ne '0.0.0.0')) {
-          Set-ItemProperty -Path $_.PSPath -Name TcpAckFrequency -Type DWord -Value 1
-          Set-ItemProperty -Path $_.PSPath -Name TCPNoDelay -Type DWord -Value 1
-        }
-      }
-      "
-    ],
-    "UndoScript": [
-      "
-      $interfaces = \"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters\\Interfaces\"
-      Get-ChildItem -Path $interfaces | ForEach-Object {
-        Remove-ItemProperty -Path $_.PSPath -Name TcpAckFrequency, TCPNoDelay -ErrorAction SilentlyContinue
       }
       "
     ],

@@ -11,9 +11,7 @@
   "Gaming": [
     "WPFTweaksGamingGameDVR",
     "WPFTweaksGamingHAGS",
-    "WPFTweaksGamingNetworkThrottling",
-    "WPFTweaksGamingGamesPriority",
-    "WPFTweaksGamingPowerThrottling"
+    "WPFTweaksGamingWindowedOptimizations"
   ],
   "Standard": [
     "WPFTweaksActivity",
