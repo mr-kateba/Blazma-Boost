@@ -33,7 +33,8 @@ BeforeAll {
     . (Join-Path $script:repoRoot "functions\private\Get-WinUtilStartupTasks.ps1")
 
     function Write-WinUtilLog { param($Message, $Level, $Component) }
-    function Invoke-WPFRunspace { param($ScriptBlock, $ArgumentList, $ParameterList) & $ScriptBlock }
+    # Runs the work at once and, like the real one, hands back a handle for the started work
+    function Invoke-WPFRunspace { param($ScriptBlock, $ArgumentList, $ParameterList) $null = & $ScriptBlock; [pscustomobject]@{ IsCompleted = $true } }
     function Invoke-WPFUIThread { param([scriptblock]$ScriptBlock, [hashtable]$Parameters, [switch]$Async) & $ScriptBlock @Parameters }
     function Invoke-WPFPresets { param($preset, $imported, $checkboxfilterpattern) }
     function Invoke-WPFtweaksbutton { }
@@ -390,6 +391,20 @@ Describe "Start-WinUtilGameServerLatencyTest" {
         Start-WinUtilGameServerLatencyTest
 
         $script:sync.WPFGamingPingResult.Text | Should -Be "Bahrain: 31 ms`nFrankfurt: 95 ms`nUAE: no response"
+        $script:sync.WPFGamingPing.IsEnabled | Should -BeTrue
+        Remove-Variable -Name sync -Scope Script
+    }
+
+    It "unlocks the button and says so when the measurement fails" {
+        Mock Measure-WinUtilGameServerLatency { throw "network is down" }
+        $script:sync = @{
+            WPFGamingPingResult = [pscustomobject]@{ Text = "" }
+            WPFGamingPing = [pscustomobject]@{ IsEnabled = $true }
+        }
+
+        Start-WinUtilGameServerLatencyTest
+
+        $script:sync.WPFGamingPingResult.Text | Should -Match "could not run"
         $script:sync.WPFGamingPing.IsEnabled | Should -BeTrue
         Remove-Variable -Name sync -Scope Script
     }
