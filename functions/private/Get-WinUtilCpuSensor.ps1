@@ -10,14 +10,36 @@ function Get-WinUtilCpuSensor {
         placeholder, so TemperatureC is $null whenever no zone gives a plausible value.
     #>
 
+    # The load comes from the raw processor counter, compared with the reading before it: one
+    # cheap query per tick. Win32_Processor works it out itself, which takes about half a second
+    # and loads the CPU it is measuring, so it is only asked when there is no earlier reading.
     $load = $null
     try {
-        $load = (Get-CimInstance -ClassName Win32_Processor -ErrorAction Stop | Measure-Object -Property LoadPercentage -Average).Average
-        if ($null -ne $load) {
-            $load = [math]::Round($load)
+        $sample = Get-CimInstance -ClassName Win32_PerfRawData_PerfOS_Processor -Filter "Name='_Total'" -ErrorAction Stop | Select-Object -First 1
+        $previous = if ($sync) { $sync.CpuLoadSample }
+        if ($sync) {
+            $sync.CpuLoadSample = $sample
+        }
+        if ($previous) {
+            $elapsed = [double]$sample.Timestamp_Sys100NS - [double]$previous.Timestamp_Sys100NS
+            if ($elapsed -gt 0) {
+                # PercentProcessorTime counts idle time, so busy is what is left
+                $idle = ([double]$sample.PercentProcessorTime - [double]$previous.PercentProcessorTime) / $elapsed
+                $load = [math]::Round([math]::Min(100, [math]::Max(0, 100 * (1 - $idle))))
+            }
         }
     } catch {
-        Write-Verbose "Could not read the processor load: $($_.Exception.Message)"
+        Write-Verbose "Could not read the processor counter: $($_.Exception.Message)"
+    }
+    if ($null -eq $load) {
+        try {
+            $load = (Get-CimInstance -ClassName Win32_Processor -ErrorAction Stop | Measure-Object -Property LoadPercentage -Average).Average
+            if ($null -ne $load) {
+                $load = [math]::Round($load)
+            }
+        } catch {
+            Write-Verbose "Could not read the processor load: $($_.Exception.Message)"
+        }
     }
 
     $temperature = $null
