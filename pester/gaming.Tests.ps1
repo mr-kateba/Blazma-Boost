@@ -595,6 +595,8 @@ Describe "Get-WinUtilCpuSensor" {
     }
 
     It "takes the hottest plausible thermal zone and the average load" {
+        # No raw counter, so the load comes from Win32_Processor; on Windows the real counter would answer
+        Mock Get-CimInstance { throw "Invalid class" } -ParameterFilter { $ClassName -eq "Win32_PerfRawData_PerfOS_Processor" }
         Mock Get-CimInstance {
             @([pscustomobject]@{ LoadPercentage = 20 }, [pscustomobject]@{ LoadPercentage = 31 })
         } -ParameterFilter { $ClassName -eq "Win32_Processor" }
@@ -613,6 +615,7 @@ Describe "Get-WinUtilCpuSensor" {
     }
 
     It "reports no temperature when the PC has no thermal zone" {
+        Mock Get-CimInstance { throw "Invalid class" } -ParameterFilter { $ClassName -eq "Win32_PerfRawData_PerfOS_Processor" }
         Mock Get-CimInstance { [pscustomobject]@{ LoadPercentage = 5 } } -ParameterFilter { $ClassName -eq "Win32_Processor" }
         Mock Get-CimInstance { throw "Invalid class" } -ParameterFilter { $ClassName -eq "Win32_PerfFormattedData_Counters_ThermalZoneInformation" }
 
