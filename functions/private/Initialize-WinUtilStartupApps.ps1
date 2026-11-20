@@ -43,13 +43,32 @@ function Initialize-WinUtilStartupApps {
                 $checkBox.Tag = $app
                 $checkBox.Margin = "5,2"
                 $checkBox.Add_Click({
-                    $enabled = [bool]$this.IsChecked
-                    try {
-                        Set-WinUtilStartupApp -App $this.Tag -Enabled $enabled
-                    } catch {
-                        $this.IsChecked = -not $enabled
-                        $format = Get-WinUtilText -Key "StartupAppsFailed" -Default "Could not change {0}: {1}"
-                        $sync.WPFStartupAppsStatus.Text = $format -f $this.Tag.Name, $_.Exception.Message
+                    # Changed on the worker pool: a scheduled task takes up to a second to switch,
+                    # and the window would freeze for that long. The box stays locked until done.
+                    $box = $this
+                    $enabled = [bool]$box.IsChecked
+                    $box.IsEnabled = $false
+                    $started = Invoke-WPFRunspace -ParameterList @(("Box", $box), ("App", $box.Tag), ("Enabled", $enabled)) -ScriptBlock {
+                        param($Box, $App, $Enabled)
+                        $failure = $null
+                        try {
+                            Set-WinUtilStartupApp -App $App -Enabled $Enabled
+                        } catch {
+                            $failure = $_.Exception.Message
+                        }
+                        Invoke-WPFUIThread -Async -Parameters @{ Box = $Box; Enabled = $Enabled; Failure = $failure } -ScriptBlock {
+                            param($Box, $Enabled, $Failure)
+                            $Box.IsEnabled = $true
+                            if ($Failure) {
+                                $Box.IsChecked = -not $Enabled
+                                $format = Get-WinUtilText -Key "StartupAppsFailed" -Default "Could not change {0}: {1}"
+                                $sync.WPFStartupAppsStatus.Text = $format -f $Box.Tag.Name, $Failure
+                            }
+                        }
+                    }
+                    if ($null -eq $started) {
+                        $box.IsChecked = -not $enabled
+                        $box.IsEnabled = $true
                     }
                 })
                 $null = $sync.WPFStartupAppsList.Children.Add($checkBox)
