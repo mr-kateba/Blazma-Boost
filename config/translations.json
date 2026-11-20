@@ -19,6 +19,7 @@
     "GuideUrl": "https://github.com/mr-kateba/Blazma-Boost/blob/main/docs-ar/tweaks.md",
     "PingRunning": "جاري القياس...",
     "PingUnreachable": "لا يوجد رد",
+    "PingFailed": "ما قدر يقيس البنق. تأكد من الاتصال وجرّب مرة ثانية.",
     "TempsGood": "ممتازة",
     "TempsWarm": "حارة شوي",
     "TempsHot": "حارة! شيك على التبريد",

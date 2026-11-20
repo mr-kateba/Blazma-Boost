@@ -7,7 +7,7 @@ function Start-WinUtilDiskSpeedTest {
     $sync.WPFTempsDiskSpeedResult.Text = Get-WinUtilText -Key "TempsDiskSpeedRunning" -Default "Measuring... this takes about a minute."
     $sync.WPFTempsDiskSpeedTest.IsEnabled = $false
 
-    $null = Invoke-WPFRunspace -ScriptBlock {
+    $started = Invoke-WPFRunspace -ScriptBlock {
         $speed = $null
         try {
             $speed = Measure-WinUtilDiskSpeed
@@ -31,5 +31,10 @@ function Start-WinUtilDiskSpeedTest {
             $sync.WPFTempsDiskSpeedResult.Text = $Text
             $sync.WPFTempsDiskSpeedTest.IsEnabled = $true
         }
+    }
+    # Nothing was started (WinUtil is closing), so nothing will unlock the button later
+    if ($null -eq $started) {
+        $sync.WPFTempsDiskSpeedResult.Text = ""
+        $sync.WPFTempsDiskSpeedTest.IsEnabled = $true
     }
 }
