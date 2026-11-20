@@ -1103,13 +1103,13 @@
   },
   "WPFTweaksDiskCleanup": {
     "Content": "Disk Cleanup - Run",
-    "Description": "Runs Disk Cleanup on Drive C: and removes old Windows Updates.",
+    "Description": "Runs Disk Cleanup on Drive C: and cleans up superseded Windows Update files, keeping the ability to uninstall installed updates.",
     "category": "Essential Tweaks",
     "panel": "1",
     "InvokeScript": [
       "
       cleanmgr.exe /d C: /VERYLOWDISK
-      Dism.exe /online /Cleanup-Image /StartComponentCleanup /ResetBase
+      Dism.exe /online /Cleanup-Image /StartComponentCleanup
       "
     ],
     "link": "https://winutil.christitus.com/code-reference/tweaks/essential-tweaks/diskcleanup"
